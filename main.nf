@@ -219,7 +219,7 @@ workflow SINGLE {
     // chromo_sub = channel.value(params.gbcov)
      chromo_sub = channel.value(params.chromosub)
     
-    if ( params.gbcov ) {
+    if ( params.gbcov & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
             .set { gbcov1 }
 
@@ -274,7 +274,7 @@ workflow PAIRED {
        chromo_sub = channel.value(params.chromosub)
     }
 
-    if ( params.gbcov ) {
+    if ( params.gbcov  & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
             .set { gbcov1 }
 
