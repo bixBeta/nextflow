@@ -233,15 +233,15 @@ workflow SINGLE {
 
         GBCOV2M(pin, bed_ch, gbcov1_ch)
     }
-
-    mqc_ch1 = STARM.out.read_per_gene_tab
+    if( params.star ){
+        mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
                 .view()
     
 
-    MQC(mqc_ch1)
-
+        MQC(mqc_ch1)
+    }
 }
 
 
