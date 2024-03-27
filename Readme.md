@@ -12,4 +12,7 @@ To see if this pipeline works on your account simply run the following command o
 nextflow run https://github.com/bixbeta/nextflow -r main --help
 ```
 
+If successful, you may see the following output on your terminal console:
+
+![](img/success.png)
 
