@@ -189,6 +189,7 @@ if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index pa
 } else {
 
     bed = null
+    params.gbcov = false
 }
 
 bed_ch = channel.value(bed)
