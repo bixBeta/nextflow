@@ -16,7 +16,7 @@ process GBCOV1M {
     
     script:
 
-    if (gbcovRun)
+    if ( gbcovRun & bed != null )
         """
         BASE=`basename \$(echo ${bam}) .Aligned.sortedByCoord.out.bam `
 
@@ -54,7 +54,7 @@ process GBCOV2M {
 
     
     script:
-    if (gbcovRun)
+    if ( gbcovRun & bed != null )
 
         b = gbcov.join(",")
         println("samples used for genebody coverage -- ", b )
