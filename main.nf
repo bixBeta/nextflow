@@ -162,10 +162,10 @@ if( params.listGenomes) {
     exit 0
 }
 
-include {  FASTPM   } from '/home/fa286/module1.nf'
-include {  STARM    } from '/home/fa286/star-module.nf'
-include {  GBCOV1M  } from '/home/fa286/gbcov.nf'
-include {  GBCOV2M  } from '/home/fa286/gbcov.nf'
+include {  FASTPM   } from './modules/fastp.nf'
+include {  STARM    } from './modules/star.nf'
+include {  GBCOV1M  } from './modules/gbcov.nf'
+include {  GBCOV2M  } from './modules/gbcov.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
