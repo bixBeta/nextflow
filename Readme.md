@@ -14,5 +14,5 @@ nextflow run https://github.com/bixbeta/nextflow -r main --help
 
 If successful, you may see the following output on your terminal console:
 
-![](img/success2.png)
+![](img/success.png)
 
