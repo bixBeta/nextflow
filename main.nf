@@ -24,19 +24,19 @@ Usage:
     nextflow run https://github.com/bixbeta/nextflow -r main < args ... >
 
 Args:
-    * --listGenomes: Get extended list of genomes available for this pipeline
-    * --id: TREx Project ID 
-    * --sheet: sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
+    * --listGenomes    : Get extended list of genomes available for this pipeline
+    * --id             : TREx Project ID 
+    * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
         label   fastq1          fastq2
         SS1     SS1_R1.fastq.gz SS1_R2.fastq.gz
         SS2     SS2_R1.fastq.gz SS2_R2.fastq.gz  
         .
         .
         . etc.
-    * --genome: Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
-    * --star: Runs star aligner Process on all trimmed fastq files; Requires --genome param.
-    * --gbcov: Runs GeneBodyCoverage Program on sub-setted bams.
-    * --chromosub: Subset bams to specified chromosome name.
+    * --genome         : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
+    * --star           : Runs star aligner Process on all trimmed fastq files; Requires --genome param.
+    * --gbcov          : Runs GeneBodyCoverage Program on sub-setted bams.
+    * --chromosub      : Subset bams to specified chromosome name.
 
 """
 
