@@ -1,10 +1,10 @@
 runmode     = params.mode
-splitmap    = params.splitname
-// splitname   = params.splitname
+splitmap    = params.genome2
+splitname   = params.splitname
 
 
 if (params.genome2 != null){
-
+    
 }
 
 
@@ -42,7 +42,7 @@ process STARM2 {
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
             --outReadsUnmapped Fastx \
-            --outFileNamePrefix ${id}.splitMapped.To.${splitmap}. \
+            --outFileNamePrefix ${id}.splitMapped.To.${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
@@ -62,7 +62,7 @@ process STARM2 {
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
             --outReadsUnmapped Fastx \
-            --outFileNamePrefix ${id}.splitMapped.To.${splitmap}. \
+            --outFileNamePrefix ${id}.splitMapped.To.${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
@@ -83,7 +83,7 @@ process STARM2 {
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}.splitMapped.To.${splitmap}. \
+            --outFileNamePrefix ${id}.splitMapped.To.${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx 
@@ -103,7 +103,7 @@ process STARM2 {
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}.splitMapped.To.${splitmap}. \
+            --outFileNamePrefix ${id}.splitMapped.To.${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx \
