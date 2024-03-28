@@ -191,8 +191,8 @@ if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR inde
     genome = params.genome
 }
 
-genome_ch = channel.value(genome)
-genome_key_ch = channel.value(params.genome)
+// genome_ch = channel.value(genome)
+// genome_key_ch = channel.value(params.genome)
 
 if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
 
@@ -222,7 +222,7 @@ workflow SINGLE {
         .set { fastp_out }
 
     if( params.genome != null ){
-    STARM(fastp_out, genome_ch, genome_key_ch)
+    STARM(fastp_out, genome_ch)
 
     bam_ch = STARM.out.bam_sorted 
                 | collect
@@ -277,7 +277,7 @@ workflow PAIRED {
     fastp_out.view()
 
     if( params.genome != null ){
-        STARM(fastp_out, genome_ch, genome_key_ch )
+        STARM(fastp_out, genome_ch)
     
     bam_ch = STARM.out.bam_sorted 
                 | collect

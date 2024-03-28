@@ -12,7 +12,7 @@ process STARM {
     input:
         tuple val(id), path(trimmed)
         path genome
-        val genome_key_ch
+        
 
     output:
         path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab 
