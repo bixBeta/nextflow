@@ -1,7 +1,6 @@
 //starR   = params.star
 runmode     = params.mode
-genomeVal   = params.genome
-
+t           = params.genome
 
 process STARM {
     maxForks 1
@@ -13,6 +12,7 @@ process STARM {
     input:
         tuple val(id), path(trimmed)
         path genome
+        val genome_key_ch
 
     output:
         path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab 
@@ -56,7 +56,7 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        BASE=`basename genomeKey`
+        BASE=`basename ${t}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
         

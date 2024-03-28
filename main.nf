@@ -145,8 +145,8 @@ tomato				:"/workdir/genomes/Solanum_lycopersicum/custom/ITAG4.0_gene_models.bed
 yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENSEMBL/Saccharomyces_cerevisiae.R64-1-1.bed12"]
 
 
-genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
-genomeKey = genomeKey.list[0]
+// genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
+// genomeKey = genomeKey.list[0]
 
 
 
@@ -192,7 +192,7 @@ if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR inde
 }
 
 genome_ch = channel.value(genome)
-
+genome_key_ch = channel.value(params.genome)
 
 if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
 
@@ -222,7 +222,7 @@ workflow SINGLE {
         .set { fastp_out }
 
     if( params.genome != null ){
-    STARM(fastp_out, genome_ch)
+    STARM(fastp_out, genome_ch, genome_key_ch)
 
     bam_ch = STARM.out.bam_sorted 
                 | collect
@@ -277,7 +277,7 @@ workflow PAIRED {
     fastp_out.view()
 
     if( params.genome != null ){
-        STARM(fastp_out, genome_ch)
+        STARM(fastp_out, genome_ch, genome_key_ch )
     
     bam_ch = STARM.out.bam_sorted 
                 | collect
