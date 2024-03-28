@@ -31,7 +31,7 @@ process STARM2 {
             STAR \
             --runThreadN ${task.cpus} \
             --genomeDir  ${genome2} \
-            --readFilesIn ${trimmed} \
+            --readFilesIn ${unmapped} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
@@ -51,7 +51,7 @@ process STARM2 {
             STAR \
             --runThreadN ${task.cpus} \
             --genomeDir  ${genome2} \
-            --readFilesIn ${trimmed} \
+            --readFilesIn ${unmapped} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
@@ -73,7 +73,7 @@ process STARM2 {
             STAR \
             --runThreadN ${task.cpus} \
             --genomeDir ${genome2} \
-            --readFilesIn ${trimmed[0]} ${trimmed[1]} \
+            --readFilesIn ${unmapped[0]} ${unmapped[1]} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
@@ -93,7 +93,7 @@ process STARM2 {
              STAR \
             --runThreadN ${task.cpus} \
             --genomeDir ${genome2} \
-            --readFilesIn ${trimmed[0]} ${trimmed[1]} \
+            --readFilesIn ${unmapped[0]} ${unmapped[1]} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
