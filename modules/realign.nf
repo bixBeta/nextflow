@@ -1,6 +1,6 @@
 runmode     = params.mode
 splitmap    = params.genome2
-splitname   = ${splitName}
+//splitname   = splitName
 
 
 if (params.genome2 != null){
@@ -18,6 +18,7 @@ process STARM2 {
     input:
         tuple val(id), path(unmapped)
         path genome2
+        val splitname
 
     output:
         path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab2 

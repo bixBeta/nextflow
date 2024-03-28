@@ -215,12 +215,12 @@ if (genomeDir.containsKey(params.genome2)){  // allows a user to pass a STAR ind
 
     genome2 = genomeDir[params.genome2]
 
-    splitName = params.genome2
+    splitName_ch = channel.value(params.genome2)
 
 } else {
 
     genome2 = params.genome2
-    splitName = "ajsoidjsoajdosj"
+    splitName_ch = channel.value("ajsoidjsoajdosj")
 }
 
 genome_ch2 = channel.value(genome2)
@@ -283,7 +283,7 @@ workflow SINGLE {
 
     if( params.genome2 != null ){
 
-        STARM2(unmapped_ch, genome_ch2 )
+        STARM2(unmapped_ch, genome_ch2, splitName_ch )
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
