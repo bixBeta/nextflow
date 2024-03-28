@@ -1,7 +1,7 @@
 nextflow.enable.dsl=2
 
 params.sheet            = "sample-sheet.csv"
-params.outdir           = "$baseDir/STAR_OUT"
+params.outdir           = "$projectDir/STAR_OUT"
 params.reads            = "$baseDir/fastqs/*_*{1,2}.f*.gz"
 params.help             = false
 params.listGenomes      = false
@@ -278,6 +278,15 @@ workflow SINGLE {
 
         STARM2(unmapped_ch, genome_ch2 )
 
+        mqc_ch2 = STARM2.out.read_per_gene_tab2
+        .concat(STARM2.out.log_final2)
+        .collect()
+        .view()
+        .concat(mqc_ch1)
+    
+
+        MQC(mqc_ch2)
+
     }
 
 
@@ -380,7 +389,7 @@ GLOBAL PROCESSES
 
 process MQC {
 
-    publishDir "Reports", mode: "move", overwrite: true
+    publishDir "Reports", mode: "move", overwrite: false
     input:
 
         path "*"              
