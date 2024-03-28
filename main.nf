@@ -289,7 +289,7 @@ workflow SINGLE {
                         .collect()
                         .view()
 
-        mqc_ch3 = mqc_ch1.join(mqc_ch2).view()
+        mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
 
         MQC2(mqc_ch3)
