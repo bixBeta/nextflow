@@ -145,7 +145,7 @@ tomato				:"/workdir/genomes/Solanum_lycopersicum/custom/ITAG4.0_gene_models.bed
 yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENSEMBL/Saccharomyces_cerevisiae.R64-1-1.bed12"]
 
 
-genomeKey.list = (genomeDir.collectMany{ k,v -> (v == genomeVal) ? [k] : []} as String[])
+genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
 genomeKey = genomeKey.list[0]
 
 
