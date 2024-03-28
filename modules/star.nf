@@ -1,6 +1,6 @@
 //starR   = params.star
 runmode     = params.mode
-genomeVal   = params.genome
+//genomeVal   = params.genome
 
 
 process STARM {
