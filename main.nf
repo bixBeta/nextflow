@@ -6,7 +6,7 @@ params.reads            = "$baseDir/fastqs/*_*{1,2}.f*.gz"
 params.help             = false
 params.listGenomes      = false
 params.star             = false
-params.genome           = ""
+params.genome           = null
 params.mode             = "PE"
 params.id               = "TREx_ID"
 params.gbcov            = false
@@ -39,7 +39,6 @@ Args:
         -------------------------------------------
 
     * --genome         : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
-    * --star           : Runs star aligner Process on all trimmed fastq files; Requires --genome param.
     * --gbcov          : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub      : Subset bams to specified chromosome name.
 
