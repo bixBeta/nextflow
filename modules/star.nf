@@ -19,9 +19,9 @@ process STARM {
         path "*Log.out"                                                     , emit: log_out
         path "*Log.progress.out"                                            , emit: log_progress
         path "*SJ.out.tab"                                                  , emit: sj_out_tab
-        path "*_val_*.fq*"                      , optional:true             , emit: unmapped
         path "*bam"                                                         , emit: bam_sorted
-
+        tuple val(id), path("*_val_*.fq*")  ,     optional:true             , emit: unmapped
+    
     script:
 
     if (runmode == "SE" )

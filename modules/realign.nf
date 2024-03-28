@@ -37,7 +37,7 @@ process STARM2 {
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
             --outReadsUnmapped Fastx \
-            --outFileNamePrefix ${id}. \
+            --outFileNamePrefix ${id}.splitMappedTo.${splitmap} \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
@@ -57,7 +57,7 @@ process STARM2 {
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
             --outReadsUnmapped Fastx \
-            --outFileNamePrefix ${id}. \
+            --outFileNamePrefix ${id}.splitMappedTo.${splitmap} \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
@@ -78,7 +78,7 @@ process STARM2 {
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}. \
+            --outFileNamePrefix ${id}.splitMappedTo.${splitmap} \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx 
@@ -98,7 +98,7 @@ process STARM2 {
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}. \
+            --outFileNamePrefix ${id}.splitMappedTo.${splitmap} \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx \

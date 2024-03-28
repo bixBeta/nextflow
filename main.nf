@@ -178,6 +178,7 @@ include {  FASTPM   } from './modules/fastp.nf'
 include {  STARM    } from './modules/star.nf'
 include {  GBCOV1M  } from './modules/gbcov.nf'
 include {  GBCOV2M  } from './modules/gbcov.nf'
+include {  STARM2   } from './modules/realign.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -206,6 +207,20 @@ if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index pa
 
 bed_ch = channel.value(bed)
 
+
+if (genomeDir.containsKey(params.genome2)){  // allows a user to pass a STAR index path via --genome parameter
+
+    genome2 = genomeDir[params.genome2]
+
+} else {
+
+    genome2 = params.genome2
+}
+
+genome_ch2 = channel.value(genome2)
+
+
+
 /* ---------------------------------------------------------------------------------------------------------
 SINGLE END NOVA/NEXT-seq Workflow 
 ------------------------------------------------------------------------------------------------------------ */
@@ -227,6 +242,8 @@ workflow SINGLE {
     bam_ch = STARM.out.bam_sorted 
                 | collect
                 | flatten
+
+    unmapped_ch = STARM.out.unmapped
 
     // chromo_sub = channel.value(params.gbcov)
      chromo_sub = channel.value(params.chromosub)
@@ -255,6 +272,19 @@ workflow SINGLE {
 
         MQC(mqc_ch1)
     }
+
+
+    if( params.genome2 != null ){
+
+        STARM2(unmapped_ch, genome_ch2 )
+
+    }
+
+
+
+
+
+
 }
 
 
