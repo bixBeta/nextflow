@@ -1,4 +1,3 @@
-//starR   = params.star
 runmode     = params.mode
 gkey        = params.genome
 
@@ -20,7 +19,7 @@ process STARM {
         path "*Log.out"                                                     , emit: log_out
         path "*Log.progress.out"                                            , emit: log_progress
         path "*SJ.out.tab"                                                  , emit: sj_out_tab
-        path "*.out.mate*"                      , optional:true             , emit: unmapped
+        path "*_val_*.fq*"                      , optional:true             , emit: unmapped
         path "*bam"                                                         , emit: bam_sorted
 
     script:
@@ -40,6 +39,8 @@ process STARM {
             --quantMode GeneCounts
 
         """
+ 
+ 
     else if (runmode == "SES"  )
 
         """
@@ -60,7 +61,6 @@ process STARM {
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
         
-
         """
 
     else if (runmode == "SEBS"  )
@@ -86,7 +86,6 @@ process STARM {
         gzip *_val_1.fq
 
         """
-
 
     else if (params.mode == "PE"  )
        
@@ -130,6 +129,8 @@ process STARM {
         gzip *_val_2.fq
        
         """
+    
+    
     else if (params.mode == "PEBS"  )
 
         """
@@ -147,8 +148,8 @@ process STARM {
             --outReadsUnmapped Fastx \
             --alignIntronMax 1 \
             --alignMatesGapMax 45000     
-            
-                          
+
+
         BASE=`basename ${gkey}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         mv *.out.mate2 ${id}.non.\${BASE}_val_2.fq
@@ -159,7 +160,7 @@ process STARM {
         """
 
     else {
-        error "Invalid alignment mode: ${runmode} or star run not specified. To run star use --star in the run command "
+        error "Invalid alignment mode: ${runmode} "
         exit 0
     } 
 }
