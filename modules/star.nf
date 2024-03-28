@@ -1,6 +1,8 @@
 //starR   = params.star
 runmode     = params.mode
 genomeVal   = params.genome
+x = (genomeDir.collectMany{ k,v -> (v == genomeVal) ? [k] : []} as String[])
+y = x[0]
 
 process STARM {
     maxForks 1
