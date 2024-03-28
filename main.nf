@@ -393,6 +393,8 @@ GLOBAL PROCESSES
 
 process MQC {
 
+    label 'process_mqc'
+    
     publishDir "Reports", mode: "move", overwrite: false
     input:
 
