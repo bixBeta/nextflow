@@ -191,7 +191,7 @@ if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR inde
     genome = params.genome
 }
 
-// genome_ch = channel.value(genome)
+genome_ch = channel.value(genome)
 // genome_key_ch = channel.value(params.genome)
 
 if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
