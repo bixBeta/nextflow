@@ -40,7 +40,7 @@ Args:
 
     * --genome         : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
     * --gbcov          : Runs GeneBodyCoverage Program on sub-setted bams.
-    * --chromosub      : Subset bams to specified chromosome name.
+    * --chromosub      : Subset bams to specified chromosome name. < defaults to chromosome 10 >
 
 """
 
@@ -225,7 +225,7 @@ workflow SINGLE {
     // chromo_sub = channel.value(params.gbcov)
      chromo_sub = channel.value(params.chromosub)
     }
-    
+
     if ( params.gbcov & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
             .set { gbcov1 }
