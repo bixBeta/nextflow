@@ -259,7 +259,7 @@ workflow SINGLE {
                         .collect(flat : false)                    
                         // .map { it -> [it + it] }
                         
-                        .view()                    
+                        //.view()                    
         
 
         GBCOV2M(pin, bed_ch, gbcov1_ch)
@@ -269,7 +269,7 @@ workflow SINGLE {
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
-                .view()
+                //.view()
     
 
         MQC(mqc_ch1)
@@ -284,7 +284,7 @@ workflow SINGLE {
                         .concat(STARM2.out.log_final2)
                         .concat(mqc_ch1)
                         .collect()
-                        .view()
+                        //.view()
 
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
@@ -317,7 +317,7 @@ workflow PAIRED {
         .set { fastp_out }
    
 
-    fastp_out.view()
+    // fastp_out.view()
 
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
@@ -336,7 +336,7 @@ workflow PAIRED {
 
         gbcov1_ch = GBCOV1M.out.sub_bam
                         .collect(flat : false)                    
-                        .view()                    
+                        //.view()                    
         
         GBCOV2M(pin, bed_ch, gbcov1_ch)
     }
@@ -345,7 +345,7 @@ workflow PAIRED {
     mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
-                .view()
+                //.view()
 
 
     MQC(mqc_ch1)
