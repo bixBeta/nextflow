@@ -1,5 +1,6 @@
 //starR   = params.star
-runmode = params.mode
+runmode     = params.mode
+genomeVal   = params.genome
 
 process STARM {
     maxForks 1
@@ -54,7 +55,7 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        BASE=`basename ${genome}`
+        BASE=`basename ${genomeVal}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
         
