@@ -1,6 +1,6 @@
 runmode     = params.mode
 splitmap    = params.genome2
-
+gkey        = params.genome
 
 if (params.genome2 != null){
     
@@ -25,7 +25,7 @@ process STARM2 {
         path "*Log.out"                                                     , emit: log_out2
         path "*Log.progress.out"                                            , emit: log_progress2
         path "*SJ.out.tab"                                                  , emit: sj_out_tab2
-        path "*.out.mate*"                      , optional:true             , emit: unmapped2
+        path "*_val_*.fq*"                      , optional:true             , emit: unmapped2
         path "*bam"                                                         , emit: bam_sorted2
 
     script:
@@ -46,7 +46,8 @@ process STARM2 {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        gzip *.out.mate1 
+        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
+        gzip *_val_1.fq 
 
         """
 
@@ -68,7 +69,8 @@ process STARM2 {
             --alignIntronMax 1 \
             --alignMatesGapMax 45000 
 
-        gzip *.out.mate1
+        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
+        gzip *_val_1.fq 
 
         """
 
@@ -88,8 +90,11 @@ process STARM2 {
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx 
 
-        gzip *.out.mate1
-        gzip *.out.mate2
+        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
+        mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
+
+        gzip *_val_1.fq 
+        gzip *_val_1.fq 
 
         """
     else if (params.mode == "PEBS" & splitmap != null  )
@@ -110,8 +115,11 @@ process STARM2 {
             --alignIntronMax 1 \
             --alignMatesGapMax 45000                   
 
-        gzip *.out.mate1
-        gzip *.out.mate2
+        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
+        mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
+
+        gzip *_val_1.fq 
+        gzip *_val_1.fq 
 
         """
 
