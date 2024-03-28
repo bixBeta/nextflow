@@ -281,8 +281,8 @@ workflow SINGLE {
         STARM2(unmapped_ch, genome_ch2 )
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
-        .concat(STARM2.out.log_final2)
-        .collect()
+                        .concat(STARM2.out.log_final2)
+                        .collect()
 
         mqc_ch3 = mqc_ch1.join(mqc_ch2).view()
     
