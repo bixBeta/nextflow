@@ -282,7 +282,6 @@ workflow SINGLE {
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
-                        .collect()
                         .concat(mqc_ch1)
                         .collect()
                         .view()
