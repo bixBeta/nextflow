@@ -117,3 +117,26 @@ process STARM2 {
 }
 
 
+
+process MQC2 {
+
+    publishDir "Reports", mode: "move", overwrite: false
+    input:
+
+        path "*"              
+
+    output:
+        path "*html"                    , emit: mqc_out  
+
+    when:
+        
+    script:
+
+    """
+       multiqc -n ${params.id}.starSplit.multiqc.report -m star .
+
+    """
+
+}
+
+

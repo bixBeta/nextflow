@@ -179,6 +179,7 @@ include {  STARM    } from './modules/star.nf'
 include {  GBCOV1M  } from './modules/gbcov.nf'
 include {  GBCOV2M  } from './modules/gbcov.nf'
 include {  STARM2   } from './modules/realign.nf'
+include {  MQC2     } from './modules/realign.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -285,7 +286,7 @@ workflow SINGLE {
         .concat(mqc_ch1)
     
 
-        MQC(mqc_ch2)
+        MQC2(mqc_ch2)
 
     }
 
