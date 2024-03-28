@@ -12,7 +12,7 @@ params.id               = "TREx_ID"
 params.gbcov            = false
 params.chromosub        = "10"
 params.genome2          = null
-params.splitname        = null
+params.splitname        = "na"
 
 runmode = params.mode
 pin = channel.value(params.id)
