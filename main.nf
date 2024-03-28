@@ -215,7 +215,7 @@ workflow SINGLE {
     FASTPM(meta_ch)
         .set { fastp_out }
 
-
+    if( params.genome != null ){
     STARM(fastp_out, genome_ch)
 
     bam_ch = STARM.out.bam_sorted 
@@ -224,6 +224,7 @@ workflow SINGLE {
 
     // chromo_sub = channel.value(params.gbcov)
      chromo_sub = channel.value(params.chromosub)
+    }
     
     if ( params.gbcov & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
@@ -269,7 +270,7 @@ workflow PAIRED {
 
     fastp_out.view()
 
-    if( params.star ){
+    if( params.genome != null ){
         STARM(fastp_out, genome_ch)
     
     bam_ch = STARM.out.bam_sorted 
