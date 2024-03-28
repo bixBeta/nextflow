@@ -1,6 +1,6 @@
 //starR   = params.star
 runmode     = params.mode
-t           = params.genome
+gkey        = params.genome
 
 process STARM {
     maxForks 1
@@ -56,7 +56,7 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        BASE=`basename ${t}`
+        BASE=`basename ${gkey}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
         
@@ -81,7 +81,9 @@ process STARM {
             --alignIntronMax 1 \
             --alignMatesGapMax 45000 
 
-        gzip *.out.mate1
+        BASE=`basename ${gkey}`
+        mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
+        gzip *_val_1.fq
 
         """
 
@@ -119,9 +121,14 @@ process STARM {
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx 
 
-        gzip *.out.mate1
-        gzip *.out.mate2
 
+        BASE=`basename ${gkey}`
+        mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
+        mv *.out.mate2 ${id}.non.\${BASE}_val_2.fq
+
+        gzip *_val_1.fq
+        gzip *_val_2.fq
+       
         """
     else if (params.mode == "PEBS"  )
 
@@ -139,10 +146,15 @@ process STARM {
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000                   
+            --alignMatesGapMax 45000     
+            
+                          
+        BASE=`basename ${gkey}`
+        mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
+        mv *.out.mate2 ${id}.non.\${BASE}_val_2.fq
 
-        gzip *.out.mate1
-        gzip *.out.mate2
+        gzip *_val_1.fq
+        gzip *_val_2.fq
 
         """
 
