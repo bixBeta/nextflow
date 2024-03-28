@@ -1,7 +1,9 @@
-//starR   = params.star
-runmode = params.mode
+runmode     = params.mode
+splitmap    = params.genome2
 
-process STARM {
+
+
+process STARM2 {
     maxForks 1
     tag "$id"
     label 'process_high'
@@ -9,41 +11,26 @@ process STARM {
     // publishDir "$baseDir/STAR_OUT", mode: "copy", overwrite: false
     
     input:
-        tuple val(id), path(trimmed)
-        path genome
+        tuple val(id), path(unmapped)
+        path genome2
 
     output:
-        path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab 
-        path "*Log.final.out"                                               , emit: log_final
-        path "*Log.out"                                                     , emit: log_out
-        path "*Log.progress.out"                                            , emit: log_progress
-        path "*SJ.out.tab"                                                  , emit: sj_out_tab
-        path "*.out.mate*"                      , optional:true             , emit: unmapped
-        path "*bam"                                                         , emit: bam_sorted
+        path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab2 
+        path "*Log.final.out"                                               , emit: log_final2
+        path "*Log.out"                                                     , emit: log_out2
+        path "*Log.progress.out"                                            , emit: log_progress2
+        path "*SJ.out.tab"                                                  , emit: sj_out_tab2
+        path "*.out.mate*"                      , optional:true             , emit: unmapped2
+        path "*bam"                                                         , emit: bam_sorted2
 
     script:
 
-    if (runmode == "SE" )
-        """
-            STAR \
-            --runThreadN ${task.cpus} \
-            --genomeDir  ${genome} \
-            --readFilesIn ${trimmed} \
-            --readFilesCommand gunzip -c \
-            --outSAMstrandField intronMotif \
-            --outFilterIntronMotifs RemoveNoncanonical \
-            --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}. \
-            --limitBAMsortRAM 61675612266 \
-            --quantMode GeneCounts
-
-        """
-    else if (runmode == "SES"  )
+    if (runmode == "SES" & splitmap != null )
 
         """
             STAR \
             --runThreadN ${task.cpus} \
-            --genomeDir  ${genome} \
+            --genomeDir  ${genome2} \
             --readFilesIn ${trimmed} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
@@ -54,19 +41,16 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        BASE=`basename ${genome}`
-        mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
-        gzip *_val_1.fq
-        
+        gzip *.out.mate1 
 
         """
 
-    else if (runmode == "SEBS"  )
+    else if (runmode == "SEBS" & splitmap != null )
 
         """
             STAR \
             --runThreadN ${task.cpus} \
-            --genomeDir  ${genome} \
+            --genomeDir  ${genome2} \
             --readFilesIn ${trimmed} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
@@ -83,30 +67,12 @@ process STARM {
 
         """
 
-
-    else if (params.mode == "PE"  )
-       
-        """
-            STAR \
-            --runThreadN ${task.cpus} \
-            --genomeDir ${genome} \
-            --readFilesIn ${trimmed[0]} ${trimmed[1]} \
-            --readFilesCommand gunzip -c \
-            --outSAMstrandField intronMotif \
-            --outFilterIntronMotifs RemoveNoncanonical \
-            --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}. \
-            --limitBAMsortRAM 61675612266 \
-            --quantMode GeneCounts
-
-        """
-
-    else if (params.mode == "PES"  )
+    else if (params.mode == "PES" & splitmap != null )
    
         """
             STAR \
             --runThreadN ${task.cpus} \
-            --genomeDir ${genome} \
+            --genomeDir ${genome2} \
             --readFilesIn ${trimmed[0]} ${trimmed[1]} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
@@ -121,12 +87,12 @@ process STARM {
         gzip *.out.mate2
 
         """
-    else if (params.mode == "PEBS"  )
+    else if (params.mode == "PEBS" & splitmap != null  )
 
         """
              STAR \
             --runThreadN ${task.cpus} \
-            --genomeDir ${genome} \
+            --genomeDir ${genome2} \
             --readFilesIn ${trimmed[0]} ${trimmed[1]} \
             --readFilesCommand gunzip -c \
             --outSAMstrandField intronMotif \
@@ -149,6 +115,5 @@ process STARM {
         exit 0
     } 
 }
-
 
 
