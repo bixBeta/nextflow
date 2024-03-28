@@ -279,6 +279,10 @@ workflow SINGLE {
     if( params.genome2 != null ){
 
         STARM2(unmapped_ch, genome_ch2 )
+        mqc_ch1 = STARM.out.read_per_gene_tab
+                    .concat(STARM.out.log_final)
+                    .collect()
+                    .view()
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
