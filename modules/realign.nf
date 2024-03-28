@@ -1,6 +1,6 @@
 runmode     = params.mode
 splitmap    = params.genome2
-splitname   = params.splitname
+splitname   = ${splitName}
 
 
 if (params.genome2 != null){

@@ -12,6 +12,7 @@ params.id               = "TREx_ID"
 params.gbcov            = false
 params.chromosub        = "10"
 params.genome2          = null
+params.splitname        = null
 
 runmode = params.mode
 pin = channel.value(params.id)
@@ -183,6 +184,7 @@ include {  MQC2     } from './modules/realign.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
+splitName = params.splitname
 
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
 
@@ -213,12 +215,12 @@ if (genomeDir.containsKey(params.genome2)){  // allows a user to pass a STAR ind
 
     genome2 = genomeDir[params.genome2]
 
-    params.splitname = params.genome2
+    splitName = params.genome2
 
 } else {
 
     genome2 = params.genome2
-    params.splitname = "ajsoidjsoajdosj"
+    splitName = "ajsoidjsoajdosj"
 }
 
 genome_ch2 = channel.value(genome2)
