@@ -213,9 +213,12 @@ if (genomeDir.containsKey(params.genome2)){  // allows a user to pass a STAR ind
 
     genome2 = genomeDir[params.genome2]
 
+    params.splitname = params.genome2
+
 } else {
 
     genome2 = params.genome2
+    params.splitname = "ajsoidjsoajdosj"
 }
 
 genome_ch2 = channel.value(genome2)

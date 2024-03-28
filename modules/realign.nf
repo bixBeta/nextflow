@@ -1,6 +1,11 @@
 runmode     = params.mode
-splitmap    = params.genome2
+splitmap    = params.splitname
+// splitname   = params.splitname
 
+
+if (params.genome2 != null){
+
+}
 
 
 process STARM2 {
