@@ -1,4 +1,4 @@
-starR   = params.star
+//starR   = params.star
 runmode = params.mode
 
 process STARM {
@@ -23,7 +23,7 @@ process STARM {
 
     script:
 
-    if (runmode == "SE" & starR)
+    if (runmode == "SE" )
         """
             STAR \
             --runThreadN ${task.cpus} \
@@ -38,7 +38,7 @@ process STARM {
             --quantMode GeneCounts
 
         """
-    else if (runmode == "SES" & starR )
+    else if (runmode == "SES"  )
 
         """
             STAR \
@@ -58,7 +58,7 @@ process STARM {
 
         """
 
-    else if (runmode == "SEBS" & starR )
+    else if (runmode == "SEBS"  )
 
         """
             STAR \
@@ -81,7 +81,7 @@ process STARM {
         """
 
 
-    else if (params.mode == "PE" & starR )
+    else if (params.mode == "PE"  )
        
         """
             STAR \
@@ -98,7 +98,7 @@ process STARM {
 
         """
 
-    else if (params.mode == "PES" & starR )
+    else if (params.mode == "PES"  )
    
         """
             STAR \
@@ -118,7 +118,7 @@ process STARM {
         gzip *.out.mate2
 
         """
-    else if (params.mode == "PEBS" & starR )
+    else if (params.mode == "PEBS"  )
 
         """
              STAR \

@@ -240,7 +240,7 @@ workflow SINGLE {
 
         GBCOV2M(pin, bed_ch, gbcov1_ch)
     }
-    if( params.star ){
+    if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
@@ -292,7 +292,7 @@ workflow PAIRED {
         GBCOV2M(pin, bed_ch, gbcov1_ch)
     }
 
-    if( params.star ){
+    if( params.genome != null ){
     mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
