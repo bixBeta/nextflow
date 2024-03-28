@@ -120,7 +120,7 @@ process STARM2 {
 
 process MQC2 {
 
-    publishDir "Reports", mode: "move", overwrite: false
+    publishDir "Reports", mode: "move", overwrite: true
     input:
 
         path "*"              
