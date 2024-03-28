@@ -284,6 +284,7 @@ workflow SINGLE {
                         .concat(STARM2.out.log_final2)
                         .collect()
                         .concat(mqc_ch1)
+                        .flatten()
                         .view()
 
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
