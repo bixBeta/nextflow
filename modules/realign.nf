@@ -1,6 +1,5 @@
 runmode     = params.mode
 splitmap    = params.genome2
-//splitname   = splitName
 
 
 if (params.genome2 != null){

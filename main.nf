@@ -220,7 +220,7 @@ if (genomeDir.containsKey(params.genome2)){  // allows a user to pass a STAR ind
 } else {
 
     genome2 = params.genome2
-    splitName_ch = channel.value("ajsoidjsoajdosj")
+    splitName_ch = channel.value(params.splitname)
 }
 
 genome_ch2 = channel.value(genome2)
