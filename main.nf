@@ -432,7 +432,7 @@ process MQC {
     script:
 
     """
-       multiqc -n ${params.id}.star.multiqc.report -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${projectDir}/multiqc_config.yaml -m star .
 
     """
 
