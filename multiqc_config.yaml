@@ -1,0 +1,9 @@
+data_format: 'yaml'
+
+report_header_info:
+  - Contact E-mail: 'trex_info@cornell.edu'
+
+
+custom_logo: "/home/fa286/trex-extended-logo.png"
+custom_logo_url: https://trex.biotech.cornell.edu/
+plots_force_interactive: True
