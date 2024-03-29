@@ -94,7 +94,7 @@ process STARM2 {
         mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
 
         gzip *_val_1.fq 
-        gzip *_val_1.fq 
+        gzip *_val_2.fq 
 
         """
     else if (params.mode == "PEBS" & splitmap != null  )
@@ -119,7 +119,7 @@ process STARM2 {
         mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
 
         gzip *_val_1.fq 
-        gzip *_val_1.fq 
+        gzip *_val_2.fq 
 
         """
 
