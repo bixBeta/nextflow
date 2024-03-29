@@ -142,14 +142,14 @@ process MQC2 {
         path "*"              
 
     output:
-        path "*html"                    , emit: mqc_out  
+        path "*html"                    , emit: mqc_out2  
 
     when:
         
     script:
 
     """
-       multiqc -n ${params.id}.starSplit.multiqc.report -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config ${projectDir}/multiqc_config.yaml -m star .
 
     """
 
