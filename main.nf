@@ -180,7 +180,8 @@ include {  STARM    } from './modules/star.nf'
 include {  GBCOV1M  } from './modules/gbcov.nf'
 include {  GBCOV2M  } from './modules/gbcov.nf'
 include {  STARM2   } from './modules/realign.nf'
-include {  MQC2     } from './modules/realign.nf'
+include {  MQC      } from './modules/multiqc.nf'
+include {  MQC2     } from './modules/multiqc.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -415,25 +416,4 @@ workflow {
 GLOBAL PROCESSES
 ------------------------------------------------------------------------------------------------------------ */
 
-process MQC {
 
-    label 'process_mqc'
-    
-    publishDir "Reports", mode: "move", overwrite: false
-    input:
-
-        path "*"              
-
-    output:
-        path "*html"                    , emit: mqc_out  
-
-    when:
-        
-    script:
-
-    """
-       multiqc -n ${params.id}.star.multiqc.report --config ${projectDir}/multiqc_config.yaml -m star .
-
-    """
-
-}
