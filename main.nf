@@ -330,9 +330,11 @@ workflow PAIRED {
     bam_ch = STARM.out.bam_sorted 
                 | collect
                 | flatten
-
+    unmapped_ch = STARM.out.unmapped
+    
     // chromo_sub = channel.value(params.gbcov)
        chromo_sub = channel.value(params.chromosub)
+    
     }
 
     if ( params.gbcov  & bed != null ) {
@@ -354,6 +356,23 @@ workflow PAIRED {
 
 
     MQC(mqc_ch1)
+    }
+
+    if( params.genome2 != null ){
+
+        STARM2(unmapped_ch, genome_ch2, splitName_ch )
+
+        mqc_ch2 = STARM2.out.read_per_gene_tab2
+                        .concat(STARM2.out.log_final2)
+                        .concat(mqc_ch1)
+                        .collect()
+                        //.view()
+
+        // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
+    
+
+        MQC2(mqc_ch2)
+
     }
 
 }
