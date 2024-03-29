@@ -85,7 +85,7 @@ process STARM2 {
             --outSAMstrandField intronMotif \
             --outFilterIntronMotifs RemoveNoncanonical \
             --outSAMtype BAM SortedByCoordinate \
-            --outFileNamePrefix ${id}.non.${gkey}.mappedTo.${splitname}. \
+            --outFileNamePrefix ${id}-non-${gkey}-mappedTo-${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx 
