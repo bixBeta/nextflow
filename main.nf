@@ -247,8 +247,8 @@ workflow SINGLE {
 
 
     if( params.screen){
-
-        SCREENM(fastp_out)
+        screen_conf_ch = channel.value('./screen.conf')
+        SCREENM(fastp_out, screen_conf_ch)
 
     }
 
