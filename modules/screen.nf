@@ -2,7 +2,7 @@ screen = params.screen
 
 process SCREENM {
 
-    label 'process_medium'
+    label 'process_screen'
     tag "$id"
 
     publishDir "fq_screen" , overwrite: true
