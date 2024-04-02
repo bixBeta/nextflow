@@ -18,9 +18,11 @@ process SCREENM {
     script:
 
         if ( screen ) {
-
+            
+            """
             fastq_screen --conf ${baseDir}/screen.conf ${trimmed}
-
+            
+            """
         }
 
 
