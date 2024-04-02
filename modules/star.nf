@@ -6,7 +6,7 @@ process STARM {
     tag "$id"
     label 'process_high'
     
-    // publishDir "$baseDir/STAR_OUT", mode: "copy", overwrite: false
+    publishDir "STAR_BAMS", mode: "move", overwrite: true , pattern = "*.bam"
     
     input:
         tuple val(id), path(trimmed)
