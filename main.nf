@@ -252,7 +252,7 @@ workflow SINGLE {
         screen_ch = fastp_out 
                         | view
 
-        //SCREENM(fastp_out)
+        SCREENM(screen_ch)
 
     }
 
