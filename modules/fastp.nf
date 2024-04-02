@@ -5,7 +5,7 @@ process FASTPM {
     tag "$id"
     label 'process_medium'
     
-    publishDir "${baseDir}/trimmed_fastqs", mode: "move", overwrite: true
+    publishDir "${projectDir}/trimmed_fastqs", mode: "move", overwrite: true
 
 
     input:
