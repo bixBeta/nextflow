@@ -4,6 +4,9 @@ process FASTPM {
     maxForks 10
     tag "$id"
     label 'process_medium'
+    
+    publishDir ${baseDir}/trimmed_fastqs, mode: "move", overwrite: true
+
 
     input:
         tuple val(id), path(reads)
