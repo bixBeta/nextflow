@@ -337,6 +337,13 @@ workflow PAIRED {
 
     // fastp_out.view()
 
+    if( params.screen ){
+        // screen_conf_ch = channel.fromPath("${baseDir}/screen.conf")
+
+        SCREENM(fastp_out)
+
+    }
+    
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
     
