@@ -2,10 +2,6 @@ runmode     = params.mode
 splitmap    = params.genome2
 gkey        = params.genome
 
-if (params.genome2 != null){
-    
-}
-
 
 process STARM2 {
     maxForks 1

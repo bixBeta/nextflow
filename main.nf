@@ -13,6 +13,7 @@ params.gbcov            = false
 params.chromosub        = "10"
 params.genome2          = null
 params.splitname        = "na"
+params.screen           = false
 
 runmode = params.mode
 pin = channel.value(params.id)
@@ -182,6 +183,7 @@ include {  GBCOV2M  } from './modules/gbcov.nf'
 include {  STARM2   } from './modules/realign.nf'
 include {  MQC      } from './modules/multiqc.nf'
 include {  MQC2     } from './modules/multiqc.nf'
+include {  SCREENM  } from './modules/screen.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -242,6 +244,15 @@ workflow SINGLE {
 
     FASTPM(meta_ch)
         .set { fastp_out }
+
+
+    if( params.screen){
+
+        SCREENM(fastp_out)
+
+    }
+
+
 
     if( params.genome != null ){
     STARM(fastp_out, genome_ch)
