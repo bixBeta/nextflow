@@ -9,7 +9,6 @@ process SCREENM {
 
     input:
         tuple val(id), path(fq_screen)
-        path screenConf
 
 
     output:
