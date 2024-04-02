@@ -176,13 +176,15 @@ if( params.listGenomes) {
     exit 0
 }
 
-include {  FASTPM   } from './modules/fastp.nf'
-include {  STARM    } from './modules/star.nf'
-include {  GBCOV1M  } from './modules/gbcov.nf'
-include {  GBCOV2M  } from './modules/gbcov.nf'
-include {  STARM2   } from './modules/realign.nf'
-include {  MQC      } from './modules/multiqc.nf'
-include {  MQC2     } from './modules/multiqc.nf'
+include {   FASTPM         } from './modules/fastp.nf'
+include {   STARM          } from './modules/star.nf'
+include {   GBCOV1M        } from './modules/gbcov.nf'
+include {   GBCOV2M        } from './modules/gbcov.nf'
+include {   STARM2         } from './modules/realign.nf'
+include {   MQC            } from './modules/multiqc.nf'
+include {   MQC2           } from './modules/multiqc.nf'
+include {   MQCSCREENM     } from './modules/multiqc.nf'
+
 include {  SCREENM  } from './modules/screen.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
@@ -252,7 +254,7 @@ workflow SINGLE {
     screen_out_ch = SCREENM.out 
                         | collect
     
-    MQC(screen_out_ch)
+    MQCSCREENM(screen_out_ch)
 
     if( params.genome != null ){
     STARM(fastp_out, genome_ch)
@@ -342,7 +344,7 @@ workflow PAIRED {
     screen_out_ch = SCREENM.out 
                         | collect
 
-    MQC(screen_out_ch)
+    MQCSCREENM(screen_out_ch)
     
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
