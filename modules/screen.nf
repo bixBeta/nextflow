@@ -19,7 +19,7 @@ process SCREENM {
 
         if ( screen ) {
 
-            fastq_screen --conf ${projectDir}/screen.conf ${fq_screen}
+            fastq_screen --conf ${baseDir}/screen.conf ${fq_screen}
 
         }
 
