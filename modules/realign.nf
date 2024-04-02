@@ -12,7 +12,7 @@ process STARM2 {
     tag "$id"
     label 'process_high'
     
-    // publishDir "$baseDir/STAR_OUT", mode: "copy", overwrite: false
+    publishDir "STAR_BAMS2", mode: "symlink", overwrite: true , pattern: "*.bam"
     
     input:
         tuple val(id), path(unmapped)
