@@ -65,7 +65,7 @@ process MQCSCREENM {
     script:
 
     """
-       multiqc -n ${params.id}.fq.scree.multiqc.report --config ${projectDir}/multiqc_config.yaml .
+       multiqc -n ${params.id}.fq.screen.multiqc.report --config ${projectDir}/multiqc_config.yaml .
 
     """
 
