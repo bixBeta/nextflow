@@ -247,10 +247,12 @@ workflow SINGLE {
 
 
 
-        SCREENM(fastp_out)
+    SCREENM(fastp_out)
 
-
-
+    screen_out_ch = SCREENM.out 
+                        | collect
+    
+    MQC(screen_out_ch)
 
     if( params.genome != null ){
     STARM(fastp_out, genome_ch)
@@ -335,9 +337,12 @@ workflow PAIRED {
     // fastp_out.view()
 
 
-        SCREENM(fastp_out)
+    SCREENM(fastp_out)
 
+    screen_out_ch = SCREENM.out 
+                        | collect
 
+    MQC(screen_out_ch)
     
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)

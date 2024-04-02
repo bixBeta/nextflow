@@ -45,3 +45,28 @@ process MQC2 {
     """
 
 }
+
+
+process MQCSCREENM {
+
+    label 'process_mqc'
+
+    publishDir "Reports", mode: "move", overwrite: true
+    
+    input:
+
+        path "*"              
+
+    output:
+        path "*html"                    , emit: mqc_out_screen  
+
+    when:
+        
+    script:
+
+    """
+       multiqc -n ${params.id}.fq.scree.multiqc.report --config ${projectDir}/multiqc_config.yaml .
+
+    """
+
+}
