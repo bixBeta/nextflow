@@ -1,4 +1,5 @@
-screen = params.screen
+screen      = params.screen
+runmode     = params.mode
 
 process SCREENM {
 
@@ -19,13 +20,27 @@ process SCREENM {
 
     script:
     
-     """
+
+    if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
+     
+    """
+     fastq_screen --conf ${baseDir}/screen.conf ${trimmed}       
     
-     fastq_screen --conf ${baseDir}/screen.conf ${trimmed}
-            
-     """
+    """
        
+    }
 
+    else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" ){
 
+    """
+     fastq_screen --conf ${baseDir}/screen.conf ${trimmed[0]}       
+    
+    """
+
+    }  else {
+
+        error "Runmode ${runmode} is not supported"
+        exit 0 
+    }  
 
 }
