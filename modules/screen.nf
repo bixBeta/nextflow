@@ -14,16 +14,17 @@ process SCREENM {
     output:
         path '*'
 
-    
-    script:
+    when: 
+        screen == true    
 
-        if ( screen ) {
+    script:
+    
+     """
+    
+     fastq_screen --conf ${baseDir}/screen.conf ${trimmed}
             
-            """
-            fastq_screen --conf ${baseDir}/screen.conf ${trimmed}
-            
-            """
-        }
+     """
+       
 
 
 
