@@ -247,7 +247,7 @@ workflow SINGLE {
 
 
     if( params.screen){
-        screen_conf_ch = channel.value('./screen.conf')
+        screen_conf_ch = channel.value('$baseDir/screen.conf')
         SCREENM(fastp_out, screen_conf_ch)
 
     }
