@@ -8,7 +8,7 @@ process SCREENM {
     publishDir "fq_screen" , overwrite: true
 
     input:
-        tuple val(id), path(fq_screen)
+        tuple val(id), path(trimmed)
 
 
     output:
@@ -19,7 +19,7 @@ process SCREENM {
 
         if ( screen ) {
 
-            fastq_screen --conf ${baseDir}/screen.conf ${fq_screen}
+            fastq_screen --conf ${baseDir}/screen.conf ${trimmed}
 
         }
 
