@@ -248,11 +248,8 @@ workflow SINGLE {
 
     if( params.screen ){
         // screen_conf_ch = channel.fromPath("${baseDir}/screen.conf")
-        
-        screen_ch = fastp_out 
-                        | view
 
-        SCREENM(screen_ch)
+        SCREENM(fastp_out)
 
     }
 
