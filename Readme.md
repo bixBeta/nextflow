@@ -16,3 +16,11 @@ If successful, you may see the following output on your terminal console:
 
 ![](img/success.png)
 
+
+<hr>
+It is always a good idea to run the pull command before executing the pipeline. This will ensure that the user is using the latest branch version of the pipeline.
+Use the following command to ensure the usage of the latest version of the pipeline:
+
+```
+nextflow pull https://github.com/bixbeta/nextflow -r main 
+```
