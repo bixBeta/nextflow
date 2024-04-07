@@ -57,7 +57,7 @@ process GBCOV2M {
     if ( gbcovRun )
 
         b = gbcov.join(",")
-        println("samples used for genebody coverage -- ", b )
+        //println("samples used for genebody coverage -- ", b )
         """
         geneBody_coverage.py -r ${bed} -i ${b} -o ${pin} 
         """
