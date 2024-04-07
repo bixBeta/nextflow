@@ -40,7 +40,7 @@ process MQC2 {
     script:
 
     """
-       multiqc -n ${params.id}.starSplit.multiqc.report --config ${baseDir}/multiqc_config.yaml -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config multiqc_config.yaml -m star .
 
     """
 
@@ -65,7 +65,7 @@ process MQCSCREENM {
     script:
 
     """
-       multiqc -n ${params.id}.fq.screen.multiqc.report --config ${baseDir}/multiqc_config.yaml .
+       multiqc -n ${params.id}.fq.screen.multiqc.report --config multiqc_config.yaml .
 
     """
 
