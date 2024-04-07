@@ -1,5 +1,5 @@
 reports:
-  "Reports/*.star.multiqc.report.html":
-    display: "Multiqc Report" 
+  "sample-sheet2.csv":
+    display: "Sample Sheet Report" 
 
   
