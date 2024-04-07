@@ -1,0 +1,8 @@
+reports:
+  "Reports/*html":
+    display: "Multiqc Report" 
+    mimeType: ".html"
+  
+  "./*.csv":
+    display: "Sample Sheet"
+    mimeType: ".csv"
