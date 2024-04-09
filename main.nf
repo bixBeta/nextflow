@@ -183,16 +183,12 @@ if( params.listGenomes) {
     exit 0
 }
 
-include {   FASTPM         } from './modules/fastp.nf'
-include {   STARM          } from './modules/star.nf'
-include {   GBCOV1M        } from './modules/gbcov.nf'
-include {   GBCOV2M        } from './modules/gbcov.nf'
-include {   STARM2         } from './modules/realign.nf'
-include {   MQC            } from './modules/multiqc.nf'
-include {   MQC2           } from './modules/multiqc.nf'
-include {   MQCSCREENM     } from './modules/multiqc.nf'
-
-include {  SCREENM  } from './modules/screen.nf'
+include {   FASTPM                   } from './modules/fastp'
+include {   STARM                    } from './modules/star'
+include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
+include {   STARM2                   } from './modules/realign'
+include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
+include {   SCREENM                  } from './modules/screen.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
