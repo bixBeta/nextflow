@@ -192,6 +192,8 @@ include {   SCREENM                  } from './modules/screen'
 
 ch_sheet = channel.fromPath(params.sheet)
 
+ch_mqc_conf = channelFromPath("${baseDir}/multiqc_config.yaml")
+
 splitName = params.splitname
 
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
@@ -294,7 +296,7 @@ workflow SINGLE {
                 //.view()
     
 
-        MQC(mqc_ch1)
+        MQC(mqc_ch1, ch_mqc_conf)
     }
 
 
@@ -380,7 +382,7 @@ workflow PAIRED {
                 //.view()
 
 
-    MQC(mqc_ch1)
+    MQC(mqc_ch1, ch_mqc_conf)
     }
 
     if( params.genome2 != null ){

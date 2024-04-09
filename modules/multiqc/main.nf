@@ -5,7 +5,8 @@ process MQC {
     publishDir "Reports", mode: "move", overwrite: false
     input:
 
-        path "*"              
+        path "*"
+        path(conf)              
 
     output:
         path "*html"                    , emit: mqc_out  
@@ -15,7 +16,7 @@ process MQC {
     script:
 
     """
-       multiqc -n ${params.id}.star.multiqc.report --config ${baseDir}/multiqc_config.yaml -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${conf} -m star .
 
     """
 
