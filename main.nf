@@ -382,7 +382,7 @@ workflow PAIRED {
                 //.view()
 
 
-    MQC(mqc_ch1, ch_mqc_conf)
+    MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
     }
 
     if( params.genome2 != null ){
