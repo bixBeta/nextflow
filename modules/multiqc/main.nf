@@ -15,7 +15,7 @@ process MQC {
     script:
 
     """
-       multiqc -n ${params.id}.star.multiqc.report --config ${baseDir}/multiqc_config.yaml -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ../multiqc_config.yaml -m star .
 
     """
 
