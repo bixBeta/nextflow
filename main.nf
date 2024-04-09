@@ -193,7 +193,7 @@ include {   SCREENM                  } from './modules/screen'
 ch_sheet = channel.fromPath(params.sheet)
 
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
-
+ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 splitName = params.splitname
 
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
@@ -296,7 +296,7 @@ workflow SINGLE {
                 //.view()
     
 
-        MQC(mqc_ch1, ch_mqc_conf)
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
     }
 
 

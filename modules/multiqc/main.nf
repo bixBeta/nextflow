@@ -6,7 +6,8 @@ process MQC {
     input:
 
         path "*"
-        path(conf)              
+        path(conf)
+        path(logo)             
 
     output:
         path "*html"                    , emit: mqc_out  
@@ -16,7 +17,7 @@ process MQC {
     script:
 
     """
-       multiqc -n ${params.id}.star.multiqc.report --config ${conf} -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config 'custom_logo: "${logo}"' -m star .
 
     """
 
