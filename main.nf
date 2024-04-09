@@ -192,7 +192,7 @@ include {   SCREENM                  } from './modules/screen'
 
 ch_sheet = channel.fromPath(params.sheet)
 
-ch_mqc_conf = channelFromPath("${baseDir}/multiqc_config.yaml")
+ch_mqc_conf = channel.fromPath("${baseDir}/multiqc_config.yaml")
 
 splitName = params.splitname
 
