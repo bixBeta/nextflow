@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 params.sheet            = "sample-sheet.csv"
 params.outdir           = "$projectDir/STAR_OUT"
-params.reads            = "$baseDir/fastqs/*_*{1,2}.f*.gz"
+params.reads            = "$projectDir/fastqs/*_*{1,2}.f*.gz"
 params.help             = false
 params.listGenomes      = false
 params.star             = false
@@ -192,7 +192,7 @@ include {   SCREENM                  } from './modules/screen'
 
 ch_sheet = channel.fromPath(params.sheet)
 
-ch_mqc_conf = channel.fromPath("${baseDir}/multiqc_config.yaml")
+ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
 
 splitName = params.splitname
 
