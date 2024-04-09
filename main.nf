@@ -188,7 +188,7 @@ include {   STARM                    } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2                   } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
-include {   SCREENM                  } from './modules/screen.nf'
+include {   SCREENM                  } from './modules/screen'
 
 ch_sheet = channel.fromPath(params.sheet)
 
