@@ -32,6 +32,7 @@ process MQC2 {
     input:
 
         path "*"              
+        path(conf)
 
     output:
         path "*html"                    , emit: mqc_out2  
@@ -41,7 +42,7 @@ process MQC2 {
     script:
 
     """
-       multiqc -n ${params.id}.starSplit.multiqc.report --config multiqc_config.yaml -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} -m star .
 
     """
 
@@ -56,7 +57,8 @@ process MQCSCREENM {
     
     input:
 
-        path "*"              
+        path "*"     
+        path(conf)         
 
     output:
         path "*html"                    , emit: mqc_out_screen  
@@ -66,7 +68,7 @@ process MQCSCREENM {
     script:
 
     """
-       multiqc -n ${params.id}.fq.screen.multiqc.report --config multiqc_config.yaml .
+       multiqc -n ${params.id}.fq.screen.multiqc.report --config ${conf} .
 
     """
 
