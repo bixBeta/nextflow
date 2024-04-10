@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 params.sheet            = "sample-sheet.csv"
 params.outdir           = "$projectDir/STAR_OUT"
-params.reads            = "$projectDir/fastqs/*_*{1,2}.f*.gz"
+params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
 params.help             = false
 params.listGenomes      = false
 params.star             = false
