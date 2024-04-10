@@ -17,7 +17,7 @@ process MQC {
     script:
 
     """
-       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config 'custom_logo: "${logo}"' -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
 
     """
 
