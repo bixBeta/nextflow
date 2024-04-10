@@ -259,7 +259,7 @@ workflow SINGLE {
     screen_out_ch = SCREENM.out 
                         | collect
     
-    MQCSCREENM(screen_out_ch, ch_mqc_conf)
+    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
 
     if( params.genome != null ){
     STARM(fastp_out, genome_ch)
@@ -313,7 +313,7 @@ workflow SINGLE {
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
 
-        MQC2(mqc_ch2, ch_mqc_conf)
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
 
     }
 
@@ -349,7 +349,7 @@ workflow PAIRED {
     screen_out_ch = SCREENM.out 
                         | collect
 
-    MQCSCREENM(screen_out_ch, ch_mqc_conf)
+    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
@@ -398,7 +398,7 @@ workflow PAIRED {
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
 
-        MQC2(mqc_ch2, ch_mqc_conf)
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
 
     }
 

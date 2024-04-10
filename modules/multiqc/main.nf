@@ -34,7 +34,8 @@ process MQC2 {
 
         path "*"              
         path(conf)
-
+        path(logo)  
+    
     output:
         path "*html"                    , emit: mqc_out2  
 
@@ -43,7 +44,7 @@ process MQC2 {
     script:
 
     """
-       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
 
     """
 
@@ -60,7 +61,8 @@ process MQCSCREENM {
 
         path "*"     
         path(conf)         
-
+        path(logo)  
+        
     output:
         path "*html"                    , emit: mqc_out_screen  
 
@@ -69,7 +71,7 @@ process MQCSCREENM {
     script:
 
     """
-       multiqc -n ${params.id}.fq.screen.multiqc.report --config ${conf} .
+       multiqc -n ${params.id}.fq.screen.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" .
 
     """
 
