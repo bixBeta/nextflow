@@ -10,7 +10,7 @@ process SCREENM {
 
     input:
         tuple val(id), path(trimmed)
-
+        path(screen_conf)
 
     output:
         path '*'
@@ -24,7 +24,7 @@ process SCREENM {
     if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
      
     """
-     fastq_screen --conf ${baseDir}/screen.conf ${trimmed}       
+     fastq_screen --conf ${screen_conf} ${trimmed}       
     
     """
        
@@ -33,7 +33,7 @@ process SCREENM {
     else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" ){
 
     """
-     fastq_screen --conf ${baseDir}/screen.conf ${trimmed[0]}       
+     fastq_screen --conf ${screen_conf} ${trimmed[0]}       
     
     """
 
