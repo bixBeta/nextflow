@@ -2,7 +2,7 @@ process MQC {
 
     label 'process_mqc'
     
-    publishDir "Reports", mode: "move", overwrite: false
+    publishDir "Reports", mode: "move", overwrite: true
     input:
 
         path "*"
