@@ -8,8 +8,9 @@ process STARM2 {
     tag "$id"
     label 'process_high'
     
-    publishDir "STAR_BAMS2", mode: "symlink", overwrite: true , pattern: "*.bam"
-    
+    publishDir "STAR_BAMS2"   , mode: "symlink", overwrite: true , pattern: "*.bam"
+    publishDir "STAR_COUNTS2" , mode: "symlink", overwrite: true , pattern: "*ReadsPerGene.out.tab"
+
     input:
         tuple val(id), path(unmapped)
         path genome2
