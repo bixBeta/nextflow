@@ -1,3 +1,3 @@
 reports:
-  *multiqc.report.html:
+  "*multiqc.report.html":
     display: "MultiQC HTML report"
