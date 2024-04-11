@@ -1,6 +1,7 @@
-runmode     = params.mode
-splitmap    = params.genome2
-gkey        = params.genome
+runmode         = params.mode
+splitmap        = params.genome2
+gkey            = params.genome
+strandedness    = params.strand
 
 
 process STARM2 {
