@@ -6,7 +6,8 @@ process STARM {
     tag "$id"
     label 'process_high'
     
-    publishDir "STAR_BAMS", mode: "symlink", overwrite: true , pattern: "*.bam"
+    publishDir "STAR_BAMS"   , mode: "symlink", overwrite: true , pattern: "*.bam"
+    publishDir "STAR_COUNTS" , mode: "symlink", overwrite: true , pattern: "*ReadsPerGene.out.tab"
     
     input:
         tuple val(id), path(trimmed)
