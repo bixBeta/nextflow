@@ -130,3 +130,41 @@ process STARM2 {
 
 
 
+process COUNTSM2 {
+
+    publishDir "STAR_COUNTS2/rawCounts2" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
+
+    input:
+        path(counts)
+
+    output:
+        path "*.rawCounts"            ,         emit: raw_counts
+
+    script:
+
+        if ( strandedness == 2 )
+
+        """
+        BASE=`basename ${count} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$4}' ${count} > \$BASE.rawCounts
+
+        """
+
+        else if ( strandedness == 1 )
+
+        """
+        BASE=`basename ${count} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$3}' ${count} > \$BASE.rawCounts
+        
+        """
+
+        else 
+
+        """
+        BASE=`basename ${count} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$2}' ${count} > \$BASE.rawCounts
+        
+        """
+
+
+}

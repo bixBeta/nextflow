@@ -186,7 +186,7 @@ process COUNTSM {
 
         """
         BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print $1 "\t" $4}' ${count} > \$BASE.rawCounts
+        awk 'NR > 4 {print \$1 "\t" \$4}' ${count} > \$BASE.rawCounts
 
         """
 
@@ -194,7 +194,7 @@ process COUNTSM {
 
         """
         BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print $1 "\t" $3}' ${count} > \$BASE.rawCounts
+        awk 'NR > 4 {print \$1 "\t" \$3}' ${count} > \$BASE.rawCounts
         
         """
 
@@ -202,7 +202,7 @@ process COUNTSM {
 
         """
         BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print $1 "\t" $2}' ${count} > \$BASE.rawCounts
+        awk 'NR > 4 {print \$1 "\t" \$2}' ${count} > \$BASE.rawCounts
         
         """
 

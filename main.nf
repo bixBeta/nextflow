@@ -318,7 +318,7 @@ workflow SINGLE {
     
 
         MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
-        COUNTSM(STARM2.out.read_per_gene_tab2)
+        COUNTSM2(STARM2.out.read_per_gene_tab2)
     }
 
 
@@ -380,13 +380,15 @@ workflow PAIRED {
     }
 
     if( params.genome != null ){
-    mqc_ch1 = STARM.out.read_per_gene_tab
+        mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
                 .collect()
                 //.view()
 
 
-    MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
+        COUNTSM(STARM.out.read_per_gene_tab)
+
     }
 
     if( params.genome2 != null ){
@@ -403,7 +405,7 @@ workflow PAIRED {
     
 
         MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
-
+        COUNTSM2(STARM2.out.read_per_gene_tab2)
     }
 
 }
