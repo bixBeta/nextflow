@@ -1,5 +1,6 @@
 reports:
-  "sample-sheet2.csv":
-    display: "Sample Sheet Report" 
+  multiqc_report.html:
+    display: "MultiQC HTML report"
 
-  
+  "**/GBCOV/CO.geneBodyCoverage.curves.pdf":
+    display: "All samples STAR Salmon DESeq2 QC PDF plots"
