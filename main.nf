@@ -5,7 +5,6 @@ params.outdir           = "$projectDir/STAR_OUT"
 params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
 params.help             = false
 params.listGenomes      = false
-params.star             = false
 params.genome           = null
 params.mode             = "PE"
 params.id               = "TREx_ID"
@@ -14,6 +13,7 @@ params.chromosub        = "10"
 params.genome2          = null
 params.splitname        = "na"
 params.screen           = false
+params.strand           = 2
 
 runmode = params.mode
 pin = channel.value(params.id)
@@ -184,9 +184,9 @@ if( params.listGenomes) {
 }
 
 include {   FASTPM                   } from './modules/fastp'
-include {   STARM                    } from './modules/star'
+include {   STARM ; COUNTSM          } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
-include {   STARM2                   } from './modules/realign'
+include {   STARM2 ; COUNTSM         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
 
@@ -299,6 +299,8 @@ workflow SINGLE {
     
 
         MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
+
+        COUNTSM(STARM.out.read_per_gene_tab)
     }
 
 
@@ -316,7 +318,7 @@ workflow SINGLE {
     
 
         MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
-
+        COUNTSM(STARM2.out.read_per_gene_tab2)
     }
 
 
