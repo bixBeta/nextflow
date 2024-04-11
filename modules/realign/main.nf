@@ -1,6 +1,7 @@
-runmode     = params.mode
-splitmap    = params.genome2
-gkey        = params.genome
+runmode         = params.mode
+splitmap        = params.genome2
+gkey            = params.genome
+strandedness    = params.strand
 
 
 process STARM2 {
@@ -130,3 +131,41 @@ process STARM2 {
 
 
 
+process COUNTSM2 {
+
+    publishDir "STAR_COUNTS2/rawCounts2" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
+
+    input:
+        path(counts)
+
+    output:
+        path "*.rawCounts"            ,         emit: raw_counts
+
+    script:
+
+        if ( strandedness == 2 )
+
+        """
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$4}' ${counts} > \$BASE.rawCounts
+
+        """
+
+        else if ( strandedness == 1 )
+
+        """
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$3}' ${counts} > \$BASE.rawCounts
+        
+        """
+
+        else 
+
+        """
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$2}' ${counts} > \$BASE.rawCounts
+        
+        """
+
+
+}
