@@ -186,7 +186,7 @@ if( params.listGenomes) {
 include {   FASTPM                   } from './modules/fastp'
 include {   STARM ; COUNTSM          } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
-include {   STARM2 ; COUNTSM         } from './modules/realign'
+include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
 
