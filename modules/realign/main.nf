@@ -146,24 +146,24 @@ process COUNTSM2 {
         if ( strandedness == 2 )
 
         """
-        BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print \$1 "\t" \$4}' ${count} > \$BASE.rawCounts
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$4}' ${counts} > \$BASE.rawCounts
 
         """
 
         else if ( strandedness == 1 )
 
         """
-        BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print \$1 "\t" \$3}' ${count} > \$BASE.rawCounts
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$3}' ${counts} > \$BASE.rawCounts
         
         """
 
         else 
 
         """
-        BASE=`basename ${count} .ReadsPerGene.out.tab`
-        awk 'NR > 4 {print \$1 "\t" \$2}' ${count} > \$BASE.rawCounts
+        BASE=`basename ${counts} .ReadsPerGene.out.tab`
+        awk 'NR > 4 {print \$1 "\t" \$2}' ${counts} > \$BASE.rawCounts
         
         """
 
