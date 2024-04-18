@@ -344,11 +344,11 @@ workflow PAIRED {
 
 
     FASTPM(meta_ch)
-       // .set { fastp_out }
+        .set { fastp_out }
         
-    //fastp_out.view()
+    fastp_out.view()
 
-    FASTPM.out.r1_for_screen.view()
+    
                         
                                  
 
@@ -360,7 +360,7 @@ workflow PAIRED {
     // MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     
     if( params.genome != null ){
-        STARM(FASTPM.out.trimmed_reads, genome_ch)
+        STARM(fastp_out, genome_ch)
     
     bam_ch = STARM.out.bam_sorted 
                 | collect
