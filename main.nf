@@ -346,7 +346,7 @@ workflow PAIRED {
     FASTPM(meta_ch)
        // .set { fastp_out }
         
-    fastp_out.view()
+    //fastp_out.view()
 
     FASTPM.out.r1_for_screen.view()
                         
