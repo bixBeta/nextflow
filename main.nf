@@ -349,12 +349,12 @@ workflow PAIRED {
 //     screen_input_ch = FASTPM.out.trimmed_reads 
                                    
 
-//    SCREENM(screen_input_ch, ch_screen_conf)
+   SCREENM(fastp_out, ch_screen_conf)
 
-//    screen_out_ch = SCREENM.out 
-//                        | collect
+   screen_out_ch = SCREENM.out 
+                       | collect
 
-//    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+   MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
