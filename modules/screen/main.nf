@@ -17,7 +17,7 @@ process SCREENM {
         path '*'
 
     when: 
-        screen == "true"    
+        screen == true    
 
     script:
     
