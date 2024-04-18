@@ -349,7 +349,7 @@ workflow PAIRED {
     fastp_out.view()
 
 
-    SCREENM(fastp_out, ch_screen_conf)
+    SCREENM(fastp_out.collect.flatten, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
