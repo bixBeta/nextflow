@@ -256,9 +256,9 @@ workflow SINGLE {
     
     fastp_out.view()
 
-    // screen_input_ch = fastp_out.view()
+    screen_input_ch = FASTPM.out.trimmed_reads.view()
 
-    SCREENM(fastp_out, ch_screen_conf)
+    SCREENM(screen_input_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
