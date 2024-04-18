@@ -253,12 +253,10 @@ workflow SINGLE {
 
     FASTPM(meta_ch)
         .set { fastp_out }
-    
-    fastp_out.view()
 
-    screen_input_ch = FASTPM.out.trimmed_reads.view()
 
-    SCREENM(screen_input_ch, ch_screen_conf)
+
+    SCREENM(fastp_out, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
@@ -345,16 +343,15 @@ workflow PAIRED {
 
     FASTPM(meta_ch)
         .set { fastp_out }
-        
-    fastp_out.view()
+   
 
-    // test_ch =  FASTPM.out
-    //             | view                      
+    // fastp_out.view()
+
 
     SCREENM(fastp_out, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
-                       | collect
+                        | collect
 
     MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     
@@ -450,5 +447,4 @@ workflow {
 /* ---------------------------------------------------------------------------------------------------------
 GLOBAL PROCESSES
 ------------------------------------------------------------------------------------------------------------ */
-
 
