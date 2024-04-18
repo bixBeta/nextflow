@@ -343,10 +343,10 @@ workflow PAIRED {
 
     FASTPM(meta_ch)
         .set { fastp_out }
-        .view
+        
    
 
-    // fastp_out.view()
+    fastp_out.view()
 
 
     SCREENM(fastp_out, ch_screen_conf)
