@@ -348,9 +348,9 @@ workflow PAIRED {
         
     fastp_out.view()
 
-    screen_input_ch = FASTPM.out.r1_for_screen 
-                        | view
-                                   
+    screen_input_ch = FASTPM.out.r1_for_screen
+                        
+     screen_input_ch.view()                                
 
     // SCREENM(fastp_out, ch_screen_conf)
 
