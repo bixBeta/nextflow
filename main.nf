@@ -347,6 +347,7 @@ workflow PAIRED {
     fastp_out.view()
 
     screen_input_ch = FASTPM.out.trimmed_reads 
+                        | flatten    
                         | view
                                    
 
