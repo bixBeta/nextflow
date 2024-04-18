@@ -348,7 +348,7 @@ workflow PAIRED {
 
     screen_input_ch = FASTPM.out.trimmed_reads 
                         | collect(flat: false)
-                        //| flatten 
+                        | flatten 
                         | view             
 
 //    SCREENM(screen_input_ch, ch_screen_conf)
