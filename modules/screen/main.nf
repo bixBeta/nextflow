@@ -14,7 +14,8 @@ process SCREENM {
         path(screen_conf)
 
     output:
-        path '*'
+        path '*html'
+        path '*txt'
  
 
     script:
