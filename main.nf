@@ -254,8 +254,7 @@ workflow SINGLE {
     FASTPM(meta_ch)
         .set { fastp_out }
 
-    screen_input_ch = FASTPM.out.trimmed_reads 
-                    | view
+    screen_input_ch = fastp_out.view
 
     SCREENM(screen_input_ch, ch_screen_conf)
 
