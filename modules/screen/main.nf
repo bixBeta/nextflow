@@ -6,8 +6,7 @@ process SCREENM {
     label 'process_screen'
     tag "$id"
 
-    publishDir "fq_screen" , overwrite: true, pattern: "*html"
-    publishDir "fq_screen" , overwrite: true, pattern: "*txt"
+    publishDir "fq_screen" , overwrite: true
 
     input:
         tuple val(id), path(trimmed)
