@@ -351,7 +351,7 @@ workflow PAIRED {
                         | flatten 
                         | view             
 
-    SCREENM(screen_input_ch, ch_screen_conf)
+//    SCREENM(screen_input_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
