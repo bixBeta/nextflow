@@ -253,10 +253,12 @@ workflow SINGLE {
 
     FASTPM(meta_ch)
         .set { fastp_out }
+    
+    fastp_out.view()
 
-    screen_input_ch = fastp_out.view()
+    // screen_input_ch = fastp_out.view()
 
-    SCREENM(screen_input_ch, ch_screen_conf)
+    SCREENM(fastp_out, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
@@ -347,7 +349,6 @@ workflow PAIRED {
     fastp_out.view()
 
     screen_input_ch = FASTPM.out.trimmed_reads 
-                        | flatten    
                         | view
                                    
 
