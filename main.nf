@@ -356,7 +356,7 @@ workflow PAIRED {
     screen_out_ch = SCREENM.out 
                         | collect
 
-    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+//    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
