@@ -13,6 +13,7 @@ process FASTPM {
     
     output:
         tuple val(id), path("*gz")         , emit: trimmed_reads
+        path("_val_1.fq.gz")               , emit: r1_for_screen     
         
     script:
 
