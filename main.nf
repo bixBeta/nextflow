@@ -344,7 +344,7 @@ workflow PAIRED {
     FASTPM(meta_ch)
         .set { fastp_out }
         
-    // fastp_out.view()
+    fastp_out.view()
 
     screen_input_ch = FASTPM.out.trimmed_reads 
                         | view
