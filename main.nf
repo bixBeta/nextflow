@@ -255,8 +255,8 @@ workflow SINGLE {
         .set { fastp_out }
 
 
-
-    SCREENM(fastp_out, ch_screen_conf)
+    new_ch = fastp_out 
+    SCREENM(new_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
