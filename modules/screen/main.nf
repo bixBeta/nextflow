@@ -24,7 +24,7 @@ process SCREENM {
     if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
      
     """
-     fastq_screen --conf ${screen_conf} ${trimmed[0]}       
+     fastq_screen --conf ${screen_conf} ${trimmed}       
     
     """
        
