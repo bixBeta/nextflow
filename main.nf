@@ -254,6 +254,7 @@ workflow SINGLE {
     FASTPM(meta_ch)
         //.set { fastp_out }
 
+    FASTPM.out.view 
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
