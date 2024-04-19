@@ -257,8 +257,9 @@ workflow SINGLE {
 
     FASTPM.out 
         .set {test_ch}
-        .view()
-        
+    
+    test_ch.view()
+
     SCREENM(test_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
