@@ -1,3 +1,5 @@
+mqc.genome =  params.genome 
+
 process MQC {
 
     label 'process_mqc'
@@ -44,6 +46,7 @@ process MQC2 {
     script:
 
     """
+       export  MQC_GENOME=${mqc.genome}
        multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
 
     """
