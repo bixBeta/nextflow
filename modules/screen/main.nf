@@ -9,7 +9,7 @@ process SCREENM {
     publishDir "fq_screen" , overwrite: true
 
     input:
-        tuple val(id), path(r1)
+        tuple val(id), path(trimmed)
         path(screen_conf)
 
     output:
@@ -23,7 +23,7 @@ process SCREENM {
     if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
      
     """
-     fastq_screen --conf ${screen_conf} ${r1}       
+     fastq_screen --conf ${screen_conf} ${trimmed}       
     
     """
        
@@ -32,7 +32,7 @@ process SCREENM {
     else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" ){
 
     """
-     fastq_screen --conf ${screen_conf} ${r1}       
+     fastq_screen --conf ${screen_conf} ${trimmed[0]}       
     
     """
 
