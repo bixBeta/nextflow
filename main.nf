@@ -257,17 +257,24 @@ workflow SINGLE {
 
     if( params.screen ) {
     
-    test_ch = FASTPM.out.trimmed_fqs.view()
+    test_ch = FASTPM.out.trimmed_fqs
+                .multiMap { it -> 
+                foo: it
+                bar: it}
+                .set{result}
+    
+    result.foo.view()
+    result.bar.view()
     
 
-    SCREENM(test_ch, ch_screen_conf)
+    // SCREENM(test_ch, ch_screen_conf)
 
-    screen_out_ch = SCREENM.out 
-                        | collect
+    // screen_out_ch = SCREENM.out 
+    //                     | collect
     
-    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+    // MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
-    
+
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
