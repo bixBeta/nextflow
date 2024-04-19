@@ -260,7 +260,7 @@ workflow SINGLE {
     test_ch = FASTPM.out.trimmed_fqs
                 .multiMap { it -> 
                 foo: it
-                bar: it}
+                bar: it[0]}
                 .set{result}
     
     result.foo.view()
