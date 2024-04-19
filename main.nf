@@ -267,12 +267,12 @@ workflow SINGLE {
     result.bar.view()
     
 
-    // SCREENM(test_ch, ch_screen_conf)
+    SCREENM(result.bar, ch_screen_conf)
 
-    // screen_out_ch = SCREENM.out 
-    //                     | collect
+    screen_out_ch = SCREENM.out 
+                        | collect
     
-    // MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
 
     if( params.genome != null ){

@@ -9,7 +9,7 @@ process SCREENM {
     publishDir "fq_screen" , overwrite: true
 
     input:
-        tuple val(id), path(r1)
+        path(r1)
         path(screen_conf)
 
     output:
