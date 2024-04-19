@@ -271,9 +271,9 @@ workflow SINGLE {
 
     if( params.screen ) {
     
-    in_ch = channel.from(FASTPM.out)    
+    in_ch = FASTPM.out
     in_ch.view()
-    
+
     SCREENM(in_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
