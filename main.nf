@@ -256,6 +256,7 @@ workflow SINGLE {
 
 
     new_ch = FASTPM.out
+                | map { it -> [it + it ]}
     new_ch.view()
 
     SCREENM(new_ch, ch_screen_conf)
