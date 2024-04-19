@@ -259,12 +259,12 @@ workflow SINGLE {
                 | map { it -> [it + it ]}
     new_ch.view()
 
-    // SCREENM(new_ch, ch_screen_conf)
+    SCREENM(FASTPM.out, ch_screen_conf)
 
-    // screen_out_ch = SCREENM.out 
-    //                     | collect
+    screen_out_ch = SCREENM.out 
+                        | collect
     
-    // MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
 
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
