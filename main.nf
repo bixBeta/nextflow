@@ -254,17 +254,6 @@ workflow SINGLE {
     FASTPM(meta_ch)
         //.set { fastp_out }
 
-
-    if( params.screen ) {
-    
-    SCREENM(FASTPM.out, ch_screen_conf)
-
-    screen_out_ch = SCREENM.out 
-                        | collect
-    
-    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
-    }
-
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
@@ -277,6 +266,18 @@ workflow SINGLE {
     // chromo_sub = channel.value(params.gbcov)
      chromo_sub = channel.value(params.chromosub)
     }
+
+    if( params.screen ) {
+    
+    SCREENM(FASTPM.out, ch_screen_conf)
+
+    screen_out_ch = SCREENM.out 
+                        | collect
+    
+    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+    }
+
+
 
     if ( params.gbcov & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
