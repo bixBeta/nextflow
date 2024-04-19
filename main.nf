@@ -195,7 +195,7 @@ ch_sheet = channel.fromPath(params.sheet)
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
 ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 
-ch_screen_conf = channel.fromPath("${projectDir}/screen.conf")
+ch_screen_conf = channel.value("${projectDir}/screen.conf")
 splitName = params.splitname
 
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
@@ -254,7 +254,7 @@ workflow SINGLE {
     FASTPM(meta_ch)
         //.set { fastp_out }
 
-    FASTPM.out.view()
+    //FASTPM.out.view()
 
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
@@ -270,11 +270,8 @@ workflow SINGLE {
     }
 
     if( params.screen ) {
-    
-    in_ch = FASTPM.out
-    in_ch.view()
 
-    SCREENM(in_ch, ch_screen_conf)
+    SCREENM(FASTPM.out, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
@@ -355,21 +352,22 @@ workflow PAIRED {
 
     // fastp_out.view()
 
+    if (params.screen){
 
-    SCREENM(fastp_out, ch_screen_conf)
+        SCREENM(fastp_out, ch_screen_conf)
 
-    screen_out_ch = SCREENM.out 
+        screen_out_ch = SCREENM.out 
                         | collect
 
-    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
-    
+        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+    }
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
     
-    bam_ch = STARM.out.bam_sorted 
+        bam_ch = STARM.out.bam_sorted 
                 | collect
                 | flatten
-    unmapped_ch = STARM.out.unmapped
+        unmapped_ch = STARM.out.unmapped
     
     // chromo_sub = channel.value(params.gbcov)
        chromo_sub = channel.value(params.chromosub)
