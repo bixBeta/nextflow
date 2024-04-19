@@ -259,7 +259,10 @@ workflow SINGLE {
                 .collect(flat: true)
                 .view()
 
-    SCREENM(FASTPM.out, ch_screen_conf)
+    FASTPM.out 
+        .set {test_ch}
+
+    SCREENM(test_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
