@@ -256,7 +256,7 @@ workflow SINGLE {
 
 
     new_ch = FASTPM.out
-                .collect(flat: false)
+                .collect(flat: true)
                 .view()
 
     SCREENM(FASTPM.out, ch_screen_conf)
