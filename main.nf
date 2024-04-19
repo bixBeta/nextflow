@@ -256,8 +256,7 @@ workflow SINGLE {
 
 
     new_ch = FASTPM.out
-                .collect()
-                .filter( ~/^*gz/ )
+                .collect(flat: false)
                 .view()
 
     SCREENM(FASTPM.out, ch_screen_conf)
