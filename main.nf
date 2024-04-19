@@ -255,11 +255,10 @@ workflow SINGLE {
         //.set { fastp_out }
 
 
-    FASTPM.out 
-        .set {test_ch}
+
     
-    FASTPM.out.trimmed_fqs.view()
-    test_ch.view()
+    test_ch = FASTPM.out.trimmed_fqs.view()
+    
 
     SCREENM(test_ch, ch_screen_conf)
 
