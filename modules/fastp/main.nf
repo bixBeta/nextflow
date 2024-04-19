@@ -1,9 +1,9 @@
 runmode = params.mode
 
 process FASTPM {
-    maxForks 10
+    maxForks 8
     tag "$id"
-    label 'process_medium'
+    label 'process_high'
     
     publishDir "trimmed_fastqs", mode: "symlink", overwrite: true
 
