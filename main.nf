@@ -255,7 +255,7 @@ workflow SINGLE {
         //.set { fastp_out }
 
     FASTPM.out.view()
-    
+
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
@@ -271,7 +271,10 @@ workflow SINGLE {
 
     if( params.screen ) {
     
-    SCREENM(FASTPM.out, ch_screen_conf)
+    in_ch = channel.from(FASTPM.out)    
+    in_ch.view()
+    
+    SCREENM(in_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
