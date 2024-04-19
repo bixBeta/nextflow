@@ -255,7 +255,7 @@ workflow SINGLE {
         //.set { fastp_out }
 
 
-
+    if( params.screen ) {
     
     test_ch = FASTPM.out.trimmed_fqs.view()
     
@@ -266,7 +266,7 @@ workflow SINGLE {
                         | collect
     
     MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
-
+    }
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
