@@ -255,13 +255,10 @@ workflow SINGLE {
         //.set { fastp_out }
 
 
-    new_ch = FASTPM.out
-                .collect(flat: true)
-                .view()
-
     FASTPM.out 
         .set {test_ch}
-
+        .view()
+        
     SCREENM(test_ch, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
