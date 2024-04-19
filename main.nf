@@ -267,6 +267,7 @@ workflow SINGLE {
     
     MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
+    
     if( params.genome != null ){
     STARM(FASTPM.out, genome_ch)
 
