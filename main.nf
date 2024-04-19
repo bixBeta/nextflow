@@ -257,17 +257,7 @@ workflow SINGLE {
 
     if( params.screen ) {
     
-    test_ch = FASTPM.out.trimmed_fqs
-                .multiMap { it -> 
-                foo: it
-                bar: it[1]}
-                .set{result}
-    
-//    result.foo.view()
-    result.bar.view()
-    
-
-    SCREENM(result.bar, ch_screen_conf)
+    SCREENM(FASTPM.out, ch_screen_conf)
 
     screen_out_ch = SCREENM.out 
                         | collect
