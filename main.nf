@@ -252,10 +252,10 @@ workflow SINGLE {
     
 
     FASTPM(meta_ch)
-        .set { fastp_out }
+        //.set { fastp_out }
 
 
-    new_ch = fastp_out
+    new_ch = FASTPM.out
     new_ch.view()
 
     SCREENM(new_ch, ch_screen_conf)
@@ -266,7 +266,7 @@ workflow SINGLE {
     MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
 
     if( params.genome != null ){
-    STARM(fastp_out, genome_ch)
+    STARM(FASTPM.out, genome_ch)
 
     bam_ch = STARM.out.bam_sorted 
                 | collect
