@@ -12,7 +12,7 @@ process FASTPM {
         tuple val(id), path(reads)
     
     output:
-        tuple val(id), path("*gz")        
+        tuple val(id), path("*gz")       , emit: trimmed_fqs
              
         
     script:
