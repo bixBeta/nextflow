@@ -49,9 +49,10 @@ Args:
         . etc.
         -------------------------------------------
 
+    * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
-    * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index
-    * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details 
+    * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index.
+    * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details. 
     * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
@@ -69,13 +70,14 @@ R  N  A -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
 =========================================================================================================================
 trexID       : ${params.id}
 reads        : ${params.reads}
+fastp        : ${params.fastp}
 genome       : ${params.genome}
 mode         : ${params.mode}
 genome2      : ${params.genome2}
 screen       : ${params.screen}
 gbcov        : ${params.gbcov}
 chromosub    : ${params.chromosub}
-
+splitname    : ${params.splitname}
 """
 
 // STAR index MAP
@@ -264,6 +266,9 @@ workflow SINGLE {
 
         FASTPM(meta_ch)
 
+    } else {
+
+        fastp_out = meta_ch
     }
 
     if( params.genome != null ){
