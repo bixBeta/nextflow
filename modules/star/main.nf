@@ -4,7 +4,7 @@ strandedness    = params.strand
 
 
 process STARM {
-    maxForks 1
+    maxForks 3
     tag "$id"
     label 'process_high'
     
