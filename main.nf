@@ -360,6 +360,9 @@ workflow PAIRED {
         FASTPM(meta_ch)
             .set { fastp_out }
     
+    } else {
+
+        fastp_out = meta_ch
     }
     
 
@@ -372,7 +375,7 @@ workflow PAIRED {
 
         MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
-    
+
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
     
