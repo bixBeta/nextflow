@@ -1,19 +1,27 @@
 nextflow.enable.dsl=2
 
+// Project Params:
 params.sheet            = "sample-sheet.csv"
 params.outdir           = "$projectDir/STAR_OUT"
 params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
+
+// Module Params:
 params.help             = false
 params.listGenomes      = false
-params.genome           = null
+params.gbcov            = false
+params.screen           = false
+params.fastp            = false
+
+// Defaule Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
-params.gbcov            = false
+params.strand           = 2
 params.chromosub        = "10"
 params.genome2          = null
+params.genome           = null
 params.splitname        = "na"
-params.screen           = false
-params.strand           = 2
+
+
 
 runmode = params.mode
 pin = channel.value(params.id)
@@ -252,33 +260,33 @@ workflow SINGLE {
                 |  map { row -> [row.label, [file("fastqs/" + row.fastq1)]] }
                 |  view
     
+    if(params.fastp){
 
-    FASTPM(meta_ch)
-        //.set { fastp_out }
+        FASTPM(meta_ch)
 
-    //FASTPM.out.view()
+    }
 
     if( params.genome != null ){
-    STARM(FASTPM.out, genome_ch)
+        STARM(FASTPM.out, genome_ch)
 
-    bam_ch = STARM.out.bam_sorted 
+        bam_ch = STARM.out.bam_sorted 
                 | collect
                 | flatten
 
-    unmapped_ch = STARM.out.unmapped
+        unmapped_ch = STARM.out.unmapped
 
-    // chromo_sub = channel.value(params.gbcov)
-     chromo_sub = channel.value(params.chromosub)
+        // chromo_sub = channel.value(params.gbcov)
+        chromo_sub = channel.value(params.chromosub)
     }
 
     if( params.screen ) {
 
-    SCREENM(FASTPM.out, ch_screen_conf)
+        SCREENM(FASTPM.out, ch_screen_conf)
 
-    screen_out_ch = SCREENM.out 
-                        | collect
-    
-    MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+        screen_out_ch = SCREENM.out 
+                            | collect
+        
+        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
 
 
@@ -347,12 +355,13 @@ workflow PAIRED {
                 |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
                 |  view
 
+    if(params.fastp){
 
-    FASTPM(meta_ch)
-        .set { fastp_out }
-   
-
-    // fastp_out.view()
+        FASTPM(meta_ch)
+            .set { fastp_out }
+    
+    }
+    
 
     if (params.screen){
 
@@ -363,6 +372,7 @@ workflow PAIRED {
 
         MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
+    
     if( params.genome != null ){
         STARM(fastp_out, genome_ch)
     
