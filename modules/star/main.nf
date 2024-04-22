@@ -172,7 +172,7 @@ process STARM {
 
 process COUNTSM {
 
-    publishDir "STAR_COUNTS/rawCounts" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
+    publishDir "STAR_COUNTS/${gkey}/rawCounts" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
 
     input:
         path(counts)
