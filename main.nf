@@ -272,7 +272,7 @@ workflow SINGLE {
     }
 
     if( params.genome != null ){
-        STARM(FASTPM.out, genome_ch)
+        STARM(fastp_out, genome_ch)
 
         bam_ch = STARM.out.bam_sorted 
                 | collect
@@ -286,7 +286,7 @@ workflow SINGLE {
 
     if( params.screen ) {
 
-        SCREENM(FASTPM.out, ch_screen_conf)
+        SCREENM(fastp_out, ch_screen_conf)
 
         screen_out_ch = SCREENM.out 
                             | collect
