@@ -24,8 +24,8 @@ process SCREENM {
      
     """
      fastq_screen --conf ${screen_conf} ${trimmed[0]} 
-     mv *_R1_screen.txt ${tag}_R1_screen.txt
-     mv *_R1_screen.html ${tag}_R1_screen.html
+     mv *_R1_screen.txt ${id}_R1_screen.txt
+     mv *_R1_screen.html ${id}_R1_screen.html
     
     """
        
@@ -35,8 +35,8 @@ process SCREENM {
 
     """
      fastq_screen --conf ${screen_conf} ${trimmed[0]}       
-     mv *_R1_screen.txt ${tag}_R1_screen.txt
-     mv *_R1_screen.html ${tag}_R1_screen.html
+     mv *_R1_screen.txt ${id}_R1_screen.txt
+     mv *_R1_screen.html ${id}_R1_screen.html
     
     """
 
