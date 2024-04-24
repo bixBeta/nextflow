@@ -24,3 +24,7 @@ Use the following command to ensure the usage of the latest version of the pipel
 ```
 nextflow pull https://github.com/bixbeta/nextflow -r main 
 ```
+<hr>
+TREx Workflow:
+
+![](img/TREX-RNA.png)
