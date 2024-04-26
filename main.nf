@@ -265,6 +265,7 @@ workflow SINGLE {
     if(params.fastp){
 
         FASTPM(meta_ch)
+            .set { fastp_out }
 
     } else {
 
