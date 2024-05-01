@@ -1,4 +1,5 @@
 # Nextflow Pipeline for RNA-seq runs on GG02 
+![](img/trex-extended-logo.png)
 
 <hr>
 
