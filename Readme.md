@@ -1,5 +1,6 @@
 # Nextflow Pipeline for RNA-seq runs on GG02 
-![](img/trex-extended-logo.png)
+[![](img/trex-extended-logo.png)](https://trex.biotech.cornell.edu/)
+
 
 <hr>
 
