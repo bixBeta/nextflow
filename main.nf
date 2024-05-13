@@ -48,7 +48,13 @@ Args:
         .
         . etc.
         -------------------------------------------
-
+    * --mode            : use 'PE'   for paired end data; default <PE>
+                        : use 'PES'  for paired end data + split unmapped
+                        : use 'PEBS' for paired end bacterial data + split unmapped
+                        : use 'SE'   for single end data
+                        : use 'SES'  for single end data + split unmapped
+                        : use 'SEBS' for single end bacterial data + split unmapped
+    * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
     * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index.
@@ -121,7 +127,7 @@ salmonella2			:"/workdir/genomes/Salmonella_enterica/ASM2216v1/NCBI/genomeDir",
 EA273				:"/workdir/genomes/Erwinia_amylovora/GCF_000091565.1/ncbi/genomeDir",
 ddSmed				:"/workdir/genomes/Schmidtea_mediterranea/dd_Smed_v6/NCBI/genomeDir",
 yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENSEMBL/star.index",
-arabidopsis				:"/workdir/genomes/Arabidopsis_thaliana/TAIR10/ENSEMBL/genomeDir",
+arabidopsis			:"/workdir/genomes/Arabidopsis_thaliana/TAIR10/ENSEMBL/genomeDir",
 crow				:"/workdir/genomes/Corvus_moneduloides/bCorMon1/NCBI/genomeDir",
 orbicella			:"/workdir/genomes/Orbicella_faveolata/GCA_002042975.1/ncbi/genomeDir",
 bacillus			:"/workdir/genomes/Bacillus_subtilis/GCA_000009045/ENSEMBL/genomeDir",
