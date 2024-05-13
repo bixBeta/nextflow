@@ -134,7 +134,8 @@ tomato				:"/workdir/genomes/Solanum_lycopersicum/custom/genomeDir",
 macaca				:"/workdir/genomes/Macaca_fascicularis/GCF_000364345.1_Macaca_fascicularis_5.0/NCBI/genomeDir",
 triticum            :"/workdir/genomes/Triticum_aestivum/IWGSC_CS_RefSeq-v2-1/NCBI/genomeDir",
 cassava             :"/workdir/genomes/Manihot_esculenta_Cassava/Mesculenta_v8/NCBI/genomeDir",
-gluconobacter       :"/workdir/genomes/Gluconobacter_oxydans/GCF_020180925.1/NCBI/genomeDir"]
+gluconobacter       :"/workdir/genomes/Gluconobacter_oxydans/GCF_020180925.1/NCBI/genomeDir",
+calypte             :"/workdir/genomes/Calypte_anna/GCF_003957555.1_bCalAnn1_v1.p/NCBI/genomeDir/"]
 
 // BED12's for RSEQC geneBody coverage process 
 bed12 = [
