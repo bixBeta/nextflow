@@ -29,4 +29,4 @@ nextflow pull https://github.com/bixbeta/nextflow -r main
 <hr>
 TREx Workflow:
 
-![](img/TREX-RNA.png)
+![](img/trex-rna-tubemap.png)
