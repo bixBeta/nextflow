@@ -141,6 +141,7 @@ macaca				:"/workdir/genomes/Macaca_fascicularis/GCF_000364345.1_Macaca_fascicul
 triticum            :"/workdir/genomes/Triticum_aestivum/IWGSC_CS_RefSeq-v2-1/NCBI/genomeDir",
 cassava             :"/workdir/genomes/Manihot_esculenta_Cassava/Mesculenta_v8/NCBI/genomeDir",
 gluconobacter       :"/workdir/genomes/Gluconobacter_oxydans/GCF_020180925.1/NCBI/genomeDir",
+rosCanFam1          :"/workdir/genomes/Canis_familiaris/Ros_CanFam1.0/ENSEMBL/RosCanFam1.star",
 calypte             :"/workdir/genomes/Calypte_anna/GCF_003957555.1_bCalAnn1_v1.p/NCBI/genomeDir/"]
 
 // BED12's for RSEQC geneBody coverage process 
@@ -163,6 +164,7 @@ maize4				:"/workdir/genomes/Zea_mays/B73_RefGen_v4/ENSEMBL/Zea_mays.B73_RefGen_
 finch				:"/workdir/genomes/Taeniopygia_guttata/taeGut3.2.4/ENSEMBL/UPDATED.ANNOTS/Taeniopygia_guttata.bTaeGut1_v1.p.bed12",
 finch2				:"/workdir/genomes/Geospiza_fortis_ground_finch/GeoFor_1.0/NCBI/GCF_000277835.1_GeoFor_1.0_genomic.bed12",
 dog					:"/workdir/genomes/Canis_familiaris/canFam3/ENSEMBL/CanFam3.1.101/Canis_lupus_familiaris.CanFam3.1.101.bed12",
+rosCanFam1          :"/workdir/genomes/Canis_familiaris/Ros_CanFam1.0/ENSEMBL/Canis_lupus_familiaris.ROS_Cfam_1.0.bed12",
 aedes				:"/workdir/genomes/Aedes_aegypti/AaegL5.0/NCBI/GCF_002204515.2_AaegL5.0_genomic.bed12",
 aedesVB				:"/workdir/genomes/Aedes_aegypti/AaegL5.0/Vectorbase/AaegyptiLVP_AGWG_release49/VectorBase-49_AaegyptiLVP_AGWG.BED12",
 cow					:"/workdir/genomes/Bos_taurus/ARS-UCD1.2_GCA_002263795.2/ENSEMBL/Bos_taurus.ARS-UCD1.2.BED12",
