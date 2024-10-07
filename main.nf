@@ -12,7 +12,7 @@ params.gbcov            = false
 params.screen           = false
 params.fastp            = false
 
-// Defaule Params:
+// Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
 params.strand           = 2
@@ -20,7 +20,7 @@ params.chromosub        = "10"
 params.genome2          = null
 params.genome           = null
 params.splitname        = "na"
-
+params.screenconf       = "${projectDir}/screen.conf"
 
 
 runmode = params.mode
@@ -217,7 +217,12 @@ ch_sheet = channel.fromPath(params.sheet)
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
 ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 
-ch_screen_conf = channel.value("${projectDir}/screen.conf")
+
+
+ch_screen_conf = channel.fromPath(params.screenconf)
+
+
+
 splitName = params.splitname
 
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
