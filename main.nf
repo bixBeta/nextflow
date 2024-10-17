@@ -62,6 +62,7 @@ Args:
     * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
+    * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
 
 """
 
@@ -389,10 +390,14 @@ workflow PAIRED {
 
     if (params.screen){
 
+        fastp_out 
+            | view 
+
         SCREENM(fastp_out, ch_screen_conf)
 
         screen_out_ch = SCREENM.out 
                         | collect
+                        | view 
 
         MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
