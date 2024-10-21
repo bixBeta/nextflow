@@ -220,7 +220,7 @@ ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 
 
 
-ch_screen_conf = channel.fromPath(params.screenconf)
+ch_screen_conf = channel.value(params.screenconf)
 
 
 
