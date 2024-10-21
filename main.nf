@@ -391,7 +391,6 @@ workflow PAIRED {
     if (params.screen){
 
         fastp_out 
-            | collect
             | view 
 
         SCREENM(fastp_out, ch_screen_conf)
