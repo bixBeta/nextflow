@@ -1,4 +1,4 @@
-mqcgenome =  params.genome 
+// mqcgenome =  params.genome 
 
 process MQC {
 
@@ -9,7 +9,8 @@ process MQC {
 
         path "*"
         path(conf)
-        path(logo)             
+        path(logo)  
+        val(mqcgenome)           
 
     output:
         path "*html"                    , emit: mqc_out  
@@ -38,7 +39,8 @@ process MQC2 {
         path "*"              
         path(conf)
         path(logo)  
-    
+        val(mqcgenome)
+        
     output:
         path "*html"                    , emit: mqc_out2  
 

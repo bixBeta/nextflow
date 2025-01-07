@@ -1,5 +1,4 @@
 runmode         = params.mode
-gkey            = params.genome
 strandedness    = params.strand
 
 
@@ -8,12 +7,13 @@ process STARM {
     tag "$id"
     label 'process_high'
     
-    publishDir "STAR_BAMS/${gkey}"   , mode: "symlink", overwrite: true , pattern: "*.bam"
-    publishDir "STAR_COUNTS/${gkey}" , mode: "symlink", overwrite: true , pattern: "*ReadsPerGene.out.tab"
+    publishDir "STAR_BAMS/${mqcgenome}"   , mode: "symlink", overwrite: true , pattern: "*.bam"
+    publishDir "STAR_COUNTS/${mqcgenome}" , mode: "symlink", overwrite: true , pattern: "*ReadsPerGene.out.tab"
     
     input:
         tuple val(id), path(trimmed)
         path genome
+        val(mqcgenome)
         
 
     output:

@@ -21,7 +21,7 @@ params.genome2          = null
 params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
-
+params.mqcgenome        = null
 
 runmode = params.mode
 pin = channel.value(params.id)
@@ -231,13 +231,17 @@ splitName = params.splitname
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
 
     genome = genomeDir[params.genome]
+    mqcgenome = params.genome
 
 } else {
 
     genome = params.genome
+    mqcgenome = params.mqcgenome
 }
 
 genome_ch = channel.value(genome)
+mqcgenome_ch = channel.value(mqcgenome)
+
 // genome_key_ch = channel.value(params.genome)
 
 if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
@@ -291,7 +295,7 @@ workflow SINGLE {
     }
 
     if( params.genome != null ){
-        STARM(fastp_out, genome_ch)
+        STARM(fastp_out, genome_ch, mqcgenome_ch)
 
         bam_ch = STARM.out.bam_sorted 
                 | collect
@@ -337,7 +341,7 @@ workflow SINGLE {
                 //.view()
     
 
-        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
 
         COUNTSM(STARM.out.read_per_gene_tab.collect().flatten())
     }
@@ -356,7 +360,7 @@ workflow SINGLE {
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
 
-        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
     }
 
@@ -432,7 +436,7 @@ workflow PAIRED {
                 //.view()
 
 
-        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo)
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
         COUNTSM(STARM.out.read_per_gene_tab.collect().flatten())
 
     }
@@ -450,7 +454,7 @@ workflow PAIRED {
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
     
 
-        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo)
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
     }
 
