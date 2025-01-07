@@ -343,7 +343,7 @@ workflow SINGLE {
 
         MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
 
-        COUNTSM(STARM.out.read_per_gene_tab.collect().flatten())
+        COUNTSM(STARM.out.read_per_gene_tab.collect().flatten(),mqcgenome_ch)
     }
 
 
@@ -437,7 +437,7 @@ workflow PAIRED {
 
 
         MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
-        COUNTSM(STARM.out.read_per_gene_tab.collect().flatten())
+        COUNTSM(STARM.out.read_per_gene_tab.collect().flatten(),mqcgenome_ch )
 
     }
 

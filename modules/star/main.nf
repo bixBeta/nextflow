@@ -176,6 +176,7 @@ process COUNTSM {
 
     input:
         path(counts)
+        val(mqcgenome)
 
     output:
         path "*.rawCounts"            ,         emit: raw_counts
