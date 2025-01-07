@@ -60,7 +60,7 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
         
-        BASE=`basename ${gkey}`
+        BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
         
@@ -84,7 +84,7 @@ process STARM {
             --alignIntronMax 1 \
             --alignMatesGapMax 45000 
 
-        BASE=`basename ${gkey}`
+        BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
 
@@ -124,7 +124,7 @@ process STARM {
             --outReadsUnmapped Fastx 
 
 
-        BASE=`basename ${gkey}`
+        BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         mv *.out.mate2 ${id}.non.\${BASE}_val_2.fq
 
@@ -153,7 +153,7 @@ process STARM {
             --alignMatesGapMax 45000     
 
 
-        BASE=`basename ${gkey}`
+        BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         mv *.out.mate2 ${id}.non.\${BASE}_val_2.fq
 
@@ -172,7 +172,7 @@ process STARM {
 
 process COUNTSM {
 
-    publishDir "STAR_COUNTS/${gkey}/rawCounts" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
+    publishDir "STAR_COUNTS/${mqcgenome}/rawCounts" , mode: "symlink", overwrite: true , pattern: "*.rawCounts"
 
     input:
         path(counts)
