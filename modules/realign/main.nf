@@ -1,6 +1,5 @@
 runmode         = params.mode
 splitmap        = params.genome2
-gkey            = params.genome
 strandedness    = params.strand
 
 
@@ -16,7 +15,8 @@ process STARM2 {
         tuple val(id), path(unmapped)
         path genome2
         val splitname
-
+        val gkey 
+        
     output:
         path "*ReadsPerGene.out.tab"                                        , emit: read_per_gene_tab2 
         path "*Log.final.out"                                               , emit: log_final2

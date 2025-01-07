@@ -349,7 +349,7 @@ workflow SINGLE {
 
     if( params.genome2 != null ){
 
-        STARM2(unmapped_ch, genome_ch2, splitName_ch)
+        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
@@ -443,7 +443,7 @@ workflow PAIRED {
 
     if( params.genome2 != null ){
 
-        STARM2(unmapped_ch, genome_ch2, splitName_ch)
+        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
