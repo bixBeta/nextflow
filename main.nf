@@ -101,6 +101,7 @@ horse2				:"/workdir/genomes/Equus_caballus/EquCab2/ENSEMBL/EquCab2.star.index",
 ATCC_13047			:"/workdir/genomes/Enterobacter_cloacae/ATCC_13047/custom/ATCC_13047.GTF",
 grape				:"/workdir/genomes/Vitis_vinifera/GCA_000003745.2/ENSEMBL/Vitis_vinifera.12X.43.bed12",
 rat					:"/workdir/genomes/Rattus_norvegicus/rn6/ENSEMBL/rat.star",
+rn6bn7              :"/workdir/genomes/Rattus_norvegicus/rn6BN7/rn6BN7.genomeDir",
 ercc				:"/workdir/genomes/contaminants/ERCC_spikeIns/ercc.star",
 lonchura			:"/workdir/genomes/Lonchura_striata/LonStrDom1/ENSEMBL/lonchura.star",
 goose				:"/workdir/genomes/Anser_brachyrhynchus/ASM259213v1/ENSEMBL/goose.star",
@@ -160,6 +161,7 @@ horse2				:"/workdir/genomes/Equus_caballus/EquCab2/ENSEMBL/Equus_caballus.EquCa
 ATCC_13047			:"/workdir/genomes/Enterobacter_cloacae/ATCC_13047/GCF_000025565.1_ASM2556v1_genomic.bed12",
 grape				:"/workdir/genomes/Vitis_vinifera/GCA_000003745.2/ENSEMBL/Vitis_vinifera.star",
 rat					:"/workdir/genomes/Rattus_norvegicus/rn6/ENSEMBL/Rattus_norvegicus.Rnor_6.0.bed12",
+rn6bn7              :"/workdir/genomes/Rattus_norvegicus/rn6BN7/Rattus_norvegicus.mRatBN7.2.113.bed12",
 lonchura			:"/workdir/genomes/Lonchura_striata/LonStrDom1/ENSEMBL/Lonchura_striata_domestica.LonStrDom1.bed12",
 goose				:"/workdir/genomes/Anser_brachyrhynchus/ASM259213v1/ENSEMBL/Anser_brachyrhynchus.ASM259213v1.bed12",
 maize4				:"/workdir/genomes/Zea_mays/B73_RefGen_v4/ENSEMBL/Zea_mays.B73_RefGen_v4.bed12",
@@ -247,7 +249,7 @@ if (genomeDir.containsKey(params.genome) &&  params.mqcgenome == null ){  // all
 
     genome = params.genome
     mqcgenome = "Custom_genome_provided"
-    
+
 }
 
 // if (params.mqcgenome != null ){
