@@ -241,7 +241,7 @@ if (genomeDir.containsKey(params.genome) &&  params.mqcgenome == null ){  // all
 } else {
 
     genome = params.genome
-    mqcgenome = "custom_path_provided"
+    mqcgenome = params.mqcgenome
 
 
 }
