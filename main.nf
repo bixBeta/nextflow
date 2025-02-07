@@ -238,12 +238,16 @@ if (genomeDir.containsKey(params.genome) &&  params.mqcgenome == null ){  // all
     genome = genomeDir[params.genome]
     mqcgenome = params.mqcgenome
 
-} else {
+} else if (params.mqcgenome != null){
 
     genome = params.genome
     mqcgenome = params.mqcgenome
 
+} else {
 
+    genome = params.genome
+    mqcgenome = "Custom_genome_provided"
+    
 }
 
 // if (params.mqcgenome != null ){
