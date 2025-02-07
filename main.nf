@@ -232,17 +232,17 @@ if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR inde
 
     genome = genomeDir[params.genome]
 
-        if (params.mqcgenome != null ){
-            mqcgenome = params.mqcgenome
-        } else {
-        mqcgenome = params.genome
-        }
-
 } else {
 
     genome = params.genome
-    mqcgenome = params.mqcgenome
 }
+
+if (params.mqcgenome != null ){
+    mqcgenome = params.mqcgenome
+} else {
+mqcgenome = params.genome
+}
+
 
 genome_ch = channel.value(genome)
 mqcgenome_ch = channel.value(mqcgenome)
