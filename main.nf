@@ -228,20 +228,27 @@ ch_screen_conf = channel.value(params.screenconf)
 
 splitName = params.splitname
 
-if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
+if (genomeDir.containsKey(params.genome) &&  params.mqcgenome == null ){  // allows a user to pass a STAR index path via --genome parameter
 
     genome = genomeDir[params.genome]
+    mqcgenome = params.genome
+
+} else if (genomeDir.containsKey(params.genome) &&  params.mqcgenome != null ) {
+
+    genome = genomeDir[params.genome]
+    mqcgenome = params.mqcgenome
 
 } else {
 
     genome = params.genome
+    mqcgenome = params.mqcgenome
+
+
 }
 
-if (params.mqcgenome != null ){
-    mqcgenome = params.mqcgenome
-} else {
-mqcgenome = params.genome
-}
+// if (params.mqcgenome != null ){
+//     mqcgenome = params.mqcgenome
+// }
 
 
 genome_ch = channel.value(genome)
