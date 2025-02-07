@@ -231,7 +231,12 @@ splitName = params.splitname
 if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR index path via --genome parameter
 
     genome = genomeDir[params.genome]
-    mqcgenome = params.genome
+
+        if (params.mqcgenome){
+            mqcgenome = params.mqcgenome
+        } else {
+        mqcgenome = params.genome
+        }
 
 } else {
 
