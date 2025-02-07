@@ -232,7 +232,7 @@ if (genomeDir.containsKey(params.genome)){  // allows a user to pass a STAR inde
 
     genome = genomeDir[params.genome]
 
-        if (params.mqcgenome){
+        if (params.mqcgenome != null ){
             mqcgenome = params.mqcgenome
         } else {
         mqcgenome = params.genome
