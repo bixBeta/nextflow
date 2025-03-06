@@ -299,7 +299,7 @@ workflow SINGLE {
 
     meta_ch = ch_sheet
                 |  splitCsv( header:true )
-                |  map { row -> [row.label, [file("fastqs/" + row.fastq1)]] }
+                |  map { row -> [row.label, [file(row.fastq1)]] }
                 |  view
     
     if(params.fastp){
@@ -398,7 +398,7 @@ PAIRED END NOVA/NEXT-seq Workflow
 workflow PAIRED {
     meta_ch = ch_sheet
                 |  splitCsv( header:true )
-                |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
+                |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
                 |  view
 
     if(params.fastp){
