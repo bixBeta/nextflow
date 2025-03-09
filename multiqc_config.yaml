@@ -1,4 +1,6 @@
 data_format: 'yaml'
+show_analysis_time: False
+show_analysis_paths: False
 
 report_header_info:
   - Contact E-mail: 'trex_info@cornell.edu'
