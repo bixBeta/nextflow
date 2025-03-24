@@ -68,7 +68,7 @@ Args:
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
     * --mqcgenome       : A string denoting genome info. It will be used in the multiqc header and will also be used to organize results for a given run.
-                          Highly recommended for genomes supplied as path to --genomes param. e.g. --mqcgenome Cat_custom
+                          Highly recommended for genomes supplied as path to --genome param. e.g. --mqcgenome Cat_custom
 """
 
     exit 0
