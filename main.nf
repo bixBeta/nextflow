@@ -41,9 +41,13 @@ Args:
 
         -------------------------------------------
         Sample Sheet Example:    
-        label   fastq1          fastq2
-        SS1     SS1_R1.fastq.gz SS1_R2.fastq.gz
-        SS2     SS2_R1.fastq.gz SS2_R2.fastq.gz  
+        |-------|-----------------|------------------|
+        | label | fastq1          | fastq2           |
+        |-------|-----------------|------------------|
+        | SS1   | SS1_R1.fastq.gz | SS1_R2.fastq.gz  |
+        |-------|-----------------|------------------|
+        | SS2   | SS2_R1.fastq.gz | SS2_R2.fastq.gz  |
+        |-------|-----------------|------------------|
         .
         .
         . etc.
