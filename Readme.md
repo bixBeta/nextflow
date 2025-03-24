@@ -11,7 +11,7 @@ You may use the [ following guide](https://biohpc.cornell.edu/lab/userguide.aspx
 To see if this pipeline works on your account simply run the following command on your terminal:
 
 ```
-nextflow run https://github.com/bixbeta/nextflow -r main --help
+nextflow run https://github.com/bixBeta/nextflow -r main --help
 ```
 
 If successful, you may see the following output on your terminal console:
@@ -24,7 +24,7 @@ It is always a good idea to run the pull command before executing the pipeline. 
 Use the following command to ensure the usage of the latest version of the pipeline:
 
 ```
-nextflow pull https://github.com/bixbeta/nextflow -r main 
+nextflow pull https://github.com/bixBeta/nextflow -r main 
 ```
 <hr>
 TREx Workflow:
