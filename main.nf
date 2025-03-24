@@ -57,7 +57,7 @@ Args:
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
-    * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index.
+    * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index. (only use if --mode is PES, SES, PEBS or SEBS)
     * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details. 
     * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
