@@ -41,6 +41,8 @@ process GBCOV2M {
     tag "$pin"
     label "process_medium"
 
+    conda "bioconda::rseqc"
+
     publishDir "GBCOV", mode: "copy", overwrite: true
     
     input:
