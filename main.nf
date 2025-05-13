@@ -22,7 +22,7 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-params.bed12            = null 
+
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -210,12 +210,12 @@ if( params.listGenomes) {
     exit 0
 }
 
-include {   FASTPM                   } from "$projectDir/modules/fastp"
-include {   STARM ; COUNTSM          } from "$projectDir/modules/star"
-include {   GBCOV1M ; GBCOV2M        } from "$projectDir/modules/gbcov"
-include {   STARM2 ; COUNTSM2         } from "$projectDir/modules/realign"
-include {   MQC ; MQC2 ; MQCSCREENM  } from "$projectDir/modules/multiqc"
-include {   SCREENM                  } from "$projectDir/modules/screen"
+include {   FASTPM                   } from './modules/fastp'
+include {   STARM ; COUNTSM          } from './modules/star'
+include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
+include {   STARM2 ; COUNTSM2         } from './modules/realign'
+include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
+include {   SCREENM                  } from './modules/screen'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -268,7 +268,7 @@ if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index pa
 
 } else {
 
-    bed = params.bed12
+    bed = null
     
 }
 
@@ -515,4 +515,3 @@ workflow {
 /* ---------------------------------------------------------------------------------------------------------
 GLOBAL PROCESSES
 ------------------------------------------------------------------------------------------------------------ */
-
