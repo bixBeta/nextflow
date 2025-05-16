@@ -22,7 +22,7 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-
+params.bed12            = null 
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -268,7 +268,7 @@ if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index pa
 
 } else {
 
-    bed = null
+    bed = params.bed12
     
 }
 
