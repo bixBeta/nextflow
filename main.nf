@@ -468,7 +468,7 @@ workflow PAIRED {
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
-                        .concat(mqc_ch1)
+                        //.concat(mqc_ch1)
                         .collect()
                         //.view()
 
