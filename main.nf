@@ -484,7 +484,7 @@ workflow PAIRED {
 
 workflow {
 
-    if ( params.mode == "SE" || params.mode == "SES" || params.mode == "SEBS" ){
+    if ( params.mode == "SE" || params.mode == "SES" || params.mode == "SEBS" || params.mode == "SEB" ){
 
         SINGLE()
     } 
@@ -494,7 +494,7 @@ workflow {
     //     // SINGLE_SPLIT()
     // }
 
-    else if ( params.mode == "PE" || params.mode == "PES" || params.mode == "PEBS" ){
+    else if ( params.mode == "PE" || params.mode == "PES" || params.mode == "PEBS" || params.mode == "PEB" ){
 
         PAIRED()
     }
