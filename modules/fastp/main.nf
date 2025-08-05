@@ -17,7 +17,7 @@ process FASTPM {
         
     script:
 
-    if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
+    if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" || runmode == "SEB" ){
         
         """
         fastp \
@@ -33,7 +33,7 @@ process FASTPM {
 
     }
 
-    else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" ){
+    else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" || runmode == "PEB" ){
 
         """
             fastp \
