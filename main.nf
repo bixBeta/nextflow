@@ -39,7 +39,7 @@ Args:
     * --id             : TREx Project ID 
     * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
 
-        -------------------------------------------
+        -----------------------------------------------
         Sample Sheet Example: ( comma delimeted file )    
         |-------|-----------------|-----------------|
         | label | fastq1          | fastq2          |
@@ -51,7 +51,7 @@ Args:
         .
         .
         . etc.
-        -------------------------------------------
+        -----------------------------------------------
 
     * --mode            : use 'PE'   for paired end data; default <PE>
                         : use 'PES'  for paired end data + split unmapped
