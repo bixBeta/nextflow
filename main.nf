@@ -50,9 +50,11 @@ Args:
         -------------------------------------------
     * --mode            : use 'PE'   for paired end data; default <PE>
                         : use 'PES'  for paired end data + split unmapped
+                        : use 'PEB'  for paired end bacterial data
                         : use 'PEBS' for paired end bacterial data + split unmapped
                         : use 'SE'   for single end data
                         : use 'SES'  for single end data + split unmapped
+                        : use 'SEB'  for single end bacterial data
                         : use 'SEBS' for single end bacterial data + split unmapped
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastp           : Invokes fastp trimming module.
