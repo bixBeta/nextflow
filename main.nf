@@ -40,14 +40,19 @@ Args:
     * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
 
         -------------------------------------------
-        Sample Sheet Example:    
-        label   fastq1          fastq2
-        SS1     SS1_R1.fastq.gz SS1_R2.fastq.gz
-        SS2     SS2_R1.fastq.gz SS2_R2.fastq.gz  
+        Sample Sheet Example: ( comma delimeted file )    
+        |-------|-----------------|-----------------|
+        | label | fastq1          | fastq2          |
+        |-------|-----------------|-----------------|
+        | SS1   | SS1_R1.fastq.gz | SS1_R2.fastq.gz |
+        |-------|-----------------|-----------------|
+        | SS2   | SS2_R1.fastq.gz | SS2_R2.fastq.gz |
+        |-------|-----------------|-----------------|
         .
         .
         . etc.
         -------------------------------------------
+
     * --mode            : use 'PE'   for paired end data; default <PE>
                         : use 'PES'  for paired end data + split unmapped
                         : use 'PEB'  for paired end bacterial data
@@ -56,6 +61,7 @@ Args:
                         : use 'SES'  for single end data + split unmapped
                         : use 'SEB'  for single end bacterial data
                         : use 'SEBS' for single end bacterial data + split unmapped
+
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
