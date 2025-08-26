@@ -24,7 +24,7 @@ It is always a good idea to run the pull command before executing the pipeline. 
 Use the following command to ensure the usage of the latest version of the pipeline:
 
 ```
-nextflow pull https://github.com/bixbeta/nextflow -r main 
+nextflow pull https://github.com/bixbeta/nextflow -r g2 
 ```
 <hr>
 TREx Workflow:
