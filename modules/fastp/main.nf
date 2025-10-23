@@ -22,7 +22,7 @@ process FASTPM {
         """
         fastp \
         -z 4 -w 16 \
-        --length_required 50 --qualified_quality_phred 20 \
+        --length_required 25 --qualified_quality_phred 20 \
         --trim_poly_g \
         -i ${reads} \
         -o ${id}_val_1.fq.gz \
@@ -38,7 +38,7 @@ process FASTPM {
         """
             fastp \
             -z 4 -w 16 \
-            --length_required 50 --qualified_quality_phred 20 \
+            --length_required 25 --qualified_quality_phred 20 \
             --trim_poly_g \
             -i ${reads[0]} \
             -I ${reads[1]} \
