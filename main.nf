@@ -228,7 +228,7 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
-include {   QUALIMAP                 } from '.modules/qualimap'
+include {   QUALIMAP                 } from './modules/qualimap'
 ch_sheet = channel.fromPath(params.sheet)
 
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
