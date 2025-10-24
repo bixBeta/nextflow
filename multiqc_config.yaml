@@ -15,7 +15,7 @@ table_columns_visible:
   qualimap_bamqc-10_x_pc: true
   fastp-after_filtering_q30_rate: true
   qualimap_bamqc-percentage_aligned : false
-
+  qualimap_bamqc-duplication_rate : false
 
 table_columns_name:
   qualimap_bamqc-percentage_aligned : "% Reads Aligned: qualimap:bamqc"
