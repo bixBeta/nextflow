@@ -17,7 +17,7 @@ process QUALIMAP {
         
     script:
 
-        id = `basename ${bam} .Aligned.sortedByCoord.out.bam`
+        id=\$(basename ${bam} .Aligned.sortedByCoord.out.bam)
         """
             qualimap bamqc -bam ${bam} \\
             -nt 16 -c \\
