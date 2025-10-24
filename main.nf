@@ -23,7 +23,7 @@ params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
 params.bed12            = null
-prams.qualimap          = false 
+params.qualimap          = false 
 runmode = params.mode
 pin = channel.value(params.id)
 
