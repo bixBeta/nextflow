@@ -222,13 +222,13 @@ if( params.listGenomes) {
     exit 0
 }
 
-include {   FASTPM                   } from './modules/fastp'
-include {   STARM ; COUNTSM          } from './modules/star'
-include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
-include {   STARM2 ; COUNTSM2         } from './modules/realign'
-include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
-include {   SCREENM                  } from './modules/screen'
-include {   QUALIMAP                 } from './modules/qualimap'
+include {   FASTPM                          } from './modules/fastp'
+include {   STARM ; COUNTSM                 } from './modules/star'
+include {   GBCOV1M ; GBCOV2M               } from './modules/gbcov'
+include {   STARM2 ; COUNTSM2               } from './modules/realign'
+include {   MQC ; MQC2 ; MQCSCREENM ; MQCQ  } from './modules/multiqc'
+include {   SCREENM                         } from './modules/screen'
+include {   QUALIMAP                        } from './modules/qualimap'
 ch_sheet = channel.fromPath(params.sheet)
 
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
@@ -462,7 +462,12 @@ workflow PAIRED {
     if (params.qualimap){
 
         QUALIMAP(STARM.out.bam_sorted)
-
+        mqc_chq =  STARM.out.read_per_gene_tab
+                        .concat(STARM.out.log_final,
+                        STARM.out.sj_out_tab,
+                        QUALIMAP.out.bamqc_out)
+                        .collect()
+        MQCQ(mqc_chq, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
     } 
 
     if( params.genome != null ){
