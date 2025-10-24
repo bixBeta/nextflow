@@ -22,7 +22,8 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-params.bed12            = null 
+params.bed12            = null
+prams.qualimap          = false 
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -227,7 +228,7 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
-
+include {   QUALIMAP                 } from '.modules/qualimap'
 ch_sheet = channel.fromPath(params.sheet)
 
 ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
@@ -457,6 +458,12 @@ workflow PAIRED {
         
         GBCOV2M(pin, bed_ch, gbcov1_ch)
     }
+
+    if (params.qualimap){
+
+        QUALIMAP(STARM.out.bam_sorted)
+
+    } 
 
     if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
