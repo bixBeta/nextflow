@@ -32,7 +32,7 @@ log.info """
 R  N  A  -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
 =======================================================================================================================================================================
 Usage:
-    nextflow run https://github.com/bixbeta/nextflow -r main < args ... >
+    nextflow run https://github.com/bixbeta/nextflow -r g2 < args ... >
 
 Args:
     * --listGenomes    : Get extended list of genomes available for this pipeline
