@@ -63,12 +63,15 @@ Args:
                         : use 'SEBS' for single end bacterial data + split unmapped
 
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
+    * --fastqs          : Use this param if fastq files are in the fastqs folder in the project directory; 
+                          If --fastqs is not specified, the fastqs must be supplied with absolute paths in the sample-sheet.csv 
     * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
     * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index.
     * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details. 
     * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
+    * --bed12           : Custom Path for BED12 file for geneBodyCoverage module
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
 
@@ -310,10 +313,19 @@ SINGLE END NOVA/NEXT-seq Workflow
 
 workflow SINGLE {
 
-    meta_ch = ch_sheet
+    if( params.fastqs ){
+        meta_ch = ch_sheet
                 |  splitCsv( header:true )
-                |  map { row -> [row.label, [file(row.fastq1)]] }
-                |  view
+                |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
+                |  view 
+    } else {
+
+        meta_ch = ch_sheet
+            |  splitCsv( header:true )
+            |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
+            |  view
+    }
+
     
     if(params.fastp){
 
@@ -409,10 +421,19 @@ PAIRED END NOVA/NEXT-seq Workflow
 
 
 workflow PAIRED {
-    meta_ch = ch_sheet
+    
+    if( params.fastqs ){
+        meta_ch = ch_sheet
                 |  splitCsv( header:true )
-                |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
-                |  view
+                |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
+                |  view 
+    } else {
+
+        meta_ch = ch_sheet
+            |  splitCsv( header:true )
+            |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
+            |  view
+    }
 
     if(params.fastp){
 
