@@ -11,7 +11,7 @@ params.listGenomes      = false
 params.gbcov            = false
 params.screen           = false
 params.fastp            = false
-params.fastqs           = 'NO_FILE'
+params.fastqs           = null
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
