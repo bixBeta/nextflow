@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 // Project Params:
 params.sheet            = "sample-sheet.csv"
-params.outdir           = "$projectDir/STAR_OUT"
-params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
+// params.outdir           = "$projectDir/STAR_OUT"
+// params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
 
 // Module Params:
 params.help             = false
@@ -11,7 +11,7 @@ params.listGenomes      = false
 params.gbcov            = false
 params.screen           = false
 params.fastp            = false
-
+params.fastqs           = null
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
