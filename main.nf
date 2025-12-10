@@ -380,6 +380,7 @@ workflow SINGLE {
     if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
+                .concat(FASTPM.out.fastp_json)
                 .collect()
                 //.view()
     
@@ -484,6 +485,7 @@ workflow PAIRED {
     if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
+                .concat(FASTPM.out.fastp_json)
                 .collect()
                 //.view()
 
