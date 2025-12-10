@@ -6,14 +6,14 @@ process FASTPM {
     label 'process_high'
     
     publishDir "trimmed_fastqs", mode: "symlink", overwrite: true
-    publishDir "fastp_logs", mode: "symlink", overwrite: true, pattern:"*.fastp.renamed.json"
+    publishDir "fastp_logs", mode: "symlink", overwrite: true, pattern:"*renamed.fastp.json"
 
     input:
         tuple val(id), path(reads)
     
     output:
         tuple val(id), path("*gz")                      , emit: trimmed_fqs
-        path("*.fastp.renamed.json")                    , emit: fastp_json    
+        path("*.renamed.fastp.json")                    , emit: fastp_json    
         
     script:
 
@@ -31,7 +31,7 @@ process FASTPM {
 
         sed -E "
                 s|(-i)[[:space:]]+[^[:space:]]+|\1 ${id}_R1.fastq.gz|
-                " ${id}.fastp.json > 7058D_AS10_X411.fastp.renamed.json
+                " ${id}.fastp.json > 7058D_AS10_X411.renamed.fastp.json
 
         """
 
@@ -54,7 +54,7 @@ process FASTPM {
         sed -E "
             s|(-i)[[:space:]]+[^[:space:]]+|\1 ${id}_R1.fastq.gz|;
             s|(-I)[[:space:]]+[^[:space:]]+|\1 ${id}_R2.fastq.gz|
-            " ${id}.fastp.json > ${id}.fastp.renamed.json
+            " ${id}.fastp.json > ${id}.renamed.fastp.json
         
         """
 
