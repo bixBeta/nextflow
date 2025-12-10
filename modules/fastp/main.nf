@@ -6,7 +6,7 @@ process FASTPM {
     label 'process_high'
     
     publishDir "trimmed_fastqs", mode: "symlink", overwrite: true
-    publishDir "fastp_logs", mode: "symlink", overwrite: true, pattern:"*renamed.fastp.json"
+    publishDir "fastp_logs", mode: "symlink", overwrite: true, pattern:"*.fastp.json"
 
     input:
         tuple val(id), path(reads)
