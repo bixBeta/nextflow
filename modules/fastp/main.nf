@@ -29,10 +29,6 @@ process FASTPM {
         -h ${id}.fastp.html \
         -j ${id}.fastp.json
 
-        sed -E "
-                s|(-i)[[:space:]]+[\^[:space:]]+|\1 ${id}_R1.fastq.gz|
-                " ${id}.fastp.json > 7058D_AS10_X411.renamed.fastp.json
-
         """
 
     }
@@ -51,10 +47,6 @@ process FASTPM {
             -h ${id}.fastp.html \
             -j ${id}.fastp.json
         
-        sed -E "
-            s|(-i)[[:space:]]+[\^[:space:]]+|\1 ${id}_R1.fastq.gz|;
-            s|(-I)[[:space:]]+[\^[:space:]]+|\1 ${id}_R2.fastq.gz|
-            " ${id}.fastp.json > ${id}.renamed.fastp.json
         
         """
 

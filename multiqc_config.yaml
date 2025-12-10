@@ -51,3 +51,7 @@ table_columns_name:
   star-mapped  : "Total Reads Aligned "
   star-uniquely_mapped : "Uniquely Mapped Reads"
   star-uniquely_mapped_percent : "% Uniquely Mapped Reads"
+
+
+fastp:
+  s_name_filenames: true
