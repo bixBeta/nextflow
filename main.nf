@@ -487,7 +487,7 @@ workflow PAIRED {
                 .concat(STARM.out.log_final)
                 .concat(FASTPM.out.fastp_json)
                 .collect()
-                //.view()
+                .view()
 
 
         MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
