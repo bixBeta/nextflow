@@ -21,7 +21,7 @@ process MQC {
 
     """
        export  MQC_GENOME=${mqcgenome} 
-       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star -m fastp .
 
     """
 
@@ -50,7 +50,7 @@ process MQC2 {
 
     """
        export  MQC_GENOME=${mqcgenome}
-       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star -m fastp .
 
     """
 
