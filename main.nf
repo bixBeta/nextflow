@@ -330,7 +330,7 @@ workflow SINGLE {
     if(params.fastp){
 
         FASTPM(meta_ch)
-            .set { fastp_out }
+        fastp_out = FASTPM.out.trimmed_fqs
 
     } else {
 
@@ -438,7 +438,7 @@ workflow PAIRED {
     if(params.fastp){
 
         FASTPM(meta_ch)
-            .set { fastp_out }
+        fastp_out = FASTPM.out.trimmed_fqs
     
     } else {
 
