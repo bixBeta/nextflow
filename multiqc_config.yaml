@@ -47,8 +47,8 @@ table_columns_visible:
 
 
 table_columns_name:
-  star-total_reads: "Total Reads"
-  star-mapped  : "Total Reads Aligned "
+  star-total_reads: "Total Reads -- Post Trimming"
+  star-mapped  : "Total Mapped Reads"
   star-uniquely_mapped : "Uniquely Mapped Reads"
   star-uniquely_mapped_percent : "% Uniquely Mapped Reads"
 
