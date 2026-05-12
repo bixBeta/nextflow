@@ -22,7 +22,12 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-params.bed12            = null 
+params.bed12            = null
+// CZ ID Params:
+params.czid             = false
+params.czid_project     = null
+params.czid_host        = "Homo sapiens"
+params.czid_sample_type = "not applicable"
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -232,6 +237,7 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
+include {   CZID                     } from './subworkflows/czid/main.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -413,6 +419,11 @@ workflow SINGLE {
 
 
 
+    if( params.czid && params.fastp ) {
+        def czid_reads = params.genome2 != null ? STARM2.out.unmapped2 : FASTPM.out.trimmed_fqs
+        CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
+    }
+
 }
 
 
@@ -510,6 +521,11 @@ workflow PAIRED {
 
         MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
+    }
+
+    if( params.czid && params.fastp ) {
+        def czid_reads = params.genome2 != null ? STARM2.out.unmapped2 : FASTPM.out.trimmed_fqs
+        CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
     }
 
 }

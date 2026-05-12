@@ -48,6 +48,9 @@ RUN micromamba install -y -n base \
         trinity=2.15.2 \
     && micromamba clean --all --yes
 
+# Layer 5 — CZ ID CLI + requests (project management API)
+RUN pip install czid-cli requests
+
 # --- ADD NEW TOOLS BELOW THIS LINE ---
 # Each new RUN block becomes its own cached layer.
 # Example:
