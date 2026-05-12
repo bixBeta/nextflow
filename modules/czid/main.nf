@@ -41,6 +41,10 @@ EOF
 // ─────────────────────────────────────────────────────────────────────────────
 // CZID_UPLOAD  — upload one sample's reads to CZ ID metagenomics
 // Auth: CZID_CLI_SECRET env var (Tower secret) — czid-cli reads it automatically
+// Renames files to <safe_id>_R1.fastq.gz format before upload:
+//   - underscores in sample label replaced with hyphens (CZ ID fails on
+//     multiple underscores in the filename)
+//   - suffix normalised to .fastq.gz (_R1/_R2 required by CZ ID)
 // ─────────────────────────────────────────────────────────────────────────────
 process CZID_UPLOAD {
     tag "$id"
@@ -52,13 +56,18 @@ process CZID_UPLOAD {
         val(czid_project)
 
     script:
-    def r1      = reads instanceof List ? reads[0] : reads
-    def r2_flag = reads instanceof List && reads.size() > 1 ? "--input-file-2 ${reads[1]}" : ""
+    def r1 = reads instanceof List ? reads[0] : reads
+    def r2 = reads instanceof List && reads.size() > 1 ? reads[1] : null
     """
+    # Replace underscores in sample label with hyphens so the final
+    # filename has exactly one underscore: <safe_id>_R1.fastq.gz
+    SAFE_ID=\$(echo "${id}" | tr '_' '-')
+
+    ln -sf ${r1} \${SAFE_ID}_R1.fastq.gz
+    """ + (r2 ? "ln -sf ${r2} \${SAFE_ID}_R2.fastq.gz\n" : "") + """
     czid metagenomics upload-sample \
-        --project-name "${czid_project}" \
-        --sample-name  "${id}"          \
-        --input-file   ${r1}            \
-        ${r2_flag}
-    """
+        --project-name "${czid_project}"      \
+        --sample-name  "\${SAFE_ID}"          \
+        --input-file   \${SAFE_ID}_R1.fastq.gz \
+        """ + (r2 ? "--input-file-2 \${SAFE_ID}_R2.fastq.gz" : "")
 }
