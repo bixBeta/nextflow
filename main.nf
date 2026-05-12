@@ -459,13 +459,16 @@ workflow PAIRED {
 
     if (params.trinity) {
 
-        r1_all = fastp_out.map { id, reads -> reads[0] }.collect()
-        r2_all = fastp_out.map { id, reads -> reads[1] }.collect()
+        trinity_ch = fastp_out
+            .map { id, reads -> reads }
+            .collect()
+            .map { all_reads ->
+                def r1 = all_reads.collect { it[0] }
+                def r2 = all_reads.collect { it[1] }
+                [ "all_samples", r1, r2 ]
+            }
 
-        TRINITY(
-            r1_all.combine(r2_all).map { pair -> [ "all_samples", pair[0], pair[1] ] },
-            libtype_ch
-        )
+        TRINITY(trinity_ch, libtype_ch)
     }
 
     if (params.screen){
