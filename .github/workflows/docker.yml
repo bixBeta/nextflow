@@ -5,6 +5,7 @@ on:
     branches:
       - g2
       - dev
+      - czid
     tags:
       - "v*"
     paths:
