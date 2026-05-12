@@ -75,6 +75,8 @@ Args:
     * --bed12           : Custom Path for BED12 file for geneBodyCoverage module
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
+    * --trinity         : Invokes Trinity de novo assembly on all fastp-trimmed reads (PE modes only); default <false>
+                        : SS_lib_type is derived automatically from --strand (0=unstranded, 1=FR, 2=RF)
 
 """
 
@@ -95,6 +97,7 @@ mode         : ${params.mode}
 genome2      : ${params.genome2}
 screen       : ${params.screen}
 gbcov        : ${params.gbcov}
+trinity      : ${params.trinity}
 chromosub    : ${params.chromosub}
 splitname    : ${params.splitname}
 """
