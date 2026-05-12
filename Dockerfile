@@ -55,4 +55,5 @@ RUN micromamba install -y -n base \
 #           <new-tool>=<version> \
 #       && micromamba clean --all --yes
 
-ENV PATH="/opt/conda/bin:$PATH"
+ENV TRINITY_HOME=/opt/conda/opt/trinity-2.15.2
+ENV PATH="/opt/conda/bin:/opt/conda/opt/trinity-2.15.2/Analysis/SuperTranscripts:$PATH"
