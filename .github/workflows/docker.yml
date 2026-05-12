@@ -7,6 +7,9 @@ on:
       - dev
     tags:
       - "v*"
+    paths:
+      - "Dockerfile"
+      - ".github/workflows/docker.yml"
   workflow_dispatch:
 
 env:
