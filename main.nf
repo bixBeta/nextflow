@@ -12,6 +12,7 @@ params.gbcov            = false
 params.screen           = false
 params.fastp            = false
 params.fastqs           = null
+params.trinity          = false
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
@@ -197,6 +198,11 @@ tomato				:"/workdir/genomes/Solanum_lycopersicum/custom/ITAG4.0_gene_models.bed
 yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENSEMBL/Saccharomyces_cerevisiae.R64-1-1.bed12"]
 
 
+// Trinity SS_lib_type map: strand param → Trinity library type
+// 0 = unstranded (no flag), 1 = first-strand (FR), 2 = second-strand/dUTP (RF)
+trinityLibtype = [ 0: null, 1: "FR", 2: "RF" ]
+libtype_ch = channel.value( trinityLibtype[params.strand] )
+
 // genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
 // genomeKey = genomeKey.list[0]
 
@@ -232,6 +238,7 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
+include {   TRINITY                  } from './modules/trinity'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -447,13 +454,24 @@ workflow PAIRED {
     }
     
 
+    if (params.trinity) {
+
+        r1_all = fastp_out.map { id, reads -> reads[0] }.collect()
+        r2_all = fastp_out.map { id, reads -> reads[1] }.collect()
+
+        TRINITY(
+            r1_all.combine(r2_all).map { r1, r2 -> [ "all_samples", r1, r2 ] },
+            libtype_ch
+        )
+    }
+
     if (params.screen){
 
         SCREENM(fastp_out, ch_screen_conf)
 
-        screen_out_ch = SCREENM.out 
+        screen_out_ch = SCREENM.out
                         | collect
-                        | view 
+                        | view
 
         MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
