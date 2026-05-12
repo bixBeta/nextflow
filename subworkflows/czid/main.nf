@@ -1,6 +1,5 @@
-include { CZID_META    } from '../../modules/czid/main.nf'
-include { CZID_PROJECT } from '../../modules/czid/main.nf'
-include { CZID_UPLOAD  } from '../../modules/czid/main.nf'
+include { CZID_META   } from '../../modules/czid/main.nf'
+include { CZID_UPLOAD } from '../../modules/czid/main.nf'
 
 workflow CZID {
 
@@ -13,7 +12,6 @@ workflow CZID {
 
     main:
         CZID_META(sheet, czid_host, czid_sample_type)
-        CZID_PROJECT(czid_project)
-        CZID_UPLOAD(reads_ch, CZID_PROJECT.out.project_ready)
+        CZID_UPLOAD(reads_ch, czid_project)
 
 }
