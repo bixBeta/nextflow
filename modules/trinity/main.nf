@@ -9,7 +9,7 @@ process TRINITY {
     publishDir "trinity_assembly" , overwrite: true
 
     input:
-        tuple val(id), path(r1_reads, stageAs: 'r1/*'), path(r2_reads, stageAs: 'r2/*')
+        tuple val(id), path(r1_reads, stageAs: '??_r1.fq.gz'), path(r2_reads, stageAs: '??_r2.fq.gz')
         val(libtype)
 
     output:
