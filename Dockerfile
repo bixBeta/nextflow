@@ -1,7 +1,7 @@
 FROM mambaorg/micromamba:1.5.8
 
 LABEL org.opencontainers.image.source="https://github.com/bixBeta/nextflow"
-LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.21.0 | STAR=2.7.0e | samtools=1.9 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32"
+LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e | samtools=1.9 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32"
 
 USER root
 
@@ -17,7 +17,7 @@ RUN micromamba install -y -n base \
 RUN micromamba install -y -n base \
         -c conda-forge \
         -c bioconda \
-        fastp=0.21.0 \
+        fastp=0.23.4 \
         fastq-screen=0.15.3 \
         rseqc=5.0.1 \
     && micromamba clean --all --yes
