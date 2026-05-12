@@ -467,6 +467,7 @@ workflow PAIRED {
                 def r2 = all_reads.collect { it[1] }
                 [ "all_samples", r1, r2 ]
             }
+            .view { id, r1, r2 -> "TRINITY_INPUT >> id: ${id}\n  R1: ${r1}\n  R2: ${r2}" }
 
         TRINITY(trinity_ch, libtype_ch)
     }
