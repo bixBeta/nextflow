@@ -420,7 +420,13 @@ workflow SINGLE {
 
 
     if( params.czid && params.fastp ) {
-        def czid_reads = params.genome2 != null ? STARM2.out.unmapped2 : FASTPM.out.trimmed_fqs
+        def czid_reads = params.genome2 != null
+            ? STARM2.out.unmapped2.map { files ->
+                def fl = files instanceof List ? files : [files]
+                def id = fl[0].name.split('\\.non\\.')[0]
+                [ id, fl ]
+              }
+            : FASTPM.out.trimmed_fqs
         CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
     }
 
@@ -524,7 +530,13 @@ workflow PAIRED {
     }
 
     if( params.czid && params.fastp ) {
-        def czid_reads = params.genome2 != null ? STARM2.out.unmapped2 : FASTPM.out.trimmed_fqs
+        def czid_reads = params.genome2 != null
+            ? STARM2.out.unmapped2.map { files ->
+                def fl = files instanceof List ? files : [files]
+                def id = fl[0].name.split('\\.non\\.')[0]
+                [ id, fl ]
+              }
+            : FASTPM.out.trimmed_fqs
         CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
     }
 
