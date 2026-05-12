@@ -36,7 +36,7 @@ jobs:
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
-          username: bixBeta
+          username: bixbeta
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Extract metadata
@@ -45,7 +45,7 @@ jobs:
         with:
           images: |
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
-            bixBeta/${{ env.IMAGE_NAME }}
+            bixbeta/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
