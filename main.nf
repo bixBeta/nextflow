@@ -461,7 +461,7 @@ workflow PAIRED {
 
         trinity_ch = fastp_out
             .map { id, reads -> reads }
-            .collect()
+            .collect(flat: false)
             .map { all_reads ->
                 def r1 = all_reads.collect { it[0] }
                 def r2 = all_reads.collect { it[1] }
