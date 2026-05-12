@@ -5,6 +5,11 @@ LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e
 
 USER root
 
+# Layer 0 — system packages required by Nextflow
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        procps \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Layer 1 — large, stable alignment + BAM tools (slowest to download; rarely version-bumped)
 RUN micromamba install -y -n base \
         -c conda-forge \
