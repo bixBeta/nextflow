@@ -62,9 +62,11 @@ process CZID_UPLOAD {
     """
     export CZID_CLI_ACCEPTED_USER_AGREEMENT=Y
 
-    # Write a writable config in the work dir so czid-cli doesn't
-    # try to create ~/.config/czid-cli/ (read-only in Singularity)
-    printf 'secret: %s\\naccepted_user_agreement: Y\\n' "\${CZID_CLI_SECRET}" > czid_config.yaml
+    # Redirect HOME to work dir so czid-cli doesn't try to write
+    # to ~/.config/czid-cli/ which is read-only in Singularity
+    export HOME=\$(pwd)
+    mkdir -p \${HOME}/.config/czid-cli
+    printf 'secret: %s\\naccepted_user_agreement: Y\\n' "\${CZID_CLI_SECRET}" > \${HOME}/.config/czid-cli/config.yaml
 
     # Replace underscores in sample label with hyphens so the final
     # filename has exactly one underscore: <safe_id>_R1.fastq.gz
@@ -76,7 +78,6 @@ process CZID_UPLOAD {
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
         --sample-name "\${SAFE_ID}" \
-        --sequencing-platform Illumina \
-        --config czid_config.yaml
+        --sequencing-platform Illumina
     """
 }
