@@ -48,8 +48,10 @@ RUN micromamba install -y -n base \
         trinity=2.15.2 \
     && micromamba clean --all --yes
 
-# Layer 5 — CZ ID CLI + requests (project management API)
-RUN /opt/conda/bin/pip install czid-cli requests
+# Layer 5 — CZ ID CLI v6.0.0 (Go binary, installed from GitHub release)
+RUN curl -fsSL https://github.com/chanzuckerberg/czid-cli/releases/download/v6.0.0/czid-cli_linux_amd64.tar.gz \
+    | tar -xz -C /usr/local/bin/ \
+    && chmod +x /usr/local/bin/czid
 
 # --- ADD NEW TOOLS BELOW THIS LINE ---
 # Each new RUN block becomes its own cached layer.
