@@ -50,6 +50,7 @@ process CZID_UPLOAD {
     tag "$id"
     label 'process_low'
     errorStrategy 'ignore'
+    secret 'CZID_CLI_SECRET'
 
     input:
         tuple val(id), path(reads)
@@ -69,7 +70,6 @@ process CZID_UPLOAD {
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
         --sample-name "\${SAFE_ID}" \
-        --sequencing-platform Illumina \
-        --config /home/fa286/.config/czid-cli/config.yaml
+        --sequencing-platform Illumina
     """
 }
