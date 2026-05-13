@@ -60,6 +60,10 @@ process CZID_UPLOAD {
     def r1 = reads instanceof List ? reads[0] : reads
     def r2 = reads instanceof List && reads.size() > 1 ? reads[1] : null
     """
+    # Write a writable config in the work dir so czid-cli doesn't
+    # try to create ~/.config/czid-cli/ (read-only in Singularity)
+    printf 'secret: %s\\naccepted_user_agreement: Y\\n' "\${CZID_CLI_SECRET}" > czid_config.yaml
+
     # Replace underscores in sample label with hyphens so the final
     # filename has exactly one underscore: <safe_id>_R1.fastq.gz
     SAFE_ID=\$(echo "${id}" | tr '_' '-')
@@ -70,6 +74,7 @@ process CZID_UPLOAD {
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
         --sample-name "\${SAFE_ID}" \
-        --sequencing-platform Illumina
+        --sequencing-platform Illumina \
+        --config czid_config.yaml
     """
 }
