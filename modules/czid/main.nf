@@ -69,6 +69,7 @@ process CZID_UPLOAD {
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
         --sample-name "\${SAFE_ID}" \
-        --sequencing-platform Illumina
+        --sequencing-platform Illumina \
+        --config /home/fa286/.config/czid-cli/config.yaml
     """
 }
