@@ -51,6 +51,7 @@ process CZID_UPLOAD {
     label 'process_low'
     errorStrategy 'ignore'
     secret 'CZID_CLI_SECRET'
+    env CZID_CLI_ACCEPTED_USER_AGREEMENT = 'Y'
 
     input:
         tuple val(id), path(reads)
