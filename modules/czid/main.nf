@@ -68,6 +68,7 @@ process CZID_UPLOAD {
     czid metagenomics upload-sample \
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
-        --sample-name "\${SAFE_ID}"
+        --sample-name "\${SAFE_ID}" \
+        --sequencing-platform Illumina
     """
 }
