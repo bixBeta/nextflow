@@ -84,7 +84,7 @@ Args:
     * --czid_project    : CZ ID project name (must exist on czid.org)
     * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
                         : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
-                        : Or pass any full CZ ID-recognised species name directly
+                        : Or pass any full CZ ID-recognised species name directly ( <https://czid.org/host_genomes> )
     * --czid_sample_type  : Sample type for CZ ID metadata; default <Tissue>
     * --czid_nucleotide   : Nucleotide type for CZ ID metadata; default <RNA> — use DNA for metagenomic DNA samples
 
