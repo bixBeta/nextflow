@@ -51,7 +51,6 @@ process CZID_UPLOAD {
     label 'process_low'
     errorStrategy 'ignore'
     secret 'CZID_CLI_SECRET'
-    env CZID_CLI_ACCEPTED_USER_AGREEMENT = 'Y'
 
     input:
         tuple val(id), path(reads)
@@ -61,6 +60,8 @@ process CZID_UPLOAD {
     def r1 = reads instanceof List ? reads[0] : reads
     def r2 = reads instanceof List && reads.size() > 1 ? reads[1] : null
     """
+    export CZID_CLI_ACCEPTED_USER_AGREEMENT=Y
+
     # Write a writable config in the work dir so czid-cli doesn't
     # try to create ~/.config/czid-cli/ (read-only in Singularity)
     printf 'secret: %s\\naccepted_user_agreement: Y\\n' "\${CZID_CLI_SECRET}" > czid_config.yaml
