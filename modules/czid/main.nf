@@ -36,7 +36,7 @@ with open("czid_metadata.csv", "w", newline="") as f:
             "Collection Date"        : datetime.date.today().strftime("%Y-%m"),
             "Water Control"          : "No",
             "Collection Location"    : "Cornell",
-            "Infection Class"        : "NA",
+            "Infection Class"        : "Unknown",
             "Library Prep"           : "RNA-seq",
             "Sequencer"              : "Illumina Novaseq",
             "Host Genus Species"     : "NA",
@@ -96,7 +96,7 @@ process CZID_UPLOAD {
         -m "Collection Date=\$(date +%Y-%m)" \
         -m "Water Control=No" \
         -m "Collection Location=Cornell" \
-        -m "Infection Class=NA" \
+        -m "Infection Class=Unknown" \
         -m "Library Prep=RNA-seq" \
         -m "Sequencer=Illumina Novaseq" \
         -m "Host Genus Species=NA" \
