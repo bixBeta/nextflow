@@ -8,6 +8,7 @@ process CZID_META {
         path(sheet)
         val(czid_host)
         val(czid_sample_type)
+        val(czid_nucleotide)
 
     output:
         path "czid_metadata.csv", emit: meta_csv
@@ -32,7 +33,7 @@ with open("czid_metadata.csv", "w", newline="") as f:
             "Sample Name"            : s,
             "Host Organism"          : "${czid_host}",
             "Sample Type"            : "${czid_sample_type}",
-            "Nucleotide Type"        : "RNA",
+            "Nucleotide Type"        : "${czid_nucleotide}",
             "Collection Date"        : datetime.date.today().strftime("%Y-%m"),
             "Water Control"          : "No",
             "Collection Location"    : "Cornell",
@@ -66,6 +67,7 @@ process CZID_UPLOAD {
         val(czid_project)
         val(czid_host)
         val(czid_sample_type)
+        val(czid_nucleotide)
 
     script:
     def r1 = reads instanceof List ? reads[0] : reads
@@ -78,6 +80,7 @@ process CZID_UPLOAD {
     export HOME=\$(pwd)
     mkdir -p \${HOME}/.config/czid-cli
     printf 'secret: %s\\naccepted_user_agreement: Y\\n' "\${CZID_CLI_SECRET}" > \${HOME}/.config/czid-cli/config.yaml
+
 
     # Replace underscores in sample label with hyphens so the final
     # filename has exactly one underscore: <safe_id>_R1.fastq.gz
@@ -92,7 +95,7 @@ process CZID_UPLOAD {
         --sequencing-platform Illumina \
         -m "Host Organism=${czid_host}" \
         -m "Sample Type=${czid_sample_type}" \
-        -m "Nucleotide Type=RNA" \
+        -m "Nucleotide Type=${czid_nucleotide}" \
         -m "Collection Date=\$(date +%Y-%m)" \
         -m "Water Control=No" \
         -m "Collection Location=Cornell" \

@@ -27,7 +27,8 @@ params.bed12            = null
 params.czid             = false
 params.czid_project     = null
 params.czid_host        = "Homo sapiens"
-params.czid_sample_type = "Tissue"
+params.czid_sample_type  = "Tissue"
+params.czid_nucleotide   = "RNA"
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -84,7 +85,8 @@ Args:
     * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
                         : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
                         : Or pass any full CZ ID-recognised species name directly
-    * --czid_sample_type : Sample type for CZ ID metadata; default <Tissue>
+    * --czid_sample_type  : Sample type for CZ ID metadata; default <Tissue>
+    * --czid_nucleotide   : Nucleotide type for CZ ID metadata; default <RNA> — use DNA for metagenomic DNA samples
 
 """
 
@@ -461,7 +463,7 @@ workflow SINGLE {
                 [ id, fl ]
               }
             : FASTPM.out.trimmed_fqs
-        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type)
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type, params.czid_nucleotide)
     }
 
 }
@@ -571,7 +573,7 @@ workflow PAIRED {
                 [ id, fl ]
               }
             : FASTPM.out.trimmed_fqs
-        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type)
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type, params.czid_nucleotide)
     }
 
 }
