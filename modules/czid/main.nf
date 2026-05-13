@@ -84,7 +84,7 @@ process CZID_UPLOAD {
         -m "Host Organism=${czid_host}" \
         -m "Sample Type=${czid_sample_type}" \
         -m "Nucleotide Type=RNA" \
-        -m "Collection Date=$(date +%Y-%m)" \
+        -m "Collection Date=\$(date +%Y-%m)" \
         -m "Water Control=No" \
         -m "Collection Location=not collected"
     """
