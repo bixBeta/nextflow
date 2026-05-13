@@ -254,6 +254,14 @@ if( params.listGenomes) {
     printMap = { a, b -> println "$a ----------- $b" }
     bed12.each(printMap)
 
+    log.info """
+    CZ ID Host Organism Aliases ( --czid_host )
+    =========================================================================================================================
+    """
+    .stripIndent()
+
+    czidHostMap.each(printMap)
+
     exit 0
 }
 
