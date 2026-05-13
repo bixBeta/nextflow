@@ -86,6 +86,6 @@ process CZID_UPLOAD {
         -m "Nucleotide Type=RNA" \
         -m "Collection Date=\$(date +%Y-%m)" \
         -m "Water Control=No" \
-        -m "Collection Location=not collected"
+        -m "Collection Location=Ithaca, New York, USA"
     """
 }
