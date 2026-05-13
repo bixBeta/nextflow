@@ -49,7 +49,7 @@ RUN micromamba install -y -n base \
     && micromamba clean --all --yes
 
 # Layer 5 — CZ ID CLI + requests (project management API)
-RUN pip install czid-cli requests
+RUN /opt/conda/bin/pip install czid-cli requests
 
 # --- ADD NEW TOOLS BELOW THIS LINE ---
 # Each new RUN block becomes its own cached layer.
