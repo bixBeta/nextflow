@@ -21,17 +21,26 @@ with open("${sheet}") as f:
     samples = [row["label"] for row in csv.DictReader(f)]
 
 with open("czid_metadata.csv", "w", newline="") as f:
-    fields = ["Sample Name", "Host Organism", "Sample Type",
-              "Collection Date", "Collection Location"]
+    fields = ["Sample Name", "Host Organism", "Sample Type", "Nucleotide Type",
+              "Collection Date", "Water Control", "Collection Location",
+              "Infection Class", "Library Prep", "Sequencer",
+              "Host Genus Species", "Diseases and Conditions"]
     w = csv.DictWriter(f, fieldnames=fields)
     w.writeheader()
     for s in samples:
         w.writerow({
-            "Sample Name"        : s,
-            "Host Organism"      : "${czid_host}",
-            "Sample Type"        : "${czid_sample_type}",
-            "Collection Date"    : str(datetime.date.today()),
-            "Collection Location": "not collected",
+            "Sample Name"            : s,
+            "Host Organism"          : "${czid_host}",
+            "Sample Type"            : "${czid_sample_type}",
+            "Nucleotide Type"        : "RNA",
+            "Collection Date"        : datetime.date.today().strftime("%Y-%m"),
+            "Water Control"          : "No",
+            "Collection Location"    : "Cornell",
+            "Infection Class"        : "NA",
+            "Library Prep"           : "RNA-seq",
+            "Sequencer"              : "Illumina Novaseq",
+            "Host Genus Species"     : "NA",
+            "Diseases and Conditions": "NA",
         })
 EOF
     """
@@ -86,6 +95,11 @@ process CZID_UPLOAD {
         -m "Nucleotide Type=RNA" \
         -m "Collection Date=\$(date +%Y-%m)" \
         -m "Water Control=No" \
-        -m "Collection Location=Ithaca, New York, USA"
+        -m "Collection Location=Cornell" \
+        -m "Infection Class=NA" \
+        -m "Library Prep=RNA-seq" \
+        -m "Sequencer=Illumina Novaseq" \
+        -m "Host Genus Species=NA" \
+        -m "Diseases and Conditions=NA"
     """
 }

@@ -27,7 +27,7 @@ params.bed12            = null
 params.czid             = false
 params.czid_project     = null
 params.czid_host        = "Homo sapiens"
-params.czid_sample_type = "not applicable"
+params.czid_sample_type = "Tissue"
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -84,7 +84,7 @@ Args:
     * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
                         : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
                         : Or pass any full CZ ID-recognised species name directly
-    * --czid_sample_type : Sample type for CZ ID metadata; default <not applicable>
+    * --czid_sample_type : Sample type for CZ ID metadata; default <Tissue>
 
 """
 
