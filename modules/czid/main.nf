@@ -66,8 +66,8 @@ process CZID_UPLOAD {
     ln -sf ${r1} \${SAFE_ID}_R1.fastq.gz
     """ + (r2 ? "ln -sf ${r2} \${SAFE_ID}_R2.fastq.gz\n" : "") + """
     czid metagenomics upload-sample \
-        --project-name "${czid_project}"      \
-        --sample-name  "\${SAFE_ID}"          \
-        --input-file   \${SAFE_ID}_R1.fastq.gz \
-        """ + (r2 ? "--input-file-2 \${SAFE_ID}_R2.fastq.gz" : "")
+        \${SAFE_ID}_R1.fastq.gz \
+        """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
+        --sample-name "\${SAFE_ID}"
+    """
 }
