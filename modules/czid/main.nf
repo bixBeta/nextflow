@@ -55,6 +55,8 @@ process CZID_UPLOAD {
     input:
         tuple val(id), path(reads)
         val(czid_project)
+        val(czid_host)
+        val(czid_sample_type)
 
     script:
     def r1 = reads instanceof List ? reads[0] : reads
@@ -78,6 +80,8 @@ process CZID_UPLOAD {
         \${SAFE_ID}_R1.fastq.gz \
         """ + (r2 ? "\${SAFE_ID}_R2.fastq.gz \\\n        " : "") + """--project  "${czid_project}" \
         --sample-name "\${SAFE_ID}" \
-        --sequencing-platform Illumina
+        --sequencing-platform Illumina \
+        -m "Host Organism=${czid_host}" \
+        -m "Sample Type=${czid_sample_type}"
     """
 }
