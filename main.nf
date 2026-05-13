@@ -79,6 +79,12 @@ Args:
     * --bed12           : Custom Path for BED12 file for geneBodyCoverage module
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
+    * --czid            : Invokes CZ ID metagenomics upload subworkflow; default <false>
+    * --czid_project    : CZ ID project name (must exist on czid.org)
+    * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
+                        : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
+                        : Or pass any full CZ ID-recognised species name directly
+    * --czid_sample_type : Sample type for CZ ID metadata; default <not applicable>
 
 """
 
@@ -204,6 +210,26 @@ yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENS
 
 // genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
 // genomeKey = genomeKey.list[0]
+
+// CZ ID host organism alias map — shorthand → CZ ID recognised name
+// Use --czid_host with any key or full name, e.g. --czid_host human
+czidHostMap = [
+    human           : "Homo sapiens",
+    mouse           : "Mus musculus",
+    rat             : "Rattus norvegicus",
+    chicken         : "Gallus gallus",
+    dog             : "Canis lupus familiaris",
+    cat             : "Felis catus",
+    cow             : "Bos taurus",
+    fly             : "Drosophila melanogaster",
+    mosquito        : "Aedes aegypti",
+    zebrafish       : "Danio rerio",
+    pig             : "Sus scrofa",
+    rabbit          : "Oryctolagus cuniculus",
+    macaque         : "Macaca fascicularis",
+]
+
+czid_host_ch = channel.value( czidHostMap.getOrDefault(params.czid_host, params.czid_host) )
 
 
 
@@ -427,7 +453,7 @@ workflow SINGLE {
                 [ id, fl ]
               }
             : FASTPM.out.trimmed_fqs
-        CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type)
     }
 
 }
@@ -537,7 +563,7 @@ workflow PAIRED {
                 [ id, fl ]
               }
             : FASTPM.out.trimmed_fqs
-        CZID(ch_sheet, czid_reads, params.czid_project, params.czid_host, params.czid_sample_type)
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type)
     }
 
 }
