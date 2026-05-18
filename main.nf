@@ -246,7 +246,7 @@ include {   FASTPM                   } from './modules/fastp'
 include {   STARM ; COUNTSM          } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
-include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
+include {   MQC ; MQC2 ; MQC3 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
 include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
 include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
@@ -489,6 +489,11 @@ workflow PAIRED {
             }
             SALMON_INDEX(salmon_fasta_ch)
             SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
+
+            mqc3_ch = TRINITY_STATS.out.stats
+                .mix(SALMON_QUANT.out.quant)
+                .collect()
+            MQC3(mqc3_ch, ch_mqc_conf, ch_mqc_logo)
         }
     }
 

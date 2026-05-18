@@ -57,6 +57,28 @@ process MQC2 {
 }
 
 
+process MQC3 {
+
+    label 'process_mqc'
+
+    publishDir "Reports/trinity", mode: "move", overwrite: true
+
+    input:
+        path "*"
+        path(conf)
+        path(logo)
+
+    output:
+        path "*html", emit: mqc_out3
+
+    script:
+    """
+       multiqc -n ${params.id}.trinity.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" .
+    """
+
+}
+
+
 process MQCSCREENM {
 
     label 'process_mqc'
