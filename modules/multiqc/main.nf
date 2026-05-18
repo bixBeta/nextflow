@@ -73,7 +73,7 @@ process MQC3 {
 
     script:
     """
-       multiqc -n ${params.id}.trinity.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" .
+       multiqc -d -n ${params.id}.trinity.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" .
     """
 
 }
