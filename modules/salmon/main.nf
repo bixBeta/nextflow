@@ -31,7 +31,10 @@ process SALMON_QUANT {
         path(index)
 
     output:
-        path "${id}", emit: quant_dir
+        path "${id}",                          emit: quant_dir
+        path "${id}/aux_info/meta_info.json",  emit: meta_info
+        path "${id}/lib_format_counts.json",   emit: lib_format
+        path "${id}/libParams/flenDist.txt",   emit: flen
 
     script:
     def r1    = reads instanceof List ? reads[0] : reads
