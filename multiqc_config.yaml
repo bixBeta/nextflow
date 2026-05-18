@@ -1,6 +1,7 @@
 data_format: 'yaml'
 show_analysis_time: False
 show_analysis_paths: False
+theme_style: light
 
 report_header_info:
   - Contact E-mail: 'trex_info@cornell.edu'
@@ -9,3 +10,51 @@ custom_logo_url: https://trex.biotech.cornell.edu/
 plots_force_interactive: True
 
 
+skip_generalstats: true
+
+remove_sections:
+  - fastp-duprates
+  - fastp-insert-size
+  - fastp-seq-quality
+  - fastp-seq-content-gc
+  - fastp-seq-content-n
+
+
+report_section_order:
+  fastp:
+    order: 100
+  star:
+    order: 90
+
+table_columns_visible:
+  star-total_reads: true
+  star-mapped : true
+  star-uniquely_mapped: true
+  star-uniquely_mapped_percent : true
+  star-mapped_percent : false
+  star-num_annotated_splices : false
+  star-num_annotated_splices : false
+  star-num_annotated_splices : false
+  star-deletion_length : false
+  star-deletion_length : false
+  star-insertion_length : false
+  star-avg_mapped_read_length: false
+  star-mismatch_rate : false
+  star-deletion_rate : false
+  star-insertion_rate : false
+
+
+
+
+table_columns_name:
+  star-total_reads: "Total Reads -- Post Trimming"
+  star-mapped  : "Total Mapped Reads"
+  star-uniquely_mapped : "Uniquely Mapped Reads"
+  star-uniquely_mapped_percent : "% Uniquely Mapped Reads"
+
+
+fastp:
+  s_name_filenames: true
+
+salmon:
+  s_name_filenames: false

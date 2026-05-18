@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 // Project Params:
 params.sheet            = "sample-sheet.csv"
-params.outdir           = "$projectDir/STAR_OUT"
-params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
+// params.outdir           = "$projectDir/STAR_OUT"
+// params.reads            = "$workDir/fastqs/*_*{1,2}.f*.gz"
 
 // Module Params:
 params.help             = false
@@ -11,7 +11,10 @@ params.listGenomes      = false
 params.gbcov            = false
 params.screen           = false
 params.fastp            = false
-
+params.fastqs           = null
+params.trinity          = false
+params.salmon           = false
+params.transcript_level = false
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
@@ -22,7 +25,7 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-
+params.bed12            = null 
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -39,36 +42,49 @@ Args:
     * --id             : TREx Project ID 
     * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
 
-        -------------------------------------------
-        Sample Sheet Example:    
-        |-------|-----------------|------------------|
-        | label | fastq1          | fastq2           |
-        |-------|-----------------|------------------|
-        | SS1   | SS1_R1.fastq.gz | SS1_R2.fastq.gz  |
-        |-------|-----------------|------------------|
-        | SS2   | SS2_R1.fastq.gz | SS2_R2.fastq.gz  |
-        |-------|-----------------|------------------|
+        -----------------------------------------------
+        Sample Sheet Example: ( comma delimited file )
+        |-------|-----------------|-----------------|
+        | label | fastq1          | fastq2          |
+        |-------|-----------------|-----------------|
+        | SS1   | SS1_R1.fastq.gz | SS1_R2.fastq.gz |
+        |-------|-----------------|-----------------|
+        | SS2   | SS2_R1.fastq.gz | SS2_R2.fastq.gz |
+        |-------|-----------------|-----------------|
         .
         .
         . etc.
-        -------------------------------------------
+        -----------------------------------------------
+
     * --mode            : use 'PE'   for paired end data; default <PE>
                         : use 'PES'  for paired end data + split unmapped
+                        : use 'PEB'  for paired end bacterial data
                         : use 'PEBS' for paired end bacterial data + split unmapped
                         : use 'SE'   for single end data
                         : use 'SES'  for single end data + split unmapped
+                        : use 'SEB'  for single end bacterial data
                         : use 'SEBS' for single end bacterial data + split unmapped
+
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
+    * --fastqs          : Use this param if fastq files are in the fastqs folder in the project directory; 
+                          If --fastqs is not specified, the fastqs must be supplied with absolute paths in the sample-sheet.csv 
     * --fastp           : Invokes fastp trimming module.
     * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
     * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index. (only use if --mode is PES, SES, PEBS or SEBS)
     * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details. 
     * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
     * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
+    * --bed12           : Custom Path for BED12 file for geneBodyCoverage module
     * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
     * --mqcgenome       : A string denoting genome info. It will be used in the multiqc header and will also be used to organize results for a given run.
                           Highly recommended for genomes supplied as path to --genome param. e.g. --mqcgenome Cat_custom
+    * --trinity         : Invokes Trinity de novo assembly on all fastp-trimmed reads (PE modes only); default <false>
+                        : SS_lib_type is derived automatically from --strand (0=unstranded, 1=FR, 2=RF)
+    * --salmon          : Quantify against Trinity assembly using Salmon (requires --trinity); default <false>
+                        : Runs SuperTranscripts by default → gene-level quantification
+    * --transcript_level : Use Trinity.fasta directly for Salmon (transcript-level instead of gene-level); requires --salmon
+
 """
 
     exit 0
@@ -88,6 +104,9 @@ mode         : ${params.mode}
 genome2      : ${params.genome2}
 screen       : ${params.screen}
 gbcov        : ${params.gbcov}
+trinity      : ${params.trinity}
+salmon       : ${params.salmon}
+transcript_level : ${params.transcript_level}
 chromosub    : ${params.chromosub}
 splitname    : ${params.splitname}
 """
@@ -98,6 +117,7 @@ hg38				:"/workdir/genomes/Homo_sapiens/hg38/UCSC/hg38.star",
 mm10				:"/workdir/genomes/Mus_musculus/mm10/UCSC/mm10.star",
 GRCh38				:"/workdir/genomes/Homo_sapiens/hg38/ENSEMBL/GRCh38.star",
 GRCm38				:"/workdir/genomes/Mus_musculus/mm10/ENSEMBL/GRCm38.star",
+GRCm39              :"/workdir/genomes/Mus_musculus/GRCm39/ENSEMBL/GRCm39.star",
 cat					:"/workdir/genomes/Felis_catus/Felis_catus9.0/Ensembl/genomeDir",
 chicken				:"/workdir/genomes/Gallus_gallus/Galgal5/ENSEMBL/galgal5.star",
 chicken6			:"/workdir/genomes/Gallus_gallus/Galgal6/ENSEMBL/gtf.102/star.index.102",
@@ -114,6 +134,7 @@ ehv8				:"/workdir/genomes/FastQ_Screen_Genomes/EHV8/ehv8.star",
 erdman				:"/workdir/genomes/Mycobacterium_tuberculosis/Erdman_GCA_000350205.1/ENSEMBL/genomeDir",
 TB					:"/workdir/genomes/Mycobacterium_tuberculosis/CDC1551_Ensembl/cdc1551.star",
 TB2					:"/workdir/genomes/Mycobacterium_tuberculosis/Ensembl_GCA_000668235/GCA_000668235.star",
+H37Rv               :"/workdir/genomes/Mycobacterium_tuberculosis/H37Rv_GCF_000195955/genomeDir",
 maize4				:"/workdir/genomes/Zea_mays/B73_RefGen_v4/ENSEMBL/star.maize",
 maize3				:"/workdir/genomes/Zea_mays/B73_RefGen_v3/NCBI/genomeDir",
 finch				:"/workdir/genomes/Taeniopygia_guttata/taeGut3.2.4/ENSEMBL/UPDATED.ANNOTS/star.index.updated",
@@ -159,6 +180,7 @@ hg38				:"/workdir/genomes/Homo_sapiens/hg38/UCSC/genes.bed12",
 mm10				:"/workdir/genomes/Mus_musculus/mm10/UCSC/BED12/mm10.ucsc.bed12",
 GRCh38				:"/workdir/genomes/Homo_sapiens/hg38/ENSEMBL/Homo_sapiens.GRCh38.bed12",
 GRCm38				:"/workdir/genomes/Mus_musculus/mm10/ENSEMBL/Mus_musculus.GRCm38.bed12",
+GRCm39              :"/workdir/genomes/Mus_musculus/GRCm39/ENSEMBL/Mus_musculus.GRCm39.114.bed12",
 cat					:"/workdir/genomes/Felis_catus/Felis_catus9.0/Ensembl/Felis_catus.Felis_catus_9.0.95.bed12",
 chicken				:"/workdir/genomes/Gallus_gallus/Galgal5/ENSEMBL/Gallus_gallus.Gallus_gallus-5.0.bed12",
 chicken6			:"/workdir/genomes/Gallus_gallus/Galgal6/ENSEMBL/gtf.102/Gallus_gallus.GRCg6a.102.bed12",
@@ -187,6 +209,11 @@ dm6					:"/workdir/genomes/Drosophila_melanogaster/dm6/ENSEMBL/Drosophila_melano
 tomato				:"/workdir/genomes/Solanum_lycopersicum/custom/ITAG4.0_gene_models.bed12",
 yeast				:"/workdir/genomes/Saccharomyces_cerevisiae/R64-1-1_GCA_000146045.2/ENSEMBL/Saccharomyces_cerevisiae.R64-1-1.bed12"]
 
+
+// Trinity SS_lib_type map: strand param → Trinity library type
+// 0 = unstranded (no flag), 1 = first-strand (FR), 2 = second-strand/dUTP (RF)
+trinityLibtype = [ 0: null, 1: "FR", 2: "RF" ]
+libtype_ch = channel.value( trinityLibtype[params.strand] )
 
 // genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
 // genomeKey = genomeKey.list[0]
@@ -221,13 +248,16 @@ include {   FASTPM                   } from './modules/fastp'
 include {   STARM ; COUNTSM          } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
-include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
+include {   MQC ; MQC2 ; MQC3 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
+include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
+include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
 
 ch_sheet = channel.fromPath(params.sheet)
 
-ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
-ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
+ch_mqc_conf         = channel.fromPath("${projectDir}/multiqc_config.yaml")
+ch_mqc_trinity_conf = channel.fromPath("${projectDir}/multiqc_trinity_config.yaml")
+ch_mqc_logo         = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 
 
 
@@ -275,7 +305,7 @@ if (bed12.containsKey(params.genome)){  // allows a user to pass a STAR index pa
 
 } else {
 
-    bed = null
+    bed = params.bed12
     
 }
 
@@ -304,15 +334,24 @@ SINGLE END NOVA/NEXT-seq Workflow
 
 workflow SINGLE {
 
-    meta_ch = ch_sheet
+    if( params.fastqs ){
+        meta_ch = ch_sheet
                 |  splitCsv( header:true )
-                |  map { row -> [row.label, [file("fastqs/" + row.fastq1)]] }
-                |  view
+                |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
+                |  view 
+    } else {
+
+        meta_ch = ch_sheet
+            |  splitCsv( header:true )
+            |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
+            |  view
+    }
+
     
     if(params.fastp){
 
         FASTPM(meta_ch)
-            .set { fastp_out }
+        fastp_out = FASTPM.out.trimmed_fqs
 
     } else {
 
@@ -362,6 +401,7 @@ workflow SINGLE {
     if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
+                .concat(FASTPM.out.fastp_json)
                 .collect()
                 //.view()
     
@@ -403,15 +443,24 @@ PAIRED END NOVA/NEXT-seq Workflow
 
 
 workflow PAIRED {
-    meta_ch = ch_sheet
+    
+    if( params.fastqs ){
+        meta_ch = ch_sheet
                 |  splitCsv( header:true )
                 |  map { row -> [row.label, [file("fastqs/" + row.fastq1), file("fastqs/" + row.fastq2)]] }
-                |  view
+                |  view 
+    } else {
+
+        meta_ch = ch_sheet
+            |  splitCsv( header:true )
+            |  map { row -> [row.label, [file(row.fastq1), file(row.fastq2)]] }
+            |  view
+    }
 
     if(params.fastp){
 
         FASTPM(meta_ch)
-            .set { fastp_out }
+        fastp_out = FASTPM.out.trimmed_fqs
     
     } else {
 
@@ -419,13 +468,50 @@ workflow PAIRED {
     }
     
 
+    if (params.trinity) {
+
+        trinity_ch = fastp_out
+            .map { id, reads -> reads }
+            .collect(flat: false)
+            .map { all_reads ->
+                def r1 = all_reads.collect { it[0] }
+                def r2 = all_reads.collect { it[1] }
+                [ "all_samples", r1, r2 ]
+            }
+            .view { id, r1, r2 -> "TRINITY_INPUT >> id: ${id}\n  R1: ${r1}\n  R2: ${r2}" }
+
+        TRINITY(trinity_ch, libtype_ch)
+        TRINITY_STATS(TRINITY.out.fasta)
+
+        if (params.salmon) {
+            if (params.transcript_level) {
+                salmon_fasta_ch = TRINITY.out.fasta
+            } else {
+                SUPER_TRANSCRIPTS(TRINITY.out.fasta)
+                salmon_fasta_ch = SUPER_TRANSCRIPTS.out.fasta
+            }
+            SALMON_INDEX(salmon_fasta_ch)
+            SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
+
+            salmon_quant_path_ch = SALMON_QUANT.out.quant_dir
+                .collect()
+                .map { "${workflow.launchDir}/trinity_assembly/salmon_quant" }
+
+            MQC3(
+                salmon_quant_path_ch,
+                ch_mqc_trinity_conf,
+                ch_mqc_logo
+            )
+        }
+    }
+
     if (params.screen){
 
         SCREENM(fastp_out, ch_screen_conf)
 
-        screen_out_ch = SCREENM.out 
+        screen_out_ch = SCREENM.out
                         | collect
-                        | view 
+                        | view
 
         MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
     }
@@ -457,8 +543,9 @@ workflow PAIRED {
     if( params.genome != null ){
         mqc_ch1 = STARM.out.read_per_gene_tab
                 .concat(STARM.out.log_final)
+                .concat(FASTPM.out.fastp_json)
                 .collect()
-                //.view()
+                .view()
 
 
         MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
@@ -472,7 +559,7 @@ workflow PAIRED {
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
-                        .concat(mqc_ch1)
+                        //.concat(mqc_ch1)
                         .collect()
                         //.view()
 
@@ -488,7 +575,7 @@ workflow PAIRED {
 
 workflow {
 
-    if ( params.mode == "SE" || params.mode == "SES" || params.mode == "SEBS" ){
+    if ( params.mode == "SE" || params.mode == "SES" || params.mode == "SEBS" || params.mode == "SEB" ){
 
         SINGLE()
     } 
@@ -498,7 +585,7 @@ workflow {
     //     // SINGLE_SPLIT()
     // }
 
-    else if ( params.mode == "PE" || params.mode == "PES" || params.mode == "PEBS" ){
+    else if ( params.mode == "PE" || params.mode == "PES" || params.mode == "PEBS" || params.mode == "PEB" ){
 
         PAIRED()
     }
@@ -522,4 +609,3 @@ workflow {
 /* ---------------------------------------------------------------------------------------------------------
 GLOBAL PROCESSES
 ------------------------------------------------------------------------------------------------------------ */
-

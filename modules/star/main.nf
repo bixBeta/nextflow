@@ -90,6 +90,26 @@ process STARM {
 
         """
 
+    else if (runmode == "SEB"  )
+
+        """
+            STAR \
+            --runThreadN ${task.cpus} \
+            --genomeDir  ${genome} \
+            --readFilesIn ${trimmed} \
+            --readFilesCommand gunzip -c \
+            --outSAMstrandField intronMotif \
+            --outFilterIntronMotifs RemoveNoncanonical \
+            --outSAMtype BAM SortedByCoordinate \
+            --outFileNamePrefix ${id}. \
+            --limitBAMsortRAM 61675612266 \
+            --quantMode GeneCounts \
+            --alignIntronMax 1 \
+            --alignMatesGapMax 45000 
+
+
+        """
+
     else if (params.mode == "PE"  )
        
         """
@@ -161,6 +181,26 @@ process STARM {
         gzip *_val_2.fq
 
         """
+
+    else if (params.mode == "PEB"  )
+
+        """
+             STAR \
+            --runThreadN ${task.cpus} \
+            --genomeDir ${genome} \
+            --readFilesIn ${trimmed[0]} ${trimmed[1]} \
+            --readFilesCommand gunzip -c \
+            --outSAMstrandField intronMotif \
+            --outFilterIntronMotifs RemoveNoncanonical \
+            --outSAMtype BAM SortedByCoordinate \
+            --outFileNamePrefix ${id}. \
+            --limitBAMsortRAM 61675612266 \
+            --quantMode GeneCounts \
+            --alignIntronMax 1 \
+            --alignMatesGapMax 45000     
+
+        """
+
 
     else {
         error "Invalid alignment mode: ${runmode} "

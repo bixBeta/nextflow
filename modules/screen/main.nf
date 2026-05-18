@@ -21,23 +21,23 @@ process SCREENM {
     
 
     if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" ){
-     
+
     """
-     fastq_screen --conf ${screen_conf} ${trimmed[0]} 
+     fastq_screen --conf ${screen_conf} ${trimmed[0]}
      mv *screen.txt ${id}_R1_screen.txt
      mv *screen.html ${id}_R1_screen.html
-    
+
     """
-       
+
     }
 
     else if ( runmode == "PE" || runmode == "PES" || runmode == "PEBS" ){
 
     """
-     fastq_screen --conf ${screen_conf} ${trimmed[0]}       
+     fastq_screen --conf ${screen_conf} ${trimmed[0]}
      mv *screen.txt ${id}_R1_screen.txt
      mv *screen.html ${id}_R1_screen.html
-    
+
     """
 
     }  else {

@@ -39,7 +39,7 @@ process GBCOV1M {
 process GBCOV2M {
 
     tag "$pin"
-    label "process_medium"
+    label "process_gbcov"
 
     publishDir "GBCOV", mode: "copy", overwrite: true
     

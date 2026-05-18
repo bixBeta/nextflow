@@ -4,7 +4,7 @@ process MQC {
 
     label 'process_mqc'
     
-    publishDir "Reports", mode: "move", overwrite: true
+    publishDir "Reports/${mqcgenome}", mode: "move", overwrite: true
     input:
 
         path "*"
@@ -21,7 +21,7 @@ process MQC {
 
     """
        export  MQC_GENOME=${mqcgenome} 
-       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
+       multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}"  .
 
     """
 
@@ -32,7 +32,7 @@ process MQC2 {
 
     label 'process_mqc'
 
-    publishDir "Reports", mode: "move", overwrite: true
+    publishDir "Reports/${mqcgenome}", mode: "move", overwrite: true
     
     input:
 
@@ -50,8 +50,33 @@ process MQC2 {
 
     """
        export  MQC_GENOME=${mqcgenome}
-       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" -m star .
+       multiqc -n ${params.id}.starSplit.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}"  .
 
+    """
+
+}
+
+
+process MQC3 {
+
+    label 'process_mqc'
+
+    publishDir "Reports/trinity", mode: "move", overwrite: true
+
+    input:
+        val(salmon_quant_path)
+        path(trinity_conf)
+        path(logo)
+
+    output:
+        path "*html", emit: mqc_out3
+
+    script:
+    """
+    multiqc -n ${params.id}.trinity.multiqc.report \\
+        --config ${trinity_conf} \\
+        --cl-config "custom_logo: ${logo}" \\
+        ${salmon_quant_path}/*/
     """
 
 }
