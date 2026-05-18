@@ -22,6 +22,3 @@ table_columns_visible:
 table_columns_name:
   salmon-percent_mapped: "% Reads Mapped to Assembly"
   salmon-num_mapped: "Reads Mapped to Assembly"
-
-salmon:
-  s_name_filenames: false
