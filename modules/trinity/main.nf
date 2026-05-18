@@ -13,7 +13,7 @@ process TRINITY {
         val(libtype)
 
     output:
-        path "${id}_trinityAssemblyOutput/Trinity.fasta", emit: fasta
+        path "${id}_trinityAssemblyOutput.Trinity.fasta", emit: fasta
         path "*"
 
     script:
