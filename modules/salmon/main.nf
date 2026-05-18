@@ -24,14 +24,14 @@ process SALMON_INDEX {
 process SALMON_QUANT {
     label 'process_medium'
     tag "$id"
-    publishDir "trinity_assembly/salmon_quant/${id}"
+    publishDir "trinity_assembly/salmon_quant"
 
     input:
         tuple val(id), path(reads)
         path(index)
 
     output:
-        path "quant.sf", emit: quant
+        path "${id}", emit: quant_dir
 
     script:
     def r1    = reads instanceof List ? reads[0] : reads
@@ -42,6 +42,6 @@ process SALMON_QUANT {
         ${mates} \\
         -p ${task.cpus} \\
         --validateMappings \\
-        -o .
+        -o ${id}
     """
 }
