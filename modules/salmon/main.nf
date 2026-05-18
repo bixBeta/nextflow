@@ -34,12 +34,12 @@ process SALMON_QUANT {
         path "quant.sf", emit: quant
 
     script:
-    def r1 = reads instanceof List ? reads[0] : reads
-    def r2 = reads instanceof List && reads.size() > 1 ? reads[1] : null
+    def r1    = reads instanceof List ? reads[0] : reads
+    def r2    = reads instanceof List && reads.size() > 1 ? reads[1] : null
+    def mates = r2 ? "-1 ${r1} -2 ${r2}" : "-r ${r1}"
     """
     salmon quant -i ${index} -l A \\
-        -1 ${r1} \\
-        ${r2 ? "-2 ${r2} \\\\" : ""} \\
+        ${mates} \\
         -p ${task.cpus} \\
         --validateMappings \\
         -o .
