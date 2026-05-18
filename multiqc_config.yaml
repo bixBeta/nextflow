@@ -55,3 +55,6 @@ table_columns_name:
 
 fastp:
   s_name_filenames: true
+
+salmon:
+  s_name_filenames: false
