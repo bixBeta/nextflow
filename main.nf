@@ -491,7 +491,7 @@ workflow PAIRED {
             SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
 
             mqc3_ch = TRINITY_STATS.out.stats
-                .concat(SALMON_QUANT.out.quant_dir)
+                .concat(SALMON_QUANT.out.log)
                 .collect()
             MQC3(mqc3_ch, ch_mqc_conf, ch_mqc_logo)
         }

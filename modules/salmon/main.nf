@@ -31,7 +31,8 @@ process SALMON_QUANT {
         path(index)
 
     output:
-        path "${id}", emit: quant_dir
+        path "${id}",                    emit: quant_dir
+        path "${id}_salmon_quant.log",   emit: log
 
     script:
     def r1    = reads instanceof List ? reads[0] : reads
@@ -43,5 +44,6 @@ process SALMON_QUANT {
         -p ${task.cpus} \\
         --validateMappings \\
         -o ${id}
+    cp ${id}/logs/salmon_quant.log ${id}_salmon_quant.log
     """
 }
