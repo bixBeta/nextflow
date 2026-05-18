@@ -24,15 +24,14 @@ process SALMON_INDEX {
 process SALMON_QUANT {
     label 'process_medium'
     tag "$id"
-    publishDir "trinity_assembly/salmon_quant"
+    publishDir "trinity_assembly/salmon_quant", mode: 'copy'
 
     input:
         tuple val(id), path(reads)
         path(index)
 
     output:
-        path "${id}",               emit: quant_dir
-        path "${id}.salmon.tar.gz", emit: tarball
+        path "${id}", emit: quant_dir
 
     script:
     def r1    = reads instanceof List ? reads[0] : reads
@@ -44,6 +43,5 @@ process SALMON_QUANT {
         -p ${task.cpus} \\
         --validateMappings \\
         -o ${id}
-    tar czf ${id}.salmon.tar.gz ${id}/
     """
 }

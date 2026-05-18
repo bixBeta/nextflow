@@ -491,10 +491,17 @@ workflow PAIRED {
             SALMON_INDEX(salmon_fasta_ch)
             SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
 
-            mqc3_ch = TRINITY_STATS.out.stats
-                .concat(SALMON_QUANT.out.tarball)
+            salmon_quant_path_ch = SALMON_QUANT.out.quant_dir
                 .collect()
-            MQC3(mqc3_ch, ch_mqc_conf, ch_mqc_trinity_conf, ch_mqc_logo)
+                .map { "${workflow.launchDir}/trinity_assembly/salmon_quant" }
+
+            MQC3(
+                TRINITY_STATS.out.stats,
+                salmon_quant_path_ch,
+                ch_mqc_conf,
+                ch_mqc_trinity_conf,
+                ch_mqc_logo
+            )
         }
     }
 
