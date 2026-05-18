@@ -25,7 +25,13 @@ params.genome           = null
 params.splitname        = "na"
 params.screenconf       = "${projectDir}/screen.conf"
 params.mqcgenome        = null
-params.bed12            = null 
+params.bed12            = null
+// CZ ID Params:
+params.czid             = false
+params.czid_project     = null
+params.czid_host        = "Homo sapiens"
+params.czid_sample_type  = "Tissue"
+params.czid_nucleotide   = "RNA"
 runmode = params.mode
 pin = channel.value(params.id)
 
@@ -84,6 +90,13 @@ Args:
     * --salmon          : Quantify against Trinity assembly using Salmon (requires --trinity); default <false>
                         : Runs SuperTranscripts by default → gene-level quantification
     * --transcript_level : Use Trinity.fasta directly for Salmon (transcript-level instead of gene-level); requires --salmon
+    * --czid            : Invokes CZ ID metagenomics upload subworkflow; default <false>
+    * --czid_project    : CZ ID project name (must exist on czid.org)
+    * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
+                        : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
+                        : Or pass any full CZ ID-recognised species name directly ( <https://czid.org/host_genomes> )
+    * --czid_sample_type  : Sample type for CZ ID metadata; default <Tissue>
+    * --czid_nucleotide   : Nucleotide type for CZ ID metadata; default <RNA> — use DNA for metagenomic DNA samples
 
 """
 
@@ -218,6 +231,26 @@ libtype_ch = channel.value( trinityLibtype[params.strand] )
 // genomeKey.list = (genomeDir.collectMany{ k,v -> (v == params.genome) ? [k] : []} as String[])
 // genomeKey = genomeKey.list[0]
 
+// CZ ID host organism alias map — shorthand → CZ ID recognised name
+// Use --czid_host with any key or full name, e.g. --czid_host human
+czidHostMap = [
+    human           : "Homo sapiens",
+    mouse           : "Mus musculus",
+    rat             : "Rattus norvegicus",
+    chicken         : "Gallus gallus",
+    dog             : "Canis lupus familiaris",
+    cat             : "Felis catus",
+    cow             : "Bos taurus",
+    fly             : "Drosophila melanogaster",
+    mosquito        : "Aedes aegypti",
+    zebrafish       : "Danio rerio",
+    pig             : "Sus scrofa",
+    rabbit          : "Oryctolagus cuniculus",
+    macaque         : "Macaca fascicularis",
+]
+
+czid_host_ch = channel.value( czidHostMap.getOrDefault(params.czid_host, params.czid_host) )
+
 
 
 if( params.listGenomes) {
@@ -241,6 +274,14 @@ if( params.listGenomes) {
     printMap = { a, b -> println "$a ----------- $b" }
     bed12.each(printMap)
 
+    log.info """
+    CZ ID Host Organism Aliases ( --czid_host )
+    =========================================================================================================================
+    """
+    .stripIndent()
+
+    czidHostMap.each(printMap)
+
     exit 0
 }
 
@@ -252,6 +293,7 @@ include {   MQC ; MQC2 ; MQC3 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
 include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
 include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
+include {   CZID                     } from './subworkflows/czid/main.nf'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -434,6 +476,17 @@ workflow SINGLE {
 
 
 
+    if( params.czid && params.fastp ) {
+        def czid_reads = params.genome2 != null
+            ? STARM2.out.unmapped2.map { files ->
+                def fl = files instanceof List ? files : [files]
+                def id = fl[0].name.split('\\.non\\.')[0]
+                [ id, fl ]
+              }
+            : FASTPM.out.trimmed_fqs
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type, params.czid_nucleotide)
+    }
+
 }
 
 
@@ -568,6 +621,17 @@ workflow PAIRED {
 
         MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
+    }
+
+    if( params.czid && params.fastp ) {
+        def czid_reads = params.genome2 != null
+            ? STARM2.out.unmapped2.map { files ->
+                def fl = files instanceof List ? files : [files]
+                def id = fl[0].name.split('\\.non\\.')[0]
+                [ id, fl ]
+              }
+            : FASTPM.out.trimmed_fqs
+        CZID(ch_sheet, czid_reads, params.czid_project, czid_host_ch, params.czid_sample_type, params.czid_nucleotide)
     }
 
 }
