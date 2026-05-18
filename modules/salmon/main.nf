@@ -25,6 +25,7 @@ process SALMON_QUANT {
     label 'process_medium'
     tag "$id"
     publishDir "trinity_assembly/salmon_quant", mode: 'copy'
+    publishDir "salmon_counts",                 mode: 'copy', saveAs: { "${id}/quant.sf" }
 
     input:
         tuple val(id), path(reads)
