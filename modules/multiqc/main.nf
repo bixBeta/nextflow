@@ -64,7 +64,6 @@ process MQC3 {
     publishDir "Reports/trinity", mode: "move", overwrite: true
 
     input:
-        path(trinity_stats)
         val(salmon_quant_path)
         path(trinity_conf)
         path(logo)
@@ -77,7 +76,7 @@ process MQC3 {
     multiqc -n ${params.id}.trinity.multiqc.report \\
         --config ${trinity_conf} \\
         --cl-config "custom_logo: ${logo}" \\
-        ${trinity_stats} ${salmon_quant_path}/*/
+        ${salmon_quant_path}/*/
     """
 
 }

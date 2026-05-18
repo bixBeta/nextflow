@@ -496,7 +496,6 @@ workflow PAIRED {
                 .map { "${workflow.launchDir}/trinity_assembly/salmon_quant" }
 
             MQC3(
-                TRINITY_STATS.out.stats,
                 salmon_quant_path_ch,
                 ch_mqc_trinity_conf,
                 ch_mqc_logo
