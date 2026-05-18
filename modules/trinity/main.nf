@@ -13,6 +13,7 @@ process TRINITY {
         val(libtype)
 
     output:
+        path "${id}_trinityAssemblyOutput/Trinity.fasta", emit: fasta
         path "*"
 
     script:
@@ -38,4 +39,24 @@ process TRINITY {
         error "Runmode ${runmode} is not supported"
     }
 
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TRINITY_STATS — basic assembly QC (N50, total bases, contig count)
+// ─────────────────────────────────────────────────────────────────────────────
+process TRINITY_STATS {
+    label 'process_low'
+    publishDir "trinity_assembly"   // no overwrite — folder already exists from TRINITY
+
+    input:
+        path(fasta)
+
+    output:
+        path "trinity_stats.txt", emit: stats
+
+    script:
+    """
+    TrinityStats.pl ${fasta} > trinity_stats.txt
+    """
 }

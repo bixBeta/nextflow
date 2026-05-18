@@ -13,6 +13,7 @@ params.screen           = false
 params.fastp            = false
 params.fastqs           = null
 params.trinity          = false
+params.salmon           = false
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
@@ -77,6 +78,7 @@ Args:
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
     * --trinity         : Invokes Trinity de novo assembly on all fastp-trimmed reads (PE modes only); default <false>
                         : SS_lib_type is derived automatically from --strand (0=unstranded, 1=FR, 2=RF)
+    * --salmon          : Quantify transcripts against Trinity assembly using Salmon (requires --trinity); default <false>
 
 """
 
@@ -98,6 +100,7 @@ genome2      : ${params.genome2}
 screen       : ${params.screen}
 gbcov        : ${params.gbcov}
 trinity      : ${params.trinity}
+salmon       : ${params.salmon}
 chromosub    : ${params.chromosub}
 splitname    : ${params.splitname}
 """
@@ -241,7 +244,8 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
-include {   TRINITY                  } from './modules/trinity'
+include {   TRINITY; TRINITY_STATS   } from './modules/trinity'
+include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -470,6 +474,12 @@ workflow PAIRED {
             .view { id, r1, r2 -> "TRINITY_INPUT >> id: ${id}\n  R1: ${r1}\n  R2: ${r2}" }
 
         TRINITY(trinity_ch, libtype_ch)
+        TRINITY_STATS(TRINITY.out.fasta)
+
+        if (params.salmon) {
+            SALMON_INDEX(TRINITY.out.fasta)
+            SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
+        }
     }
 
     if (params.screen){
