@@ -22,7 +22,23 @@ nextflow run https://github.com/bixBeta/nextflow -r main --help
 
 If successful, you may see the following output on your terminal console:
 
-![](img/success.png)
+```
+N E X T F L O W  ~  version 25.10.0
+Pulling bixBeta/nextflow ...
+ downloaded from https://github.com/bixBeta/nextflow.git
+Launching `https://github.com/bixBeta/nextflow` [peaceful_nobel] DSL2 - revision: ... [main]
+
+R  N  A  -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
+=======================================================================================================================================================================
+Usage:
+    nextflow run https://github.com/bixBeta/nextflow -r main < args ... >
+
+Args:
+    * --listGenomes    : Get extended list of genomes available for this pipeline
+    * --id             : TREx Project ID
+    * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
+    ...
+```
 
 
 <hr>
