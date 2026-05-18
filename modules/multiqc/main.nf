@@ -74,14 +74,8 @@ process MQC3 {
 
     script:
     """
-    # Reconstruct per-sample directory structure that MultiQC expects
-    for f in *_meta_info.json; do
-        sample="\${f/_meta_info.json/}"
-        mkdir -p "\${sample}/aux_info" "\${sample}/libParams"
-        cp "\${sample}_meta_info.json"         "\${sample}/aux_info/meta_info.json"
-        cp "\${sample}_lib_format_counts.json" "\${sample}/lib_format_counts.json"
-        cp "\${sample}_flenDist.txt"           "\${sample}/libParams/flenDist.txt"
-    done
+    # Extract per-sample salmon tarballs so MultiQC finds the full directory structure
+    for t in *.salmon.tar.gz; do tar xzf "\$t"; done
     multiqc -n ${params.id}.trinity.multiqc.report --config ${conf} --config ${trinity_conf} --cl-config "custom_logo: ${logo}" .
     """
 

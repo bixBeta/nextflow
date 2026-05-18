@@ -31,10 +31,8 @@ process SALMON_QUANT {
         path(index)
 
     output:
-        path "${id}",                          emit: quant_dir
-        path "${id}_meta_info.json",           emit: meta_info
-        path "${id}_lib_format_counts.json",   emit: lib_format
-        path "${id}_flenDist.txt",             emit: flen
+        path "${id}",               emit: quant_dir
+        path "${id}.salmon.tar.gz", emit: tarball
 
     script:
     def r1    = reads instanceof List ? reads[0] : reads
@@ -46,8 +44,6 @@ process SALMON_QUANT {
         -p ${task.cpus} \\
         --validateMappings \\
         -o ${id}
-    cp ${id}/aux_info/meta_info.json    ${id}_meta_info.json
-    cp ${id}/lib_format_counts.json     ${id}_lib_format_counts.json
-    cp ${id}/libParams/flenDist.txt     ${id}_flenDist.txt
+    tar czf ${id}.salmon.tar.gz ${id}/
     """
 }
