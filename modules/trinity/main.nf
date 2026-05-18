@@ -53,10 +53,10 @@ process TRINITY_STATS {
         path(fasta)
 
     output:
-        path "trinity_stats.txt", emit: stats
+        path "all_samples.trinity_stats", emit: stats
 
     script:
     """
-    TrinityStats.pl ${fasta} > trinity_stats.txt
+    TrinityStats.pl ${fasta} > all_samples.trinity_stats
     """
 }
