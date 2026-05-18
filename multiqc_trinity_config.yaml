@@ -1,0 +1,27 @@
+data_format: 'yaml'
+show_analysis_time: False
+show_analysis_paths: False
+theme_style: light
+
+report_header_info:
+  - Contact E-mail: 'trex_info@cornell.edu'
+  - Reference Genome: 'Trinity de novo assembly'
+custom_logo_url: https://trex.biotech.cornell.edu/
+plots_force_interactive: True
+
+report_section_order:
+  trinity:
+    order: 100
+  salmon:
+    order: 90
+
+table_columns_visible:
+  salmon-percent_mapped: true
+  salmon-num_mapped: true
+
+table_columns_name:
+  salmon-percent_mapped: "% Reads Mapped to Assembly"
+  salmon-num_mapped: "Reads Mapped to Assembly"
+
+salmon:
+  s_name_filenames: false

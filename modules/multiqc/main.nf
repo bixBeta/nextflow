@@ -66,6 +66,7 @@ process MQC3 {
     input:
         path "*"
         path(conf)
+        path(trinity_conf)
         path(logo)
 
     output:
@@ -73,7 +74,7 @@ process MQC3 {
 
     script:
     """
-       multiqc -n ${params.id}.trinity.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}" .
+       multiqc -n ${params.id}.trinity.multiqc.report --config ${conf} --config ${trinity_conf} --cl-config "custom_logo: ${logo}" .
     """
 
 }

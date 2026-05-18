@@ -253,8 +253,9 @@ include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
 
 ch_sheet = channel.fromPath(params.sheet)
 
-ch_mqc_conf = channel.fromPath("${projectDir}/multiqc_config.yaml")
-ch_mqc_logo = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
+ch_mqc_conf         = channel.fromPath("${projectDir}/multiqc_config.yaml")
+ch_mqc_trinity_conf = channel.fromPath("${projectDir}/multiqc_trinity_config.yaml")
+ch_mqc_logo         = channel.fromPath("${projectDir}/img/trex-extended-logo.png")
 
 
 
@@ -493,7 +494,7 @@ workflow PAIRED {
             mqc3_ch = TRINITY_STATS.out.stats
                 .concat(SALMON_QUANT.out.quant_dir)
                 .collect()
-            MQC3(mqc3_ch, ch_mqc_conf, ch_mqc_logo)
+            MQC3(mqc3_ch, ch_mqc_conf, ch_mqc_trinity_conf, ch_mqc_logo)
         }
     }
 
