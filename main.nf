@@ -14,6 +14,7 @@ params.fastp            = false
 params.fastqs           = null
 params.trinity          = false
 params.salmon           = false
+params.transcript_level = false
 // Default Params:
 params.mode             = "PE"
 params.id               = "TREx_ID"
@@ -78,7 +79,9 @@ Args:
     * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
     * --trinity         : Invokes Trinity de novo assembly on all fastp-trimmed reads (PE modes only); default <false>
                         : SS_lib_type is derived automatically from --strand (0=unstranded, 1=FR, 2=RF)
-    * --salmon          : Quantify transcripts against Trinity assembly using Salmon (requires --trinity); default <false>
+    * --salmon          : Quantify against Trinity assembly using Salmon (requires --trinity); default <false>
+                        : Runs SuperTranscripts by default → gene-level quantification
+    * --transcript_level : Use Trinity.fasta directly for Salmon (transcript-level instead of gene-level); requires --salmon
 
 """
 
@@ -101,6 +104,7 @@ screen       : ${params.screen}
 gbcov        : ${params.gbcov}
 trinity      : ${params.trinity}
 salmon       : ${params.salmon}
+transcript_level : ${params.transcript_level}
 chromosub    : ${params.chromosub}
 splitname    : ${params.splitname}
 """
@@ -244,7 +248,7 @@ include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
-include {   TRINITY; TRINITY_STATS   } from './modules/trinity'
+include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
 include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
 
 ch_sheet = channel.fromPath(params.sheet)
@@ -477,7 +481,13 @@ workflow PAIRED {
         TRINITY_STATS(TRINITY.out.fasta)
 
         if (params.salmon) {
-            SALMON_INDEX(TRINITY.out.fasta)
+            if (params.transcript_level) {
+                salmon_fasta_ch = TRINITY.out.fasta
+            } else {
+                SUPER_TRANSCRIPTS(TRINITY.out.fasta)
+                salmon_fasta_ch = SUPER_TRANSCRIPTS.out.fasta
+            }
+            SALMON_INDEX(salmon_fasta_ch)
             SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
         }
     }

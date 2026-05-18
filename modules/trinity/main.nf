@@ -43,6 +43,29 @@ process TRINITY {
 
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SUPER_TRANSCRIPTS — collapse Trinity transcript graph to one seq per gene
+// Output: trinity_genes.fasta (used as Salmon index by default)
+//         trinity_genes.gtf   (transcript annotations within supertranscripts)
+// ─────────────────────────────────────────────────────────────────────────────
+process SUPER_TRANSCRIPTS {
+    label 'process_medium'
+    publishDir "trinity_assembly/supertranscripts"
+
+    input:
+        path(fasta)
+
+    output:
+        path "trinity_genes.fasta", emit: fasta
+        path "trinity_genes.gtf",   emit: gtf
+
+    script:
+    """
+    Trinity_gene_splice_modeler.py --trinity_fasta ${fasta}
+    """
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
 // TRINITY_STATS — basic assembly QC (N50, total bases, contig count)
 // ─────────────────────────────────────────────────────────────────────────────
 process TRINITY_STATS {
