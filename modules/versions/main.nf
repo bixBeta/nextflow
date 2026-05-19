@@ -33,23 +33,23 @@ process DUMP_VERSIONS {
             for tool, ver in process_versions.items():
                 tools[tool] = str(ver).strip()
 
-    # Write MultiQC custom-content table (one row per tool)
+    # Write MultiQC custom-content HTML table (no violin button)
+    rows = "".join(
+        f"        <tr><td><strong>{tool}</strong></td><td><samp>{ver}</samp></td></tr>\\n"
+        for tool, ver in sorted(tools.items())
+    )
+    html = (
+        "<table class=\\"table table-condensed\\">"
+        "<thead><tr><th>Software</th><th>Version</th></tr></thead>"
+        f"<tbody>\\n{rows}        </tbody></table>"
+    )
     mqc = {
         "id": "pipeline_software_versions",
         "section_name": "Software Versions",
         "description": "Versions of software tools used in this pipeline run.",
         "section_href": "https://github.com/bixBeta/nextflow",
-        "plot_type": "table",
-        "pconfig": {
-            "id": "pipeline_software_versions_table",
-            "title": "Software Versions",
-            "no_violin": True,
-            "col1_header": "Software",
-        },
-        "headers": {
-            "Version": {"description": "Software version used in this run", "scale": False, "format": "{}"}
-        },
-        "data": {tool: {"Version": ver} for tool, ver in sorted(tools.items())}
+        "plot_type": "html",
+        "data": html,
     }
     with open("software_versions_mqc.yml", "w") as fh:
         yaml.dump(mqc, fh, default_flow_style=False, allow_unicode=True)
