@@ -1,7 +1,7 @@
 # Nextflow Pipeline for RNA-seq runs on GG02 
 [![](img/trex-extended-logo.png)](https://trex.biotech.cornell.edu/)
 
-[![Build and Push Docker Image](bixBeta/nextflow/actions/workflows/docker.yml/badge.svg?branch=main)](bixBeta/nextflow/actions/workflows/docker.yml)
+[![Build and Push Docker Image](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml/badge.svg?branch=main)](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/bixbeta/trex-rna)](https://hub.docker.com/r/bixbeta/trex-rna)
 [![Docker Image Version](https://img.shields.io/docker/v/bixbeta/trex-rna/latest?label=docker%3Alatest)](https://hub.docker.com/r/bixbeta/trex-rna/tags)
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.10.0-23aa62.svg)](https://www.nextflow.io/)
