@@ -12,13 +12,14 @@ plots_force_interactive: True
 
 skip_generalstats: true
 
+disable_version_detection: True
+
 remove_sections:
   - fastp-duprates
   - fastp-insert-size
   - fastp-seq-quality
   - fastp-seq-content-gc
   - fastp-seq-content-n
-  - software-versions
 
 
 report_section_order:

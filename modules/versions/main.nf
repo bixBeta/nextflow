@@ -43,9 +43,10 @@ process DUMP_VERSIONS {
         "pconfig": {
             "id": "pipeline_software_versions_table",
             "title": "Software Versions",
+            "no_violin": True,
         },
         "headers": {
-            "Version": {"description": "Software version used in this run", "scale": False}
+            "Version": {"description": "Software version used in this run", "scale": False, "format": "{}"}
         },
         "data": {tool: {"Version": ver} for tool, ver in sorted(tools.items())}
     }
