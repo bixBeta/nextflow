@@ -14,34 +14,42 @@ process DUMP_VERSIONS {
     #!/usr/bin/env python3
     import yaml, glob
 
-    versions = {}
+    # Collect all per-process versions
+    all_versions = {}
     for f in glob.glob("versions_*.yml"):
-        if f.startswith("software_versions"):
-            continue
         with open(f) as fh:
             data = yaml.safe_load(fh)
             if isinstance(data, dict):
-                versions.update(data)
+                all_versions.update(data)
 
-    # Write plain versions YAML
+    # Write full process-level versions YAML for reference
     with open("software_versions.yml", "w") as fh:
-        yaml.dump(versions, fh, default_flow_style=False)
+        yaml.dump(all_versions, fh, default_flow_style=False)
 
-    # Write MultiQC-compatible custom data YAML
-    rows = "".join(
-        f'        <dt>{tool}</dt><dd><samp>{ver}</samp></dd>\\n'
-        for process_versions in versions.values()
-        for tool, ver in (process_versions.items() if isinstance(process_versions, dict) else {}.items())
-    )
+    # Flatten and deduplicate by tool name (last-seen wins)
+    tools = {}
+    for process_versions in all_versions.values():
+        if isinstance(process_versions, dict):
+            for tool, ver in process_versions.items():
+                tools[tool] = str(ver).strip()
+
+    # Write MultiQC custom-content table (one row per tool)
     mqc = {
-        "id": "software_versions",
+        "id": "pipeline_software_versions",
         "section_name": "Software Versions",
+        "description": "Versions of software tools used in this pipeline run.",
         "section_href": "https://github.com/bixBeta/nextflow",
-        "plot_type": "html",
-        "description": "Versions collected at run time.",
-        "data": f"<dl class=\\"dl-horizontal\\">\\n{rows}    </dl>"
+        "plot_type": "table",
+        "pconfig": {
+            "id": "pipeline_software_versions_table",
+            "title": "Software Versions",
+        },
+        "headers": {
+            "Version": {"description": "Software version used in this run", "scale": False}
+        },
+        "data": {tool: {"Version": ver} for tool, ver in sorted(tools.items())}
     }
     with open("software_versions_mqc.yml", "w") as fh:
-        yaml.dump(mqc, fh, default_flow_style=False)
+        yaml.dump(mqc, fh, default_flow_style=False, allow_unicode=True)
     """
 }

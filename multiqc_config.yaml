@@ -18,6 +18,7 @@ remove_sections:
   - fastp-seq-quality
   - fastp-seq-content-gc
   - fastp-seq-content-n
+  - software-versions
 
 
 report_section_order:
