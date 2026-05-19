@@ -44,6 +44,7 @@ process DUMP_VERSIONS {
             "id": "pipeline_software_versions_table",
             "title": "Software Versions",
             "no_violin": True,
+            "col1_header": "Software",
         },
         "headers": {
             "Version": {"description": "Software version used in this run", "scale": False, "format": "{}"}
