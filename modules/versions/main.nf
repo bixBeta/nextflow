@@ -3,7 +3,7 @@ process DUMP_VERSIONS {
     publishDir "pipeline_info", mode: 'copy'
 
     input:
-        path versions
+        path(versions, stageAs: "versions_?.yml")
 
     output:
         path "software_versions_mqc.yml", emit: mqc_yml
@@ -15,7 +15,7 @@ process DUMP_VERSIONS {
     import yaml, glob
 
     versions = {}
-    for f in glob.glob("*.yml"):
+    for f in glob.glob("versions_*.yml"):
         if f.startswith("software_versions"):
             continue
         with open(f) as fh:
