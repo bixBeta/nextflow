@@ -294,6 +294,7 @@ include {   SCREENM                  } from './modules/screen'
 include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
 include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
 include {   CZID                     } from './subworkflows/czid/main.nf'
+include {   DUMP_VERSIONS            } from './modules/versions'
 
 ch_sheet = channel.fromPath(params.sheet)
 
@@ -414,16 +415,9 @@ workflow SINGLE {
     }
 
     if( params.screen ) {
-
         SCREENM(fastp_out, ch_screen_conf)
-
-        screen_out_ch = SCREENM.out 
-                            | collect
-        
-        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+        screen_out_ch = SCREENM.out.screen_out | collect
     }
-
-
 
     if ( params.gbcov & bed != null ) {
         GBCOV1M(bam_ch, chromo_sub)
@@ -431,13 +425,40 @@ workflow SINGLE {
 
         gbcov1_ch = GBCOV1M.out.sub_bam
                         //.concat(gbcov1.sub_bam_index)
-                        .collect(flat : false)                    
+                        .collect(flat : false)
                         // .map { it -> [it + it] }
-                        
-                        //.view()                    
-        
+                        //.view()
 
         GBCOV2M(pin, bed_ch, gbcov1_ch)
+    }
+
+    if( params.genome2 != null ){
+        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
+    }
+
+    // Collect software versions
+    ch_versions = Channel.empty()
+    if (params.fastp) {
+        ch_versions = ch_versions.mix(FASTPM.out.versions.first())
+    }
+    if (params.genome != null) {
+        ch_versions = ch_versions.mix(STARM.out.versions.first())
+    }
+    if (params.genome2 != null) {
+        ch_versions = ch_versions.mix(STARM2.out.versions.first())
+    }
+    if (params.screen) {
+        ch_versions = ch_versions.mix(SCREENM.out.versions.first())
+    }
+    if (params.gbcov && bed != null) {
+        ch_versions = ch_versions.mix(GBCOV1M.out.versions.first())
+    }
+
+    ch_versions_collected = ch_versions.collect()
+    DUMP_VERSIONS(ch_versions_collected)
+
+    if( params.screen ) {
+        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo, DUMP_VERSIONS.out.mqc_yml)
     }
 
     if( params.genome != null ){
@@ -446,17 +467,15 @@ workflow SINGLE {
                 .concat(FASTPM.out.fastp_json)
                 .collect()
                 //.view()
-    
 
-        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
+
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch, DUMP_VERSIONS.out.mqc_yml)
 
         COUNTSM(STARM.out.read_per_gene_tab.collect().flatten(),mqcgenome_ch)
     }
 
 
     if( params.genome2 != null ){
-
-        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
@@ -465,9 +484,9 @@ workflow SINGLE {
                         //.view()
 
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
-    
 
-        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
+
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch, DUMP_VERSIONS.out.mqc_yml)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
     }
 
@@ -549,37 +568,25 @@ workflow PAIRED {
             salmon_quant_path_ch = SALMON_QUANT.out.quant_dir
                 .collect()
                 .map { "${workflow.launchDir}/trinity_assembly/salmon_quant" }
-
-            MQC3(
-                salmon_quant_path_ch,
-                ch_mqc_trinity_conf,
-                ch_mqc_logo
-            )
         }
     }
 
     if (params.screen){
-
         SCREENM(fastp_out, ch_screen_conf)
-
-        screen_out_ch = SCREENM.out
-                        | collect
-                        | view
-
-        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo)
+        screen_out_ch = SCREENM.out.screen_out | collect | view
     }
 
     if( params.genome != null ){
         STARM(fastp_out, genome_ch, mqcgenome_ch)
-    
-        bam_ch = STARM.out.bam_sorted 
+
+        bam_ch = STARM.out.bam_sorted
                 | collect
                 | flatten
         unmapped_ch = STARM.out.unmapped
-    
+
     // chromo_sub = channel.value(params.gbcov)
        chromo_sub = channel.value(params.chromosub)
-    
+
     }
 
     if ( params.gbcov  & bed != null ) {
@@ -587,10 +594,54 @@ workflow PAIRED {
             .set { gbcov1 }
 
         gbcov1_ch = GBCOV1M.out.sub_bam
-                        .collect(flat : false)                    
-                        //.view()                    
-        
+                        .collect(flat : false)
+                        //.view()
+
         GBCOV2M(pin, bed_ch, gbcov1_ch)
+    }
+
+    if( params.genome2 != null ){
+        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
+    }
+
+    // Collect software versions
+    ch_versions = Channel.empty()
+    if (params.fastp) {
+        ch_versions = ch_versions.mix(FASTPM.out.versions.first())
+    }
+    if (params.trinity) {
+        ch_versions = ch_versions.mix(TRINITY.out.versions.first())
+        if (params.salmon) {
+            ch_versions = ch_versions.mix(SALMON_INDEX.out.versions.first())
+        }
+    }
+    if (params.screen) {
+        ch_versions = ch_versions.mix(SCREENM.out.versions.first())
+    }
+    if (params.genome != null) {
+        ch_versions = ch_versions.mix(STARM.out.versions.first())
+    }
+    if (params.gbcov && bed != null) {
+        ch_versions = ch_versions.mix(GBCOV1M.out.versions.first())
+    }
+    if (params.genome2 != null) {
+        ch_versions = ch_versions.mix(STARM2.out.versions.first())
+    }
+
+    ch_versions_collected = ch_versions.collect()
+    DUMP_VERSIONS(ch_versions_collected)
+
+    if (params.screen){
+        MQCSCREENM(screen_out_ch, ch_mqc_conf, ch_mqc_logo, DUMP_VERSIONS.out.mqc_yml)
+    }
+
+    if (params.trinity && params.salmon) {
+        MQC3(
+            salmon_quant_path_ch,
+            ch_mqc_trinity_conf,
+            ch_mqc_logo,
+            DUMP_VERSIONS.out.mqc_yml
+        )
     }
 
     if( params.genome != null ){
@@ -601,14 +652,12 @@ workflow PAIRED {
                 .view()
 
 
-        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
+        MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch, DUMP_VERSIONS.out.mqc_yml)
         COUNTSM(STARM.out.read_per_gene_tab.collect().flatten(),mqcgenome_ch )
 
     }
 
     if( params.genome2 != null ){
-
-        STARM2(unmapped_ch, genome_ch2, splitName_ch, mqcgenome_ch)
 
         mqc_ch2 = STARM2.out.read_per_gene_tab2
                         .concat(STARM2.out.log_final2)
@@ -617,9 +666,9 @@ workflow PAIRED {
                         //.view()
 
         // mqc_ch3 = mqc_ch1.concat(mqc_ch2).view()
-    
 
-        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch)
+
+        MQC2(mqc_ch2, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch, DUMP_VERSIONS.out.mqc_yml)
         COUNTSM2(STARM2.out.read_per_gene_tab2.collect().flatten())
     }
 

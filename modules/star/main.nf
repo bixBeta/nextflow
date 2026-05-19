@@ -24,7 +24,8 @@ process STARM {
         path "*SJ.out.tab"                                                  , emit: sj_out_tab
         path "*bam"                                                         , emit: bam_sorted
         tuple val(id), path("*_val_*.fq*")  ,     optional:true             , emit: unmapped
-    
+        path "versions.yml"                                                 , emit: versions
+
     script:
 
     if (runmode == "SE" )
@@ -41,6 +42,10 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
  
  
@@ -59,11 +64,15 @@ process STARM {
             --outFileNamePrefix ${id}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
-        
+
         BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
-        
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (runmode == "SEBS"  )
@@ -82,12 +91,16 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000 
+            --alignMatesGapMax 45000
 
         BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
         gzip *_val_1.fq
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (runmode == "SEB"  )
@@ -105,13 +118,16 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000 
+            --alignMatesGapMax 45000
 
-
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (params.mode == "PE"  )
-       
+
         """
             STAR \
             --runThreadN ${task.cpus} \
@@ -125,10 +141,14 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (params.mode == "PES"  )
-   
+
         """
             STAR \
             --runThreadN ${task.cpus} \
@@ -141,8 +161,7 @@ process STARM {
             --outFileNamePrefix ${id}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
-            --outReadsUnmapped Fastx 
-
+            --outReadsUnmapped Fastx
 
         BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
@@ -150,7 +169,11 @@ process STARM {
 
         gzip *_val_1.fq
         gzip *_val_2.fq
-       
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
     
     
@@ -170,8 +193,7 @@ process STARM {
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000     
-
+            --alignMatesGapMax 45000
 
         BASE=`basename ${mqcgenome}`
         mv *.out.mate1 ${id}.non.\${BASE}_val_1.fq
@@ -180,6 +202,10 @@ process STARM {
         gzip *_val_1.fq
         gzip *_val_2.fq
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (params.mode == "PEB"  )
@@ -197,8 +223,12 @@ process STARM {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000     
+            --alignMatesGapMax 45000
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
 

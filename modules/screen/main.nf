@@ -13,8 +13,9 @@ process SCREENM {
         path(screen_conf)
 
     output:
-        path "*"
- 
+        path "*"                , emit: screen_out
+        path "versions.yml"    , emit: versions
+
 
 
     script:
@@ -27,6 +28,10 @@ process SCREENM {
      mv *screen.txt ${id}_R1_screen.txt
      mv *screen.html ${id}_R1_screen.html
 
+     cat <<-END_VERSIONS > versions.yml
+     "${task.process}":
+         fastq_screen: \$(fastq_screen --version 2>&1 | head -1 | sed 's/FastQ Screen v//')
+     END_VERSIONS
     """
 
     }
@@ -38,6 +43,10 @@ process SCREENM {
      mv *screen.txt ${id}_R1_screen.txt
      mv *screen.html ${id}_R1_screen.html
 
+     cat <<-END_VERSIONS > versions.yml
+     "${task.process}":
+         fastq_screen: \$(fastq_screen --version 2>&1 | head -1 | sed 's/FastQ Screen v//')
+     END_VERSIONS
     """
 
     }  else {

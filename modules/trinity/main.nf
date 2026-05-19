@@ -15,6 +15,7 @@ process TRINITY {
     output:
         path "${id}_trinityAssemblyOutput.Trinity.fasta", emit: fasta
         path "*"
+        path "versions.yml", emit: versions
 
     script:
 
@@ -33,6 +34,11 @@ process TRINITY {
             --NO_SEQTK --output ${id}_trinityAssemblyOutput \\
             --left ${left} \\
             --right ${right} >& trinity.log
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            Trinity: \$(Trinity --version 2>&1 | head -1 | sed 's/Trinity version: //')
+        END_VERSIONS
     """
 
     } else {

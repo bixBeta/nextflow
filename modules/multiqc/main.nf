@@ -3,26 +3,32 @@
 process MQC {
 
     label 'process_mqc'
-    
+
     publishDir "Reports/${mqcgenome}", mode: "move", overwrite: true
     input:
 
         path "*"
         path(conf)
-        path(logo)  
-        val(mqcgenome)           
+        path(logo)
+        val(mqcgenome)
+        path(mqc_versions)
 
     output:
-        path "*html"                    , emit: mqc_out  
+        path "*html"                    , emit: mqc_out
+        path "versions.yml"            , emit: versions
 
     when:
-        
+
     script:
 
     """
-       export  MQC_GENOME=${mqcgenome} 
+       export  MQC_GENOME=${mqcgenome}
        multiqc -n ${params.id}.star.multiqc.report --config ${conf} --cl-config "custom_logo: ${logo}"  .
 
+       cat <<-END_VERSIONS > versions.yml
+       "${task.process}":
+           multiqc: \$(multiqc --version 2>&1 | sed 's/multiqc, version //')
+       END_VERSIONS
     """
 
 }
@@ -33,19 +39,20 @@ process MQC2 {
     label 'process_mqc'
 
     publishDir "Reports/${mqcgenome}", mode: "move", overwrite: true
-    
+
     input:
 
-        path "*"              
+        path "*"
         path(conf)
-        path(logo)  
+        path(logo)
         val(mqcgenome)
-        
+        path(mqc_versions)
+
     output:
-        path "*html"                    , emit: mqc_out2  
+        path "*html"                    , emit: mqc_out2
 
     when:
-        
+
     script:
 
     """
@@ -67,6 +74,7 @@ process MQC3 {
         val(salmon_quant_path)
         path(trinity_conf)
         path(logo)
+        path(mqc_versions)
 
     output:
         path "*html", emit: mqc_out3
@@ -87,18 +95,19 @@ process MQCSCREENM {
     label 'process_mqc'
 
     publishDir "Reports", mode: "move", overwrite: true
-    
+
     input:
 
-        path "*"     
-        path(conf)         
-        path(logo)  
-        
+        path "*"
+        path(conf)
+        path(logo)
+        path(mqc_versions)
+
     output:
-        path "*html"                    , emit: mqc_out_screen  
+        path "*html"                    , emit: mqc_out_screen
 
     when:
-        
+
     script:
 
     """

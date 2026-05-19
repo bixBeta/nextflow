@@ -25,6 +25,7 @@ process STARM2 {
         path "*SJ.out.tab"                                                  , emit: sj_out_tab2
         path "*_val_*.fq*"                      , optional:true             , emit: unmapped2
         path "*bam"                                                         , emit: bam_sorted2
+        path "versions.yml"                                                 , emit: versions
 
     script:
 
@@ -43,10 +44,14 @@ process STARM2 {
             --outFileNamePrefix ${id}-non-${gkey}-mappedTo-${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts
-        
-        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
-        gzip *_val_1.fq 
 
+        mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
+        gzip *_val_1.fq
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (runmode == "SEBS" & splitmap != null )
@@ -65,15 +70,19 @@ process STARM2 {
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000 
+            --alignMatesGapMax 45000
 
         mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
-        gzip *_val_1.fq 
+        gzip *_val_1.fq
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else if (params.mode == "PES" & splitmap != null )
-   
+
         """
             STAR \
             --runThreadN ${task.cpus} \
@@ -86,14 +95,18 @@ process STARM2 {
             --outFileNamePrefix ${id}-non-${gkey}-mappedTo-${splitname}. \
             --limitBAMsortRAM 61675612266 \
             --quantMode GeneCounts \
-            --outReadsUnmapped Fastx 
+            --outReadsUnmapped Fastx
 
         mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
         mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
 
-        gzip *_val_1.fq 
-        gzip *_val_2.fq 
+        gzip *_val_1.fq
+        gzip *_val_2.fq
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
     else if (params.mode == "PEBS" & splitmap != null  )
 
@@ -111,14 +124,18 @@ process STARM2 {
             --quantMode GeneCounts \
             --outReadsUnmapped Fastx \
             --alignIntronMax 1 \
-            --alignMatesGapMax 45000                   
+            --alignMatesGapMax 45000
 
         mv *.out.mate1 ${id}.non.${gkey}.non.${splitname}_val_1.fq
         mv *.out.mate2 ${id}.non.${gkey}.non.${splitname}_val_2.fq
 
-        gzip *_val_1.fq 
-        gzip *_val_2.fq 
+        gzip *_val_1.fq
+        gzip *_val_2.fq
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+        END_VERSIONS
         """
 
     else {

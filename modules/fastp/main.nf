@@ -13,8 +13,9 @@ process FASTPM {
     
     output:
         tuple val(id), path("*gz")              , emit: trimmed_fqs
-        path("*.fastp.json")                    , emit: fastp_json    
-        
+        path("*.fastp.json")                    , emit: fastp_json
+        path "versions.yml"                     , emit: versions
+
     script:
 
     if ( runmode == "SE" || runmode == "SES" || runmode == "SEBS" || runmode == "SEB" ){
@@ -29,6 +30,10 @@ process FASTPM {
         -h ${id}.fastp.html \
         -j ${id}.fastp.json
 
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            fastp: \$(fastp --version 2>&1 | head -1 | sed 's/fastp //')
+        END_VERSIONS
         """
 
     }
@@ -46,8 +51,11 @@ process FASTPM {
             -O ${id}_val_2.fq.gz \
             -h ${id}.fastp.html \
             -j ${id}.fastp.json
-        
-        
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            fastp: \$(fastp --version 2>&1 | head -1 | sed 's/fastp //')
+        END_VERSIONS
         """
 
 

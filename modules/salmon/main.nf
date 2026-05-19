@@ -10,10 +10,16 @@ process SALMON_INDEX {
 
     output:
         path "trinity_index", emit: index
+        path "versions.yml", emit: versions
 
     script:
     """
     salmon index -t ${fasta} -i trinity_index -p ${task.cpus}
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        salmon: \$(salmon --version 2>&1 | head -1 | sed 's/salmon //')
+    END_VERSIONS
     """
 }
 

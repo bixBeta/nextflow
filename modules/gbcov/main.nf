@@ -13,7 +13,8 @@ process GBCOV1M {
     output:
         path "*.chr*.bam"           , emit: sub_bam
         path "*.chr*.bam.bai"       , emit: sub_bam_index
-    
+        path "versions.yml"         , emit: versions
+
     script:
 
     if ( gbcovRun )
@@ -27,7 +28,12 @@ process GBCOV1M {
         samtools view -b \${BASE}.bam ${chromosome} > \${BASE}.chr${chromosome}.bam
 
         samtools index  \${BASE}.chr${chromosome}.bam
-        
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            samtools: \$(samtools --version 2>&1 | head -1 | sed 's/samtools //')
+            RSeQC: \$(geneBody_coverage.py --version 2>&1 | tail -1)
+        END_VERSIONS
         """
 
 
