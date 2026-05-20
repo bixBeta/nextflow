@@ -1,7 +1,7 @@
 FROM mambaorg/micromamba:1.5.8
 
 LABEL org.opencontainers.image.source="https://github.com/bixBeta/nextflow"
-LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e | samtools=1.9 | bowtie2=2.4.5 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32 | trinity=2.15.2"
+LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e | samtools=1.9 | bowtie2=2.4.5 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32 | trinity=2.15.2 | salmon=1.10.3"
 
 USER root
 
@@ -51,6 +51,13 @@ RUN micromamba install -y -n base \
 # Layer 5 — CZ ID CLI v6.0.0 (Go binary, installed from GitHub release)
 RUN curl -fsSL https://github.com/chanzuckerberg/czid-cli/releases/download/v6.0.0/czid-cli_linux_amd64.tar.gz \
     | tar -xz --strip-components=1 -C /usr/local/bin/ czid-cli_linux_amd64/czid
+
+# Layer 6 — Salmon quantification
+RUN micromamba install -y -n base \
+        -c conda-forge \
+        -c bioconda \
+        salmon=1.10.3 \
+    && micromamba clean --all --yes
 
 # --- ADD NEW TOOLS BELOW THIS LINE ---
 # Each new RUN block becomes its own cached layer.
