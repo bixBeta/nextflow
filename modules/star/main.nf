@@ -46,6 +46,7 @@ process STARM {
             --alignIntronMin 20 \
             --alignIntronMax 1000000 \
             --outFileNamePrefix ${id}. \
+            --quantMode GeneCounts \
             > ${id}.star.log 2>&1
 
         samtools index ${id}.Aligned.sortedByCoord.out.bam
