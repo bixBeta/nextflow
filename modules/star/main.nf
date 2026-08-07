@@ -28,7 +28,7 @@ process STARM {
 
     script:
 
-    if (runmode == "SE" )
+    if (runmode == "SE" || runmode == "SE3PL" )
         """
             STAR \
             --runThreadN ${task.cpus} \
