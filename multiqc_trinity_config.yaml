@@ -15,6 +15,8 @@ report_section_order:
     order: 100
   salmon:
     order: 90
+  pipeline_software_versions:
+    order: -1000
 
 table_columns_visible:
   salmon-percent_mapped: true

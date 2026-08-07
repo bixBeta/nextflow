@@ -27,6 +27,8 @@ report_section_order:
     order: 100
   star:
     order: 90
+  pipeline_software_versions:
+    order: -1000
 
 table_columns_visible:
   star-total_reads: true
