@@ -62,7 +62,7 @@ Args:
         . etc.
         -----------------------------------------------
 
-    * --mode            : use 'PE'   for paired end data; default <PE>
+    * --mode            : use 'PE'    for paired end data; default <PE>
                         : use 'PES'  for paired end data + split unmapped
                         : use 'PEB'  for paired end bacterial data
                         : use 'PEBS' for paired end bacterial data + split unmapped
@@ -70,6 +70,7 @@ Args:
                         : use 'SES'  for single end data + split unmapped
                         : use 'SEB'  for single end bacterial data
                         : use 'SEBS' for single end bacterial data + split unmapped
+                        : use 'SE3PL' for single end 3-prime poly-A library (cutadapt + STAR)
 
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastqs          : Use this param if fastq files are in the fastqs folder in the project directory; 
@@ -286,6 +287,7 @@ if( params.listGenomes) {
 }
 
 include {   FASTPM                   } from './modules/fastp'
+include {   CUTADAPT                 } from './modules/cutadapt'
 include {   STARM ; COUNTSM          } from './modules/star'
 include {   GBCOV1M ; GBCOV2M        } from './modules/gbcov'
 include {   STARM2 ; COUNTSM2         } from './modules/realign'
@@ -686,12 +688,57 @@ workflow PAIRED {
 }
 
 
+/* ---------------------------------------------------------------------------------------------------------
+SE3PL — Single End 3-Prime Poly-A Library Workflow (cutadapt + STAR)
+------------------------------------------------------------------------------------------------------------ */
+
+workflow SE3PL {
+
+    if ( params.fastqs ) {
+        meta_ch = ch_sheet
+            | splitCsv( header:true )
+            | map { row -> [ row.label, file("fastqs/" + row.fastq1) ] }
+            | view
+    } else {
+        meta_ch = ch_sheet
+            | splitCsv( header:true )
+            | map { row -> [ row.label, file(row.fastq1) ] }
+            | view
+    }
+
+    CUTADAPT(meta_ch)
+    cutadapt_out = CUTADAPT.out.trimmed_fqs
+
+    STARM(cutadapt_out, genome_ch, mqcgenome_ch)
+
+    bam_ch = STARM.out.bam_sorted
+            | collect
+            | flatten
+
+    // Collect software versions
+    ch_versions = Channel.empty()
+    ch_versions = ch_versions.mix(CUTADAPT.out.versions.first())
+    ch_versions = ch_versions.mix(STARM.out.versions.first())
+
+    ch_versions_collected = ch_versions.collect()
+    DUMP_VERSIONS(ch_versions_collected)
+
+    mqc_ch1 = STARM.out.log_final
+            .concat(CUTADAPT.out.cutadapt_json)
+            .collect()
+
+    MQC(mqc_ch1, ch_mqc_conf, ch_mqc_logo, mqcgenome_ch, DUMP_VERSIONS.out.mqc_yml)
+
+    COUNTSM(STARM.out.read_per_gene_tab.collect().flatten(), mqcgenome_ch)
+}
+
+
 workflow {
 
     if ( params.mode == "SE" || params.mode == "SES" || params.mode == "SEBS" || params.mode == "SEB" ){
 
         SINGLE()
-    } 
+    }
 
     // else if ( params.mode == "UNMS" ){
 
@@ -702,11 +749,11 @@ workflow {
 
         PAIRED()
     }
-    
-    // else if ( params.mode == "UNMP" ){
 
-    //     // PAIRED_SPLIT()
-    // }
+    else if ( params.mode == "SE3PL" ){
+
+        SE3PL()
+    }
 
     else {
 
