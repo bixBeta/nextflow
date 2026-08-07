@@ -70,7 +70,7 @@ Args:
                         : use 'SES'  for single end data + split unmapped
                         : use 'SEB'  for single end bacterial data
                         : use 'SEBS' for single end bacterial data + split unmapped
-                        : use 'SE3PL' for single end 3-prime poly-A library (cutadapt + STAR)
+                        : use 'SE3PL' for single end 3-prime poly-A library / Lexogen FWD (cutadapt + STAR)
 
     * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
     * --fastqs          : Use this param if fastq files are in the fastqs folder in the project directory; 
