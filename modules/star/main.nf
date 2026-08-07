@@ -23,12 +23,41 @@ process STARM {
         path "*Log.progress.out"                                            , emit: log_progress
         path "*SJ.out.tab"                                                  , emit: sj_out_tab
         path "*bam"                                                         , emit: bam_sorted
+        path "*.bai"                        ,     optional:true             , emit: bam_index
         tuple val(id), path("*_val_*.fq*")  ,     optional:true             , emit: unmapped
         path "versions.yml"                                                 , emit: versions
 
     script:
 
-    if (runmode == "SE" )
+    if (runmode == "SE3PL" )
+        """
+        STAR \
+            --runThreadN ${task.cpus} \
+            --genomeDir ${genome} \
+            --readFilesIn ${trimmed} \
+            --readFilesCommand zcat \
+            --outSAMtype BAM SortedByCoordinate \
+            --outFilterType BySJout \
+            --outFilterMultimapNmax 20 \
+            --alignSJoverhangMin 8 \
+            --alignSJDBoverhangMin 1 \
+            --outFilterMismatchNmax 999 \
+            --outFilterMismatchNoverReadLmax 0.04 \
+            --alignIntronMin 20 \
+            --alignIntronMax 1000000 \
+            --outFileNamePrefix ${id}. \
+            > ${id}.star.log 2>&1
+
+        samtools index ${id}.Aligned.sortedByCoord.out.bam
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+            samtools: \$(samtools --version | head -1 | sed 's/samtools //')
+        END_VERSIONS
+        """
+
+    else if (runmode == "SE" )
         """
             STAR \
             --runThreadN ${task.cpus} \

@@ -1,7 +1,7 @@
 FROM mambaorg/micromamba:1.5.8
 
 LABEL org.opencontainers.image.source="https://github.com/bixBeta/nextflow"
-LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e | samtools=1.9 | bowtie2=2.4.5 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32 | trinity=2.15.2 | salmon=1.10.3"
+LABEL org.opencontainers.image.description="TREX-RNA: fastp=0.23.4 | STAR=2.7.0e | samtools=1.9 | bowtie2=2.4.5 | RSeQC=5.0.1 | fastq_screen=0.15.3 | multiqc=1.32 | trinity=2.15.2 | salmon=1.10.3 | cutadapt=4.9"
 
 USER root
 
@@ -32,6 +32,7 @@ RUN micromamba install -y -n base \
         fastp=0.23.4 \
         fastq-screen=0.15.3 \
         rseqc=5.0.1 \
+        cutadapt=4.9 \
     && micromamba clean --all --yes
 
 # Layer 3 — reporting (most likely to be updated independently)
