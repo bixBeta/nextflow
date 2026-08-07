@@ -23,6 +23,7 @@ process STARM {
         path "*Log.progress.out"                                            , emit: log_progress
         path "*SJ.out.tab"                                                  , emit: sj_out_tab
         path "*bam"                                                         , emit: bam_sorted
+        path "*.bai"                        ,     optional:true             , emit: bam_index
         tuple val(id), path("*_val_*.fq*")  ,     optional:true             , emit: unmapped
         path "versions.yml"                                                 , emit: versions
 
