@@ -28,7 +28,35 @@ process STARM {
 
     script:
 
-    if (runmode == "SE" || runmode == "SE3PL" )
+    if (runmode == "SE3PL" )
+        """
+        STAR \
+            --runThreadN ${task.cpus} \
+            --genomeDir ${genome} \
+            --readFilesIn ${trimmed} \
+            --readFilesCommand zcat \
+            --outSAMtype BAM SortedByCoordinate \
+            --outFilterType BySJout \
+            --outFilterMultimapNmax 20 \
+            --alignSJoverhangMin 8 \
+            --alignSJDBoverhangMin 1 \
+            --outFilterMismatchNmax 999 \
+            --outFilterMismatchNoverReadLmax 0.04 \
+            --alignIntronMin 20 \
+            --alignIntronMax 1000000 \
+            --outFileNamePrefix ${id}. \
+            > ${id}.star.log 2>&1
+
+        samtools index ${id}.Aligned.sortedByCoord.out.bam
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            STAR: \$(STAR --version)
+            samtools: \$(samtools --version | head -1 | sed 's/samtools //')
+        END_VERSIONS
+        """
+
+    else if (runmode == "SE" )
         """
             STAR \
             --runThreadN ${task.cpus} \
