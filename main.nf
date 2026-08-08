@@ -723,7 +723,8 @@ workflow SE3PL {
     ch_versions_collected = ch_versions.collect()
     DUMP_VERSIONS(ch_versions_collected)
 
-    mqc_ch1 = STARM.out.log_final
+    mqc_ch1 = STARM.out.read_per_gene_tab
+            .concat(STARM.out.log_final)
             .concat(CUTADAPT.out.cutadapt_json)
             .collect()
 
