@@ -24,16 +24,16 @@ process CUTADAPT {
         R1_raw=${reads}
         R1_trimmed=${id}_val_1.fq.gz
 
-        cutadapt -m 20 -O 20 \
+        cutadapt -m 50 -O 20 \
             -a "polyA=A{20}" \
             -a "QUALITY=G{20}" \
             -n 2 \
             \${R1_raw} | \
-        cutadapt -m 20 -O 3 \
+        cutadapt -m 50 -O 3 \
             --nextseq-trim=10 \
             -a "r1adapter=A{18}AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC;min_overlap=3;max_error_rate=0.100000" \
             - | \
-        cutadapt -m 20 -O 20 \
+        cutadapt -m 50 -O 20 \
             -g "r1adapter=AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC;min_overlap=20" \
             --discard-trimmed \
             --json=${id}.cutadapt.json \
