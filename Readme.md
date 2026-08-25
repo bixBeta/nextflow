@@ -50,7 +50,7 @@ nextflow pull bixBeta/nextflow -r main
 ```
 <hr>
 
-## Parameters File
+## Parameters File (alternative approach)
 
 Download the annotated `params.yaml` template to your working directory and edit it before running:
 
