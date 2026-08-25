@@ -1,4 +1,4 @@
-# Nextflow Pipeline for RNA-seq runs on GG02 
+# Nextflow Pipeline for RNA-seq runs on CBSU BioHPC Servers 
 [![](img/trex-extended-logo.png)](https://trex.biotech.cornell.edu/)
 
 [![Build and Push Docker Image](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml/badge.svg?branch=main)](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml)
