@@ -1,0 +1,166 @@
+# ============================================================
+#  TREx RNA-Seq Nextflow Pipeline — Parameters File
+#  Usage: nextflow run bixBeta/nextflow -r main -params-file params.yaml
+# ============================================================
+
+
+# ------------------------------------------------------------
+# PROJECT IDENTIFIERS  (required)
+# ------------------------------------------------------------
+
+# TREx project ID — used in output file naming and MultiQC report header
+id: "TREx_ID"
+
+# Path to sample sheet (CSV). Columns: label, fastq1 [, fastq2]
+# Default: looks for sample-sheet.csv in the working directory
+sheet: "sample-sheet.csv"
+
+
+# ------------------------------------------------------------
+# RUN MODE  (required)
+# ------------------------------------------------------------
+
+# Alignment / library mode — controls STAR parameters and workflow logic
+#
+#   PE    : paired-end                             (default)
+#   PES   : paired-end + save unmapped reads
+#   PEB   : paired-end, bacterial / short-intron
+#   PEBS  : paired-end, bacterial + save unmapped
+#   SE    : single-end
+#   SES   : single-end + save unmapped reads
+#   SEB   : single-end, bacterial / short-intron
+#   SEBS  : single-end, bacterial + save unmapped
+#   SE3PL : single-end, 3-prime poly-A library (Lexogen FWD) — cutadapt + STAR ENCODE params
+#
+mode: "PE"
+
+
+# ------------------------------------------------------------
+# REFERENCE GENOME  (required)
+# ------------------------------------------------------------
+
+# Named STAR index key (run --listGenomes to see all options) OR
+# an absolute path to a custom STAR genomeDir
+#
+# Common keys: hg38, GRCh38, mm10, GRCm38, GRCm39, rat, dm6, yeast, arabidopsis
+#
+genome: "hg38"
+
+# Override the genome label shown in MultiQC report headers and output folder names.
+# Useful when --genome is a custom path (otherwise the key name is used automatically).
+# mqcgenome: "hg38"
+
+
+# ------------------------------------------------------------
+# STRANDEDNESS  (required)
+# ------------------------------------------------------------
+
+# Library strandedness — used to extract the correct column from STAR GeneCounts output
+#   0 : unstranded
+#   1 : first-strand  (e.g. dUTP, Ligation)
+#   2 : second-strand / dUTP (e.g. TruSeq Stranded, RF)  — default
+#
+strand: 2
+
+
+# ------------------------------------------------------------
+# FASTQ INPUT LOCATION
+# ------------------------------------------------------------
+
+# Set to true if your FASTQ files are inside a "fastqs/" subfolder
+# in the working directory. The sample sheet then only needs filenames
+# (not full paths) in the fastq1 / fastq2 columns.
+# Set to false (or omit) if sample sheet contains absolute paths.
+#
+fastqs: false
+
+
+# ------------------------------------------------------------
+# TRIMMING
+# ------------------------------------------------------------
+
+# Enable fastp adapter trimming before alignment (PE and SE modes)
+# SE3PL mode uses cutadapt instead — this flag is ignored for SE3PL
+#
+fastp: false
+
+
+# ------------------------------------------------------------
+# SECONDARY GENOME (genome subtraction / dual-alignment)
+# ------------------------------------------------------------
+
+# Align reads that did not map to --genome against a second STAR index.
+# Same format as --genome (named key or absolute path).
+# Leave commented out to skip secondary alignment.
+#
+# genome2: "mm10"
+
+# Label used in output directories and MultiQC for the secondary genome.
+# Required only when --genome2 is a custom path (not a named key).
+# splitname: "Custom_secondary"
+
+
+# ------------------------------------------------------------
+# FASTQ SCREEN (contamination / species check)
+# ------------------------------------------------------------
+
+# Run FastQ Screen before alignment
+# screen: false
+
+# Custom screen config file (default: screen.conf in the pipeline repo)
+# screenconf: "/path/to/custom_screen.conf"
+
+
+# ------------------------------------------------------------
+# GENE BODY COVERAGE (RSeQC)
+# ------------------------------------------------------------
+
+# Run RSeQC geneBody_coverage.py on chromosome-subsetted BAMs
+# gbcov: false
+
+# Chromosome to subset BAMs to for geneBody coverage (speeds up computation)
+# chromosub: "10"
+
+# Custom BED12 file for geneBody coverage.
+# Not needed if --genome is a named key — BED12 is looked up automatically.
+# bed12: "/path/to/genome.bed12"
+
+
+# ------------------------------------------------------------
+# CZ ID METAGENOMICS UPLOAD
+# ------------------------------------------------------------
+
+# Upload trimmed reads to CZ ID metagenomics (czid.org).
+# Requires --fastp to be enabled (uploads fastp-trimmed reads).
+# Authentication: set the CZID_CLI_SECRET environment variable (Nextflow Tower secret).
+# czid: false
+
+# CZ ID project name — must already exist on czid.org  (required when czid: true)
+# czid_project: "My CZ ID Project"
+
+# Host organism for CZ ID metadata. Accepts short aliases or any full species name.
+# Common aliases: human, mouse, zebrafish, mosquito, dog, cat, pig
+# Full list: https://czid.org/host_genomes
+# czid_host: "Homo sapiens"
+
+# Sample type metadata field for CZ ID (e.g. Tissue, PBMC, CSF, Plasma)
+# czid_sample_type: "Tissue"
+
+# Nucleotide type — RNA for RNA-seq / metatranscriptomics, DNA for metagenomic DNA
+# czid_nucleotide: "RNA"
+
+
+# ------------------------------------------------------------
+# TRINITY DE NOVO ASSEMBLY  (PE modes only)
+# ------------------------------------------------------------
+
+# Run Trinity de novo assembly on all fastp-trimmed reads
+# SS_lib_type is derived from --strand automatically (0=unstranded, 1=FR, 2=RF)
+# trinity: false
+
+# Quantify against Trinity assembly with Salmon (requires trinity: true)
+# salmon: false
+
+# Use Trinity.fasta directly for Salmon instead of SuperTranscripts
+# (gives transcript-level instead of gene-level quantification)
+# transcript_level: false
