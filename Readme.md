@@ -33,7 +33,7 @@ nextflow pull https://github.com/bixBeta/nextflow -r g2
 ```
 <hr>
 
-## Parameters File
+## Parameters File (alternative approach)
 
 Download the annotated `params.yaml` template to your working directory and edit it before running:
 
