@@ -49,6 +49,24 @@ Use the following command to ensure the usage of the latest version of the pipel
 nextflow pull bixBeta/nextflow -r main 
 ```
 <hr>
+
+## Parameters File
+
+Download the annotated `params.yaml` template to your working directory and edit it before running:
+
+```bash
+wget https://raw.githubusercontent.com/bixBeta/nextflow/main/params.yaml
+```
+
+Then run the pipeline using the params file instead of command-line flags:
+
+```bash
+nextflow run bixBeta/nextflow -r main -params-file params.yaml
+```
+
+> All parameters are documented with descriptions and defaults inside the file. Uncomment optional sections as needed.
+
+<hr>
 TREx Workflow:
 
 ![](img/trex-rna-tubemap.png)
