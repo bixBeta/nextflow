@@ -71,6 +71,7 @@ jobs:
   build-sif:
     runs-on: ubuntu-latest
     needs: build-and-push
+    if: needs.build-and-push.result == 'success'
     permissions:
       contents: write
       packages: read
