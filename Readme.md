@@ -1,12 +1,11 @@
 # Nextflow Pipeline for RNA-seq runs on CBSU BioHPC Servers 
 [![](img/trex-extended-logo.png)](https://trex.biotech.cornell.edu/)
 
-[![Build and Push Docker Image](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml/badge.svg?branch=main)](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml)
+[![Build and Push Docker Image](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml/badge.svg?branch=dev)](https://github.com/bixBeta/nextflow/actions/workflows/docker.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/bixbeta/trex-rna)](https://hub.docker.com/r/bixbeta/trex-rna)
-[![Docker Image Version](https://img.shields.io/docker/v/bixbeta/trex-rna/latest?label=docker%3Alatest)](https://hub.docker.com/r/bixbeta/trex-rna/tags)
+[![Docker Image Version](https://img.shields.io/docker/v/bixbeta/trex-rna/dev?label=docker%3Adev)](https://hub.docker.com/r/bixbeta/trex-rna/tags)
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.10.0-23aa62.svg)](https://www.nextflow.io/)
 [![Singularity](https://img.shields.io/badge/container-Singularity-1d355c.svg)](https://sylabs.io/singularity/)
-[![CZ ID](https://img.shields.io/badge/CZ%20ID-upload-6ab04c.svg)](https://czid.org/)
 
 <hr>
 
@@ -17,28 +16,12 @@ You may use the [ following guide](https://biohpc.cornell.edu/lab/userguide.aspx
 To see if this pipeline works on your account simply run the following command on your terminal:
 
 ```
-nextflow run bixBeta/nextflow -r main --help
+nextflow run https://github.com/bixBeta/nextflow -r g2 --help
 ```
 
 If successful, you may see the following output on your terminal console:
 
-```
-N E X T F L O W  ~  version 25.10.0
-Pulling bixBeta/nextflow ...
- downloaded from bixBeta/nextflow.git
-Launching `bixBeta/nextflow` [peaceful_nobel] DSL2 - revision: ... [main]
-
-R  N  A  -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
-=======================================================================================================================================================================
-Usage:
-    nextflow run bixBeta/nextflow -r main < args ... >
-
-Args:
-    * --listGenomes    : Get extended list of genomes available for this pipeline
-    * --id             : TREx Project ID
-    * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
-    ...
-```
+![](img/success.png)
 
 
 <hr>
@@ -46,8 +29,41 @@ It is always a good idea to run the pull command before executing the pipeline. 
 Use the following command to ensure the usage of the latest version of the pipeline:
 
 ```
-nextflow pull bixBeta/nextflow -r main 
+nextflow pull https://github.com/bixBeta/nextflow -r g2 
 ```
+<hr>
+
+## Generate a Sample Sheet
+
+Use `mk-sheet.py` to auto-generate a `sample-sheet.csv` from your Illumina delivery directory.
+Labels are derived from `Sample_*` folder names — everything before the order number is kept (e.g. `Sample_8027D_BH10_10_10488629_...` → `8027D_BH10_10`).
+
+Download the script:
+
+```bash
+wget https://raw.githubusercontent.com/bixBeta/nextflow/main/mk-sheet.py
+```
+
+**Paired-end — absolute paths** (default):
+```bash
+python mk-sheet.py /local/Illumina/DRV/260722_RX_0545_23L335LT3/Unaligned/Project_10488629
+```
+
+**Paired-end — filenames only** (use alongside `--fastqs`, FASTQs must be in a `fastqs/` folder):
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --names
+```
+
+**Single-end:**
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --se
+```
+
+**Custom output filename:**
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 -o my-sheet.csv
+```
+
 <hr>
 
 ## Parameters File (alternative approach)
