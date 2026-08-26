@@ -36,6 +36,16 @@ mode: "PE"
 
 
 # ------------------------------------------------------------
+# TRIMMING
+# ------------------------------------------------------------
+
+# Enable fastp adapter trimming before alignment (PE and SE modes)
+# SE3PL mode uses cutadapt instead — this flag is ignored for SE3PL
+#
+fastp: true
+
+
+# ------------------------------------------------------------
 # REFERENCE GENOME  (required)
 # ------------------------------------------------------------
 
@@ -73,16 +83,6 @@ strand: 2
 # Set to false (or omit) if sample sheet contains absolute paths.
 #
 fastqs: false
-
-
-# ------------------------------------------------------------
-# TRIMMING
-# ------------------------------------------------------------
-
-# Enable fastp adapter trimming before alignment (PE and SE modes)
-# SE3PL mode uses cutadapt instead — this flag is ignored for SE3PL
-#
-fastp: true
 
 
 # ------------------------------------------------------------
