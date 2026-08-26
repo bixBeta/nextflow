@@ -33,6 +33,39 @@ nextflow pull https://github.com/bixBeta/nextflow -r g2
 ```
 <hr>
 
+## Generate a Sample Sheet
+
+Use `mk-sheet.py` to auto-generate a `sample-sheet.csv` from your Illumina delivery directory.
+Labels are derived from `Sample_*` folder names (strips the `Sample_` prefix and trailing numeric/flowcell tokens).
+
+Download the script:
+
+```bash
+wget https://raw.githubusercontent.com/bixBeta/nextflow/main/mk-sheet.py
+```
+
+**Paired-end — absolute paths** (default):
+```bash
+python mk-sheet.py /local/Illumina/DRV/260722_RX_0545_23L335LT3/Unaligned/Project_10488629
+```
+
+**Paired-end — filenames only** (use with `--fastqs` param, fastqs must be in a `fastqs/` folder):
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --names
+```
+
+**Single-end:**
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --se
+```
+
+**Custom output filename:**
+```bash
+python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 -o my-sheet.csv
+```
+
+<hr>
+
 ## Parameters File (alternative approach)
 
 Download the annotated `params.yaml` template to your working directory and edit it before running:
