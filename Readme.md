@@ -37,7 +37,7 @@ nextflow pull bixBeta/nextflow -r main
 ## Generate a Sample Sheet
 
 Use `mk-sheet.py` to auto-generate a `sample-sheet.csv` from your Illumina delivery directory.
-Labels are derived from `Sample_*` folder names — everything before the order number is kept (e.g. `Sample_8027D_BH10_10_10488629_...` → `8027D_BH10_10`).
+Labels are derived from `Sample_*` folder names — everything before the order number is kept (e.g. `Sample_8027D_BH10_10_104***_...` → `8027D_BH10_10`).
 
 Download the script:
 
@@ -47,22 +47,22 @@ wget https://raw.githubusercontent.com/bixBeta/nextflow/main/mk-sheet.py
 
 **Paired-end — absolute paths** (default):
 ```bash
-python mk-sheet.py /local/Illumina/DRV/260722_RX_0545_23L335LT3/Unaligned/Project_10488629
+python mk-sheet.py /local/Illumina/DRV/260***_RX_0***/Unaligned/Project_104***
 ```
 
 **Paired-end — filenames only** (use alongside `--fastqs`, FASTQs must be in a `fastqs/` folder):
 ```bash
-python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --names
+python mk-sheet.py /local/Illumina/DRV/.../Project_104*** --names
 ```
 
 **Single-end:**
 ```bash
-python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 --se
+python mk-sheet.py /local/Illumina/DRV/.../Project_104*** --se
 ```
 
 **Custom output filename:**
 ```bash
-python mk-sheet.py /local/Illumina/DRV/.../Project_10488629 -o my-sheet.csv
+python mk-sheet.py /local/Illumina/DRV/.../Project_104*** -o my-sheet.csv
 ```
 
 <hr>
