@@ -23,18 +23,18 @@ from pathlib import Path
 
 def derive_label(sample_dir_name: str) -> str:
     """
-    Strip 'Sample_' prefix, then take all underscore-delimited tokens up to
-    (but not including) the first purely numeric token.
+    Strip 'Sample_' prefix, then take all tokens up to (but not including)
+    the first purely numeric token with 7+ digits (the order/project number).
 
     Example:
-        Sample_8027D_BH10_10_10488629_23L335LT3_L7  →  8027D_BH10
-        Sample_CTL_1_10488629_23L335LT3_L7           →  CTL
+        Sample_8027D_BH10_10_10488629_23L335LT3_L7  →  8027D_BH10_10
+        Sample_CTL_1_10488629_23L335LT3_L7           →  CTL_1
     """
     name = re.sub(r"^Sample_", "", sample_dir_name)
     tokens = name.split("_")
     label_tokens = []
     for tok in tokens:
-        if tok.isdigit():
+        if tok.isdigit() and len(tok) >= 7:
             break
         label_tokens.append(tok)
     return "_".join(label_tokens) if label_tokens else name
