@@ -82,7 +82,7 @@ fastqs: false
 # Enable fastp adapter trimming before alignment (PE and SE modes)
 # SE3PL mode uses cutadapt instead — this flag is ignored for SE3PL
 #
-fastp: false
+fastp: true
 
 
 # ------------------------------------------------------------
@@ -116,7 +116,7 @@ fastp: false
 # ------------------------------------------------------------
 
 # Run RSeQC geneBody_coverage.py on chromosome-subsetted BAMs
-# gbcov: false
+# gbcov: true
 
 # Chromosome to subset BAMs to for geneBody coverage (speeds up computation)
 # chromosub: "10"
