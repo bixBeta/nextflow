@@ -44,11 +44,11 @@ mode: "PE"
 #
 # Common keys: hg38, GRCh38, mm10, GRCm38, GRCm39, rat, dm6, yeast, arabidopsis
 #
-genome: "hg38"
+genome: "GRCh38"
 
 # Override the genome label shown in MultiQC report headers and output folder names.
 # Useful when --genome is a custom path (otherwise the key name is used automatically).
-# mqcgenome: "hg38"
+# mqcgenome: "GRCh38"
 
 
 # ------------------------------------------------------------
