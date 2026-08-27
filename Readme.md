@@ -22,7 +22,68 @@ nextflow run bixBeta/nextflow -r main --help
 
 If successful, you may see the following output on your terminal console:
 
-![](img/success.png)
+```
+R  N  A  -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
+=======================================================================================================================================================================
+Usage:
+    nextflow run bixBeta/nextflow -r main < args ... >
+
+Args:
+    * --listGenomes    : Get extended list of genomes available for this pipeline
+    * --id             : TREx Project ID 
+    * --sheet          : sample-sheet.csv < default: looks for a file named sample-sheet.csv in the project dir >
+
+        -----------------------------------------------
+        Sample Sheet Example: ( comma delimited file )    
+        |-------|-----------------|-----------------|
+        | label | fastq1          | fastq2          |
+        |-------|-----------------|-----------------|
+        | SS1   | SS1_R1.fastq.gz | SS1_R2.fastq.gz |
+        |-------|-----------------|-----------------|
+        | SS2   | SS2_R1.fastq.gz | SS2_R2.fastq.gz |
+        |-------|-----------------|-----------------|
+        .
+        .
+        . etc.
+        -----------------------------------------------
+
+    * --mode            : use 'PE'    for paired end data; default <PE>
+                        : use 'PES'  for paired end data + split unmapped
+                        : use 'PEB'  for paired end bacterial data
+                        : use 'PEBS' for paired end bacterial data + split unmapped
+                        : use 'SE'   for single end data
+                        : use 'SES'  for single end data + split unmapped
+                        : use 'SEB'  for single end bacterial data
+                        : use 'SEBS' for single end bacterial data + split unmapped
+                        : use 'SE3PL' for single end 3-prime poly-A library / Lexogen FWD (cutadapt + STAR)
+
+    * --strand          : 0,1 or 2 for unstranded, first-strand and second-strand; default <2>
+    * --fastqs          : Use this param if fastq files are in the fastqs folder in the project directory; 
+                          If --fastqs is not specified, the fastqs must be supplied with absolute paths in the sample-sheet.csv 
+    * --fastp           : Invokes fastp trimming module.
+    * --genome          : Genome index. Use --listGenomes flag to see all available genomes. Also supports a path value for starIndex dir. 
+    * --genome2         : Secondary Genome index. This will align the --genome subtracted reads to --genome2 index. (only use if --mode is PES, SES, PEBS or SEBS)
+    * --screen          : Invokes the fastq_screen step. See the screen.conf file here <https://github.com/bixBeta/nextflow/blob/main/screen.conf> for more details. 
+    * --gbcov           : Runs GeneBodyCoverage Program on sub-setted bams.
+    * --chromosub       : Subset bams to specified chromosome name. < defaults to chromosome 10 >
+    * --bed12           : Custom Path for BED12 file for geneBodyCoverage module
+    * --splitname       : A string that will be used to denote --genome2 e.g. "GRC100011A", "Cat_custom" etc. 
+    * --screenconf      : Supply custom screen config file, default ( <https://github.com/bixBeta/nextflow/blob/main/screen.conf> )
+    * --mqcgenome       : A string denoting genome info. It will be used in the multiqc header and will also be used to organize results for a given run.
+                          Highly recommended for genomes supplied as path to --genome param. e.g. --mqcgenome Cat_custom
+    * --trinity         : Invokes Trinity de novo assembly on all fastp-trimmed reads (PE modes only); default <false>
+                        : SS_lib_type is derived automatically from --strand (0=unstranded, 1=FR, 2=RF)
+    * --salmon          : Quantify against Trinity assembly using Salmon (requires --trinity); default <false>
+                        : Runs SuperTranscripts by default → gene-level quantification
+    * --transcript_level : Use Trinity.fasta directly for Salmon (transcript-level instead of gene-level); requires --salmon
+    * --czid            : Invokes CZ ID metagenomics upload subworkflow; default <false>
+    * --czid_project    : CZ ID project name (must exist on czid.org)
+    * --czid_host       : Host organism for CZ ID metadata; default <Homo sapiens>
+                        : Accepts shorthand aliases: human, mouse, rat, chicken, dog, cat, cow, fly, mosquito, zebrafish, pig, rabbit, macaque
+                        : Or pass any full CZ ID-recognised species name directly ( <https://czid.org/host_genomes> )
+    * --czid_sample_type  : Sample type for CZ ID metadata; default <Tissue>
+    * --czid_nucleotide   : Nucleotide type for CZ ID metadata; default <RNA> — use DNA for metagenomic DNA samples
+```
 
 
 <hr>

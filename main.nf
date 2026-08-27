@@ -41,7 +41,7 @@ log.info """
 R  N  A  -  S  E  Q      W  O  R  K  F  L  O  W  -  @bixBeta
 =======================================================================================================================================================================
 Usage:
-    nextflow run https://github.com/bixBeta/nextflow -r main < args ... >
+    nextflow run bixBeta/nextflow -r ${workflow.revision ?: 'main'} < args ... >
 
 Args:
     * --listGenomes    : Get extended list of genomes available for this pipeline
