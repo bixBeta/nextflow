@@ -13,6 +13,10 @@
 This pipeline can be directly used on CBSU BioHPC Servers. To invoke the pipeline please make sure you have nextflow available in your path. 
 You may use the [ following guide](https://biohpc.cornell.edu/lab/userguide.aspx?a=software&i=638#c>) to help you configure nextflow for your account. 
 
+> **Nextflow v26+ users:** This pipeline uses the legacy DSL2 syntax parser. If you are running Nextflow version 26 or higher, add the following to your terminal session before running the pipeline:
+> ```bash
+> export NXF_SYNTAX_PARSER=v1
+> ```
 
 To see if this pipeline works on your account simply run the following command on your terminal:
 
