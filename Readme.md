@@ -91,8 +91,7 @@ Args:
 
 
 <hr>
-It is always a good idea to run the pull command before executing the pipeline. This will ensure that the user is using the latest branch version of the pipeline.
-Use the following command to ensure the usage of the latest version of the pipeline:
+Always pull the latest version of the pipeline before running it to ensure you have the most up-to-date code:
 
 ```
 nextflow pull bixBeta/nextflow -r main
