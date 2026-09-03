@@ -150,4 +150,4 @@ nextflow run bixBeta/nextflow -r main -params-file params.yaml
 <hr>
 TREx Workflow:
 
-![](img/trex-rna-tubemap.png)
+![](img/trex-rna-workflow.png)
