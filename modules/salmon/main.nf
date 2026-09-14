@@ -29,7 +29,7 @@ process SALMON_INDEX {
 // ─────────────────────────────────────────────────────────────────────────────
 process SALMON_COUNTS {
     tag "$quant_sf.baseName"
-    publishDir "trinity_assembly/salmon_counts/rawCounts", mode: 'copy'
+    publishDir "salmon_counts/rawCounts", mode: 'copy'
 
     input:
         path quant_sf
