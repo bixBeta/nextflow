@@ -25,6 +25,37 @@ process SALMON_INDEX {
 
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SALMON_COUNTS — round NumReads to integers → per-sample .rawCounts for SARTools/DESeq2
+// ─────────────────────────────────────────────────────────────────────────────
+process SALMON_COUNTS {
+    tag "$quant_sf.baseName"
+    publishDir "trinity_assembly/salmon_counts/rawCounts", mode: 'copy'
+
+    input:
+        path quant_sf
+
+    output:
+        path "*.rawCounts", emit: raw_counts
+
+    script:
+    """
+    python3 - <<'EOF'
+import csv, os
+
+sample = os.path.splitext("${quant_sf}")[0]
+out    = sample + ".rawCounts"
+
+with open("${quant_sf}") as fh, open(out, "w") as out_fh:
+    reader = csv.DictReader(fh, delimiter="\\t")
+    for row in reader:
+        count = int(round(float(row["NumReads"])))
+        out_fh.write(f"{row['Name']}\\t{count}\\n")
+EOF
+    """
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
 // SALMON_QUANT — per-sample quantification against Trinity index
 // ─────────────────────────────────────────────────────────────────────────────
 process SALMON_QUANT {

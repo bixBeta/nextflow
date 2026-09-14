@@ -294,7 +294,7 @@ include {   STARM2 ; COUNTSM2         } from './modules/realign'
 include {   MQC ; MQC2 ; MQC3 ; MQCSCREENM  } from './modules/multiqc'
 include {   SCREENM                  } from './modules/screen'
 include {   TRINITY; TRINITY_STATS; SUPER_TRANSCRIPTS   } from './modules/trinity'
-include {   SALMON_INDEX; SALMON_QUANT } from './modules/salmon'
+include {   SALMON_INDEX; SALMON_QUANT; SALMON_COUNTS } from './modules/salmon'
 include {   CZID                     } from './subworkflows/czid/main.nf'
 include {   DUMP_VERSIONS            } from './modules/versions'
 
@@ -566,6 +566,7 @@ workflow PAIRED {
             }
             SALMON_INDEX(salmon_fasta_ch)
             SALMON_QUANT(fastp_out, SALMON_INDEX.out.index)
+            SALMON_COUNTS(SALMON_QUANT.out.quant_sf.collect().flatten())
 
             salmon_quant_path_ch = SALMON_QUANT.out.quant_dir
                 .collect()
